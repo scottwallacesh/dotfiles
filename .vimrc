@@ -9,6 +9,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/syntastic'
 Plugin 'bling/vim-airline'
 Plugin '29decibel/codeschool-vim-theme'
+Plugin 'scrooloose/nerdtree'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -21,6 +22,7 @@ colorscheme codeschool
 " Airline
 set laststatus=2
 
+" Tabs and indents
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
@@ -33,4 +35,10 @@ set mouse=a
 " Always use vertical diffs
 set diffopt+=vertical
 
+" Syntax highlighting
 syntax on
+
+" NERDTree
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+map <C-n> :NERDTreeToggle<CR>

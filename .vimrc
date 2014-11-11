@@ -26,6 +26,11 @@ set shiftwidth=4
 set softtabstop=4
 set smarttab
 set expandtab
+
+" Allow mouse usage
 set mouse=a
+
+" Always use vertical diffs
+set diffopt+=vertical
 
 syntax on

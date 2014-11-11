@@ -7,6 +7,7 @@ call vundle#begin()
 
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-surround'
 Plugin 'scrooloose/syntastic'
 Plugin 'bling/vim-airline'
 Plugin '29decibel/codeschool-vim-theme'

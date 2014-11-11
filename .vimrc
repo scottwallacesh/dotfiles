@@ -12,6 +12,7 @@ Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
 Plugin 'bling/vim-airline'
 Plugin '29decibel/codeschool-vim-theme'
+Plugin 'Shougo/neocomplcache.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -44,3 +45,6 @@ syntax on
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 map <C-n> :NERDTreeToggle<CR>
+
+" Autocomplete
+let g:neocomplcache_enable_at_startup = 1

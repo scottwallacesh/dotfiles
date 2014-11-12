@@ -14,6 +14,7 @@ Plugin 'bling/vim-airline'
 Plugin '29decibel/codeschool-vim-theme'
 Plugin 'Shougo/neocomplcache.vim'
 Plugin 'kien/ctrlp.vim'
+Plugin 'rodjek/vim-puppet'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required

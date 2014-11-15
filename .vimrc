@@ -50,5 +50,6 @@ map <C-n> :NERDTreeToggle<CR>
 " Autocomplete
 let g:neocomplcache_enable_at_startup = 1
 
-" Use Markdown for .md files
+" Set filetypes
 au BufRead,BufNewFile *.md set filetype=markdown
+au BufRead,BufNewFile *.go set filetype=go

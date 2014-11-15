@@ -40,28 +40,9 @@ echo "    Set Dock icon size"
 defaults write com.apple.dock tilesize -int 36
 defaults write com.apple.dock no-glass -boolean YES
 
-echo "    Configure Terminal.app"
-cp ~/Google\ Drive/data/OS\ X/com.apple.Terminal.plist ~/Library/Preferences
-
 echo "    Disable Time Machine"
 hash tmutil &> /dev/null && sudo tmutil disablelocal
 defaults write com.apple.TimeMachine 'AutoBackup' -bool false
-
-echo "    Configure Alfred"
-defaults write com.alfredapp.Alfred clipboard.autopaste -bool false
-defaults write com.alfredapp.Alfred clipboard.enabled -bool true
-defaults write com.alfredapp.Alfred clipboard.limit -int 4
-defaults write com.alfredapp.Alfred clipboard.persist -int 3
-defaults write com.alfredapp.Alfred clipboard.snippets.showparent -bool false
-defaults write com.alfredapp.Alfred appearance.hideHat -bool true
-defaults write com.alfredapp.Alfred appearance.hideStatusBarIcon -bool true
-defaults write com.alfredapp.Alfred appearance.rememberQuery -bool true
-defaults write com.alfredapp.Alfred appearance.resultCount -int 9
-defaults write com.alfredapp.Alfred appearance.smaller -bool true;
-defaults write com.alfredapp.Alfred hotKey -int 49
-defaults write com.alfredapp.Alfred hotMod -int 1048840
-defaults write com.alfredapp.Alfred hotString -string " "
-defaults write com.alfredapp.Alfred alfred.sync.folder -string "/Users/scott/Google Drive/data/Alfred"
 
 echo "    Disable volume change notification"
 defaults write -g 'com.apple.sound.beep.feedback' -bool false
@@ -73,9 +54,7 @@ echo "    Restarting apps"
 killall Finder
 killall Dock
 killall SystemUIServer
-killall Alfred\ 2
 killall rcd
-open -a Alfred\ 2
 
 echo "Done"
 sudo -k

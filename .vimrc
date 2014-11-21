@@ -1,7 +1,7 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-# Ensure vim knows about Go(lang)
+" Ensure vim knows about Go(lang)
 set rtp+=$GOROOT/misc/vim
 
 " set the runtime path to include Vundle and initialize

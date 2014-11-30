@@ -20,6 +20,7 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'rodjek/vim-puppet'
 Plugin 'godlygeek/tabular'
 Plugin 'ap/vim-buftabline'
+Plugin 'vim-scripts/WhiteWash'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required

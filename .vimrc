@@ -1,6 +1,9 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+" Disable bell
+set vb
+
 " Ensure vim knows about Go(lang)
 set rtp+=$GOROOT/misc/vim
 

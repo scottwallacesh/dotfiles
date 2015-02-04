@@ -45,7 +45,7 @@ export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; histor
 #--------------------------------------------------------------------------------
 if [ $(uname -s) = "Darwin" ]; then
     alias top='top -u'
-    alias ll='ls -lA'
+    alias ll='ls -l'
 fi
 #--------------------------------------------------------------------------------
 

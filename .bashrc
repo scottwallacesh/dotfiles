@@ -20,7 +20,7 @@ export PATH=/usr/local/bin:/usr/local/sbin:${PATH}
 # A useful prompt
 #--------------------------------------------------------------------------------
 parse_git_branch() {
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ <\1>/'
 }
 export PS1="[\u@\h \W \$(parse_git_branch)]\\$ "
 export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'

@@ -23,3 +23,5 @@
     br = branch
 [color]
     ui = true
+[branch]
+    autosetuprebase = always

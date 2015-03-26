@@ -1,0 +1,24 @@
+#!/bin/bash
+
+ECHOARGS=
+LENGTH=12
+
+while getopts nl: ARG; do
+    case ${ARG} in
+        n) ECHOARGS="-n"
+           ;;
+
+        l) LENGTH=${OPTARG}
+           ;;
+
+        ?) printf "Usage: %s [-n]\n" ${0}
+           exit 1
+           ;;
+    esac
+done
+
+PW=$(jot -rc 256 48 123 | grep -m${LENGTH} "\w" | rs -g 0 ${LENGTH})
+
+echo ${ECHOARGS} ${PW}
+
+exit 0

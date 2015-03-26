@@ -1,6 +1,6 @@
 [user]
-	name = Scott Wallace
-	email = scottwallace@ucds.email
+    name = Scott Wallace
+    email = scott@wallace.sh
 [push]
     default = simple
 [pack]

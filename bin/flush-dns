@@ -1,0 +1,24 @@
+OS=$(uname -s)
+REL=$(uname -r)
+
+function sorry()
+{
+    echo "Sorry. I do not know how to flush the DNS on this OS."
+    echo "Once you find out, edit $(readlink ${0})."
+    exit 1
+}
+
+case ${OS} in
+    Darwin) case ${REL} in
+                14.1.0) sudo discoveryutil udnsflushcaches
+                        ;;
+                     *) sorry
+                        ;;
+            esac
+            ;;
+
+         *) sorry
+            ;;
+esac
+
+exit 0

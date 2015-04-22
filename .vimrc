@@ -24,6 +24,7 @@ Plugin 'rodjek/vim-puppet'
 Plugin 'godlygeek/tabular'
 Plugin 'ap/vim-buftabline'
 Plugin 'vim-scripts/WhiteWash'
+Plugin 'jistr/vim-nerdtree-tabs'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -54,6 +55,7 @@ syntax on
 
 " NERDTree
 map <C-n> :NERDTreeToggle<CR>
+let g:nerdtree_tabs_open_on_console_startup=1
 
 " Autocomplete
 let g:neocomplcache_enable_at_startup = 1

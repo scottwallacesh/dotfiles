@@ -10,7 +10,7 @@ function sorry()
 
 case ${OS} in
     Darwin) case ${REL} in
-                14.1.0) sudo discoveryutil udnsflushcaches
+                14.*) sudo discoveryutil udnsflushcaches
                         ;;
                      *) sorry
                         ;;

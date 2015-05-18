@@ -11,7 +11,7 @@ while getopts nl: ARG; do
         l) LENGTH=${OPTARG}
            ;;
 
-        ?) printf "Usage: %s [-n]\n" ${0}
+        ?) printf "Usage: %s [-n] [-l X]\n" ${0}
            exit 1
            ;;
     esac

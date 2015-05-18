@@ -11,9 +11,11 @@ function sorry()
 case ${OS} in
     Darwin) case ${REL} in
                 14.*) sudo discoveryutil udnsflushcaches
-                        ;;
-                     *) sorry
-                        ;;
+                      ;;
+                13.*) sudo pkill mDNS
+                      ;;
+                   *) sorry
+                      ;;
             esac
             ;;
 

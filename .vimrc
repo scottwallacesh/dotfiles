@@ -55,7 +55,6 @@ syntax on
 
 " NERDTree
 map <C-n> :NERDTreeToggle<CR>
-let g:nerdtree_tabs_open_on_console_startup=1
 
 " Autocomplete
 let g:neocomplcache_enable_at_startup = 1

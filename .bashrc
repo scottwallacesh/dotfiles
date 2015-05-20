@@ -41,7 +41,7 @@ export HISTCONTROL=ignoredups:erasedups
 shopt -s histappend
 
 # After each command, save and reload history
-export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a"
 #--------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------

@@ -17,7 +17,7 @@ while getopts nl: ARG; do
     esac
 done
 
-PW=$(jot -rc 256 48 123 | grep -m${LENGTH} "\w" | rs -g 0 ${LENGTH})
+PW=$(openssl rand -base64 ${LENGTH} | cut -c1-${LENGTH})
 
 echo ${ECHOARGS} ${PW}
 

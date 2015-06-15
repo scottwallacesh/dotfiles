@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 OS=$(uname -s)
 REL=$(uname -r)
 

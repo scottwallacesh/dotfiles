@@ -11,6 +11,7 @@ set rtp+=$GOROOT/misc/vim
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
+" Plugins
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-surround'

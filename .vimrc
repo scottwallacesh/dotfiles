@@ -50,10 +50,6 @@ set mouse=a
 " Always use vertical diffs
 set diffopt+=vertical
 
-" Adds unnamed to existing values
-" Yank buffer uses system clipboard
-:set clipboard^=unnamed 
-
 " Syntax highlighting
 syntax on
 

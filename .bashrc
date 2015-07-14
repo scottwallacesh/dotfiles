@@ -15,6 +15,12 @@ export LESS="-qr"
 # Update the path with local overrides
 #--------------------------------------------------------------------------------
 export PATH=~/bin:/usr/local/bin:/usr/local/sbin:${PATH}
+
+# coreutils
+COREUTILS=$(brew --prefix coreutils 2>/dev/null)
+if [ -s "${COREUTILS}" ]; then
+    export PATH=${COREUTILS}/libexec/gnubin:${PATH}
+fi
 #--------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------

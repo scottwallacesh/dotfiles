@@ -12,7 +12,7 @@ function sorry()
 
 case ${OS} in
     Darwin) case ${REL} in
-                14.*) sudo discoveryutil udnsflushcaches
+                14.*) sudo dscacheutil -flushcache
                       ;;
                 13.*) sudo pkill mDNS
                       ;;

@@ -26,5 +26,3 @@
     ui = true
 [branch]
     autosetuprebase = always
-[merge]
-	ff = false

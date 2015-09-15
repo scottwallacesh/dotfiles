@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+shopt -s extglob
+
 OS=$(uname -s)
 REL=$(uname -r)
 
@@ -13,19 +15,14 @@ function sorry()
 case ${OS} in
     Darwin) PROD_VER=$(sw_vers -productVersion)
             case ${PROD_VER} in
-                10.10.3|\
-                10.10.2|\
-                10.10.1|\
-                10.10.0|\
-                  10.10) sudo discoveryutil mdnsflushcache
-                         ;;
+                10.10?(.[0-3])) sudo discoveryutil mdnsflushcache
+                                ;;
 
-                 10.6.*|\
-                   10.6) sudo dscacheutil -flushcache
-                         ;;
+                     10.6?(.*)) sudo dscacheutil -flushcache
+                                ;;
 
-                      *) sudo killall -HUP mDNSResponder
-                         ;;
+                             *) sudo killall -HUP mDNSResponder
+                                ;;
             esac
             ;;
 

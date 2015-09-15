@@ -11,13 +11,21 @@ function sorry()
 }
 
 case ${OS} in
-    Darwin) case ${REL} in
-                14.*) sudo dscacheutil -flushcache
-                      ;;
-                13.*) sudo pkill mDNS
-                      ;;
-                   *) sorry
-                      ;;
+    Darwin) PROD_VER=$(sw_vers -productVersion)
+            case ${PROD_VER} in
+                10.10.3|\
+                10.10.2|\
+                10.10.1|\
+                10.10.0|\
+                  10.10) sudo discoveryutil mdnsflushcache
+                         ;;
+
+                 10.6.*|\
+                   10.6) sudo dscacheutil -flushcache
+                         ;;
+
+                      *) sudo killall -HUP mDNSResponder
+                         ;;
             esac
             ;;
 

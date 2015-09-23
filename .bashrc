@@ -75,3 +75,17 @@ for FILE in ~/.bash/auto_complete.d/*; do source ${FILE}; done
 #--------------------------------------------------------------------------------
 
 [ -f ~/.bashrc_local ] && source ~/.bashrc_local
+
+#--------------------------------------------------------------------------------
+# Launch tmux, if available
+#--------------------------------------------------------------------------------
+if which tmux &> /dev/null; then
+    if ! tmux attach &> /dev/null; then
+        if [[ ! $TERM =~ screen ]]; then
+            exec tmux
+        fi
+    else
+        exit
+    fi
+fi
+#--------------------------------------------------------------------------------

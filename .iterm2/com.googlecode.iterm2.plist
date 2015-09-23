@@ -845,7 +845,7 @@
 	<key>WebKitStandardFont</key>
 	<string>.Lucida Grande UI</string>
 	<key>WindowNumber</key>
-	<true/>
+	<false/>
 	<key>WindowStyle</key>
 	<integer>0</integer>
 	<key>WordCharacters</key>

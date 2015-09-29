@@ -88,14 +88,17 @@ function start_agent {
      /usr/bin/ssh-add ~/.ssh/scott_dsa
 }
 
-# Source SSH settings, if applicable
-if [ -f "${SSH_ENV}" ]; then
-     . "${SSH_ENV}" > /dev/null
-     pgrep ssh-agent | grep -E "^${SSH_AGENT_PID}" > /dev/null || {
-         start_agent
-     }
-else
-     start_agent
+# Check if we already have an agent running and sourced
+if [ -z "${SSH_AUTH_SOCK}" ]; then
+    # Source SSH settings, if applicable
+    if [ -f "${SSH_ENV}" ]; then
+        . "${SSH_ENV}" > /dev/null
+        pgrep ssh-agent | grep -E "^${SSH_AGENT_PID}" > /dev/null || {
+            start_agent
+        }
+    else
+        start_agent
+    fi
 fi
 #--------------------------------------------------------------------------------
 

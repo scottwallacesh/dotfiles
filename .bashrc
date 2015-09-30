@@ -74,4 +74,32 @@ export GOPATH=${HOME}/src/go
 for FILE in ~/.bash/auto_complete.d/*; do source ${FILE}; done
 #--------------------------------------------------------------------------------
 
+#--------------------------------------------------------------------------------
+# Run an SSH agent, if possible
+#--------------------------------------------------------------------------------
+SSH_ENV="$HOME/.ssh/environment"
+
+function start_agent {
+     echo -n "Initialising new SSH agent... "
+     /usr/bin/ssh-agent 2> /dev/null | sed 's/^echo/#echo/' > "${SSH_ENV}"
+     pgrep ssh-agent > /dev/null && echo "succeeded" || echo "failed"
+     chmod 0600 "${SSH_ENV}"
+     . "${SSH_ENV}" > /dev/null
+     /usr/bin/ssh-add ~/.ssh/scott_dsa
+}
+
+# Check if we already have an agent running and sourced
+if [ -z "${SSH_AUTH_SOCK}" ]; then
+    # Source SSH settings, if applicable
+    if [ -f "${SSH_ENV}" ]; then
+        . "${SSH_ENV}" > /dev/null
+        pgrep ssh-agent | grep -E "^${SSH_AGENT_PID}" > /dev/null || {
+            start_agent
+        }
+    else
+        start_agent
+    fi
+fi
+#--------------------------------------------------------------------------------
+
 [ -f ~/.bashrc_local ] && source ~/.bashrc_local

@@ -63,3 +63,6 @@ let g:neocomplcache_enable_at_startup = 1
 " Set filetypes
 au BufRead,BufNewFile *.md set filetype=markdown
 au BufRead,BufNewFile *.go set filetype=go
+
+" Cut'n'paste into main buffer
+set clipboard=unnamed

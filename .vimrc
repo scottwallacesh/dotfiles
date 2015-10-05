@@ -45,9 +45,6 @@ set softtabstop=4
 set smarttab
 set expandtab
 
-" Allow mouse usage
-set mouse=a
-
 " Always use vertical diffs
 set diffopt+=vertical
 
@@ -63,6 +60,3 @@ let g:neocomplcache_enable_at_startup = 1
 " Set filetypes
 au BufRead,BufNewFile *.md set filetype=markdown
 au BufRead,BufNewFile *.go set filetype=go
-
-" Cut'n'paste into main buffer
-set clipboard=unnamed

@@ -63,20 +63,33 @@ au BufRead,BufNewFile *.go set filetype=go
 " Lightline
 set laststatus=2
 let g:lightline = {
-      \ 'colorscheme': 'hybrid',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'fugitive': 'LightLineFugitive',
-      \   'readonly': 'LightLineReadonly',
-      \   'modified': 'LightLineModified',
-      \   'filename': 'LightLineFilename'
-      \ },
-      \ 'separator': { 'left': '', 'right': '' },
-      \ 'subseparator': { 'left': '>', 'right': '<' }
-      \ }
+    \   'colorscheme': 'hybrid',
+    \   'active': {
+    \     'left': [ [ 'mode', 'paste' ],
+    \               [ 'fugitive', 'readonly', 'filename', 'modified' ] ]
+    \   },
+    \   'component_function': {
+    \     'fugitive': 'LightLineFugitive',
+    \     'readonly': 'LightLineReadonly',
+    \     'modified': 'LightLineModified',
+    \     'filename': 'LightLineFilename'
+    \   },
+    \   'mode_map': {
+    \     'n' : 'N',
+    \     'i' : 'I',
+    \     'R' : 'R',
+    \     'v' : 'V',
+    \     'V' : 'V-L',
+    \     "\<C-v>": 'V-B',
+    \     'c' : 'C',
+    \     's' : 'S',
+    \     'S' : 'S-L',
+    \     "\<C-s>": 'S-B',
+    \     '?': '      '
+    \   },
+    \   'separator': { 'left': '', 'right': '' },
+    \   'subseparator': { 'left': '>', 'right': '<' }
+    \ }
 
 function! LightLineModified()
   if &filetype == "help"

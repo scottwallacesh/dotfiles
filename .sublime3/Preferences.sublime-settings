@@ -4,5 +4,6 @@
 	],
 	"theme": "SoDaReloaded Dark.sublime-theme",
 	"vintage_ctrl_keys": true,
-	"vintage_start_in_command_mode": true
+	"vintage_start_in_command_mode": true,
+	"translate_tabs_to_spaces": true
 }

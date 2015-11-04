@@ -5,10 +5,12 @@
 	],
 	"installed_packages":
 	[
+		"CodeSearch",
 		"GitSavvy",
 		"Markdown Preview",
 		"Package Control",
 		"Pylinter",
+		"SideBarEnhancements",
 		"Theme - SoDaReloaded"
 	]
 }

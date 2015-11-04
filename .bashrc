@@ -87,6 +87,7 @@ SUBLIME3CONFDIR=~/"Library/Application Support/Sublime Text 3/Packages/User"
 mkdir -p "${SUBLIME3CONFDIR}"
 ln -fs ~/".sublime3/Preferences.sublime-settings" "${SUBLIME3CONFDIR}/Preferences.sublime-settings"
 ln -fs ~/".sublime3/Package Control.sublime-settings" "${SUBLIME3CONFDIR}/Package Control.sublime-settings"
+ln -fs "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" ~/bin
 #--------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------

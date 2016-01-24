@@ -1,5 +1,16 @@
 #!/bin/bash
 
+if [ ! -x /usr/local/bin/brew ]; then
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+
+xargs brew install <<EOF
+    git
+    coreutils
+    python3
+    vim
+EOF
+
 xargs brew cask install <<EOF
     alfred
     bbc-iplayer-downloads

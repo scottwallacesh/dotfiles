@@ -34,6 +34,7 @@ xargs brew cask install <<EOF
     vlc
     vmware-fusion
     wireshark
+    xquartz
     yubikey-neo-manager
     yubikey-personalization-gui
 EOF

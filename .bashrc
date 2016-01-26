@@ -115,7 +115,7 @@ fi
 #--------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------
-# Update brew once a day
+# Update brew if it's older than one day
 #--------------------------------------------------------------------------------
 if [ -x /usr/local/bin/brew ]; then
     find /usr/local/.git -name FETCH_HEAD -mtime +0 -exec brew update \; >> ~/var/log/brew-update.log 2>&1 &

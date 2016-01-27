@@ -7,6 +7,7 @@ fi
 xargs brew install <<EOF
     git
     coreutils
+    htop
     python3
     vim
 EOF

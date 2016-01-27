@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ $(uname -s) != "Darwin" ]; then
+    echo "This should only run on Mac OS X."
+    exit 1
+fi
+
 if [ ! -x /usr/local/bin/brew ]; then
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi

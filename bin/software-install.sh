@@ -47,7 +47,6 @@ xargs brew cask install <<EOF
     google-chrome
     google-drive
     google-hangouts
-    gopro-studio
     handbrake
     iterm2
     sonos

@@ -21,12 +21,6 @@ mkdir -p ~/src ~/tmp ~/var/log
 # Update the path with local overrides
 #--------------------------------------------------------------------------------
 export PATH=~/bin:/usr/local/bin:/usr/local/sbin:${PATH}
-
-# coreutils
-COREUTILS=$(brew --prefix coreutils 2>/dev/null)
-if [ -s "${COREUTILS}" ]; then
-    export PATH=${COREUTILS}/libexec/gnubin:${PATH}
-fi
 #--------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------
@@ -72,7 +66,6 @@ export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a"
 #--------------------------------------------------------------------------------
 alias ll='ls -l'
 [[ -x $(which htop 2>/dev/null) ]] && alias top='htop'
-alias gitx='open -a GitX .'
 #--------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------

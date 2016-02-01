@@ -63,7 +63,7 @@ EOF
 #-------------------------------
 # Some tools require root set-UID
 #-------------------------------
-xargs -n1 -I % bash -c 'find $(dirname $(readlink -f $(which %))) -name $(basename $(which %)) -type f ! \( -perm -u+s -a -user root \) ' <<EOF | xargs -n 1 -I % sudo bash -c 'chown root: % && chmod u+s %'
+xargs -n1 -I % bash -c 'find $(dirname $(greadlink -f $(which %))) -name $(basename $(which %)) -type f ! \( -perm -u+s -a -user root \) ' <<EOF | xargs -n 1 -I % sudo bash -c 'chown root: % && chmod u+s %'
     htop
 EOF
 #-------------------------------

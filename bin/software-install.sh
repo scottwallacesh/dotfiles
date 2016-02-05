@@ -18,6 +18,7 @@ function install_linux_software {
         ack
         git
         htop
+        ss
         vim
 	EOF
 }

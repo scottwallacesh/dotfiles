@@ -14,7 +14,7 @@ function install_linux_software {
     fi
     #-------------------------------
 
-    xargs ${INSTALLCMD} <<-EOF
+    xargs sudo ${INSTALLCMD} <<-EOF
         ack
         git
         htop

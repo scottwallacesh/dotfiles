@@ -39,7 +39,7 @@ function install_osx_software {
         ack
         git
         coreutils
-        htop
+        htop-osx
         python3
         vim
 	EOF

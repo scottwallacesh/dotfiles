@@ -97,7 +97,7 @@ function start_agent {
      pgrep ssh-agent > /dev/null && echo "succeeded" || echo "failed"
      chmod 0600 "${SSH_ENV}"
      . "${SSH_ENV}" > /dev/null
-     ssh-add ~/.ssh/scott_dsa
+     ssh-add ~/.ssh/scott@wallace.sh
 }
 
 # Check if we already have an agent running and sourced

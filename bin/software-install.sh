@@ -44,6 +44,7 @@ function install_osx_software {
         mosh
         python3
         vim
+        homebrew/dupes/openssh
 	EOF
     #-------------------------------
 

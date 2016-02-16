@@ -97,7 +97,7 @@ function start_agent {
 }
 
 # Check if we already have an agent running and sourced
-if [ -z "${SSH_AUTH_SOCK}" -a -s "${PS1}" ]; then
+if [ -z "${SSH_AUTH_SOCK}" -a -n "${PS1}" ]; then
     # Source SSH settings, if applicable
     if [ -f "${SSH_ENV}" ]; then
         . "${SSH_ENV}" > /dev/null

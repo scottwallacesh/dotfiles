@@ -18,6 +18,7 @@ function install_linux_software {
         ack
         git
         htop
+        mosh
         ss
         vim
 	EOF
@@ -40,6 +41,7 @@ function install_osx_software {
         git
         coreutils
         htop-osx
+        mosh
         python3
         vim
 	EOF

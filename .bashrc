@@ -89,11 +89,11 @@ SSH_ENV="$HOME/.ssh/environment"
 
 function start_agent {
      echo -n "Initialising new SSH agent... "
-     /usr/bin/ssh-agent 2> /dev/null | sed 's/^echo/#echo/' > "${SSH_ENV}"
+     ssh-agent 2> /dev/null | sed 's/^echo/#echo/' > "${SSH_ENV}"
      pgrep ssh-agent > /dev/null && echo "succeeded" || echo "failed"
      chmod 0600 "${SSH_ENV}"
      . "${SSH_ENV}" > /dev/null
-     /usr/bin/ssh-add ~/.ssh/scott_dsa
+     ssh-add ~/.ssh/scott_dsa
 }
 
 # Check if we already have an agent running and sourced

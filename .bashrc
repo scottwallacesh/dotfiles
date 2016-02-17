@@ -89,28 +89,10 @@ export GOPATH=${HOME}/src/go
 #--------------------------------------------------------------------------------
 # Run an SSH agent, if possible
 #--------------------------------------------------------------------------------
-SSH_ENV="$HOME/.ssh/environment"
-
-function start_agent {
-     echo -n "Initialising new SSH agent... "
-     ssh-agent 2> /dev/null | sed 's/^echo/#echo/' > "${SSH_ENV}"
-     pgrep ssh-agent > /dev/null && echo "succeeded" || echo "failed"
-     chmod 0600 "${SSH_ENV}"
-     . "${SSH_ENV}" > /dev/null
-     ssh-add ~/.ssh/scott@wallace.sh
-}
-
 # Check if we already have an agent running and sourced
-if [ -z "${SSH_AUTH_SOCK}" -a -n "${PS1}" ]; then
-    # Source SSH settings, if applicable
-    if [ -f "${SSH_ENV}" ]; then
-        . "${SSH_ENV}" > /dev/null
-        pgrep ssh-agent | grep -E "^${SSH_AGENT_PID}" > /dev/null || {
-            start_agent
-        }
-    else
-        start_agent
-    fi
+if [ -z "${SSH_AUTH_SOCK}" ]; then
+    eval `ssh-agent -s`
+    ssh-add
 fi
 #--------------------------------------------------------------------------------
 

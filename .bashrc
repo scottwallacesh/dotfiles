@@ -115,6 +115,7 @@ fi
 # Update brew if it's older than one day
 #--------------------------------------------------------------------------------
 if [ -x /usr/local/bin/brew ]; then
+    HOMEBREW_GITHUB_API_TOKEN=$(getkey HOMEBREW_GITHUB_API_TOKEN)
     (
         find /usr/local/.git -name FETCH_HEAD -mtime +0 -exec \
         bash -c "echo \"--Start: $(date)\"; \

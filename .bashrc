@@ -19,6 +19,7 @@ getkey() {
             PASS=$(/usr/bin/security find-internet-password -l ssh:scott@wallace.sh -gw)
         else
             read -sp "Password: " PASS
+            echo
         fi
 
         openssl rsautl -decrypt -inkey ~/.ssh/scott@wallace.sh -passin "pass:${PASS}" -in ${KEYFILE} 2>/dev/null

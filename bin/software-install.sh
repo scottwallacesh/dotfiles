@@ -9,7 +9,7 @@ function install_linux_software {
     elif [ -x "$(which apt-get)" ]; then
         INSTALLCMD="apt-get install -y"
     else
-        echo "Sorry, I don't know how to install software on this machine yet."
+        echo "Sorry, I don't know how to install software on this OS yet."
         exit 1
     fi
     #-------------------------------

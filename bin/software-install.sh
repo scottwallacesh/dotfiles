@@ -81,8 +81,8 @@ function install_osx_software {
     #-------------------------------
     # Clean up
     #-------------------------------
-    brew cask cleanup
     brew cleanup
+    brew cask cleanup
     #-------------------------------
 }
 

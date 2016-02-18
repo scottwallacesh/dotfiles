@@ -15,7 +15,12 @@ getkey() {
     KEYFILE=~/.keys/${1}
 
     if [ -f ${KEYFILE} ]; then
-        PASS=$(security find-internet-password -l ssh:scott@wallace.sh -gw)
+        if [ -x /usr/bin/security ]; then
+            PASS=$(/usr/bin/security find-internet-password -l ssh:scott@wallace.sh -gw)
+        else
+            read -sp "Password: " PASS
+        fi
+
         openssl rsautl -decrypt -inkey ~/.ssh/scott@wallace.sh -passin "pass:${PASS}" -in ${KEYFILE} 2>/dev/null
     else
         echo "No such key" >&2

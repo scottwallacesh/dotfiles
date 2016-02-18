@@ -98,7 +98,7 @@ export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a"
 # Command aliases
 #--------------------------------------------------------------------------------
 alias ll='ls -l'
-[[ -x $(which htop 2>/dev/null) ]] && alias top='htop'
+[[ -x $(which htop 2>/dev/null) ]] && alias top='sudo htop'
 #--------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------

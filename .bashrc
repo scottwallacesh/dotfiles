@@ -106,8 +106,13 @@ export GOPATH=${HOME}/src/go
 #--------------------------------------------------------------------------------
 # Check if we already have an agent running and sourced
 if [ -z "${SSH_AUTH_SOCK}" ]; then
-    eval `ssh-agent -s`
-    ssh-add
+    SSH_AUTH_SOCK_FILE=~/.ssh/auth_sock
+    if [ -S ${SSH_AUTH_SOCK_FILE} ]; then
+        SSH_AUTH_SOCK=${SSH_AUTH_SOCK_FILE}
+    else
+        eval `ssh-agent -a ${SSH_AUTH_SOCK_FILE} -s`
+        ssh-add
+    fi
 fi
 #--------------------------------------------------------------------------------
 

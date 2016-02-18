@@ -108,9 +108,11 @@ export GOPATH=${HOME}/src/go
 if [ -z "${SSH_AUTH_SOCK}" ]; then
     SSH_AUTH_SOCK_FILE=~/.ssh/auth_sock
     if [ -S ${SSH_AUTH_SOCK_FILE} ]; then
-        SSH_AUTH_SOCK=${SSH_AUTH_SOCK_FILE}
+        export SSH_AUTH_SOCK=${SSH_AUTH_SOCK_FILE}
+        export SSH_AGENT_PID=$(cat ~/.ssh/agent.pid)
     else
         eval `ssh-agent -a ${SSH_AUTH_SOCK_FILE} -s`
+        echo ${SSH_AGENT_PID} > ~/.ssh/agent.pid
         ssh-add
     fi
 fi

@@ -67,8 +67,9 @@ fi
 #--------------------------------------------------------------------------------
 # Add bash completion scripts
 #--------------------------------------------------------------------------------
-for FILE in /usr/local/etc/bash_completion.d/*; do source ${FILE}; done
-for FILE in ~/.bash/auto_complete.d/*; do source ${FILE}; done
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    . $(brew --prefix)/etc/bash_completion
+fi
 #--------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------

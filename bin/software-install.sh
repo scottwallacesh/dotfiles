@@ -16,6 +16,7 @@ function install_linux_software {
 
     xargs sudo ${INSTALLCMD} <<-EOF
         ack
+        bash-completion
         git
         htop
         mosh
@@ -38,6 +39,7 @@ function install_osx_software {
     #-------------------------------
     xargs brew install <<-EOF
         ack
+        bash-completion
         git
         coreutils
         htop-osx

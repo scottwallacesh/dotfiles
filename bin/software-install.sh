@@ -51,10 +51,11 @@ function install_osx_software {
     # Install Casks
     #-------------------------------
     xargs brew cask install <<-EOF
+        1password
         alfred
         bbc-iplayer-downloads
         beardedspice
-        dashlane
+        bittorrent-sync
         day-o
         dropbox
         cleanmymac

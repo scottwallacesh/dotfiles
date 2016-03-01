@@ -65,9 +65,9 @@ function install_osx_software {
         bbc-iplayer-downloads
         beardedspice
         bittorrent-sync
+        cleanmymac
         day-o
         dropbox
-        cleanmymac
         firefox
         flux
         gitx

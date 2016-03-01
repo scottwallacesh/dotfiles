@@ -22,6 +22,7 @@ function install_linux_software {
         htop
         mosh
         nmap
+        pv
         ss
         vim
 	EOF
@@ -48,6 +49,7 @@ function install_osx_software {
         htop-osx
         mosh
         nmap
+        pv
         python3
         rename
         vim

@@ -16,10 +16,12 @@ function install_linux_software {
 
     xargs sudo ${INSTALLCMD} <<-EOF
         ack
+        archey
         bash-completion
         git
         htop
         mosh
+        nmap
         ss
         vim
 	EOF
@@ -39,12 +41,15 @@ function install_osx_software {
     #-------------------------------
     xargs brew install <<-EOF
         ack
+        archey
         bash-completion
         git
         coreutils
         htop-osx
         mosh
+        nmap
         python3
+        rename
         vim
 	EOF
     #-------------------------------

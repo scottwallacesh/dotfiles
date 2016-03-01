@@ -22,6 +22,7 @@ function install_linux_software {
         htop
         mosh
         nmap
+        p7zip
         pv
         ss
         vim
@@ -49,6 +50,7 @@ function install_osx_software {
         htop-osx
         mosh
         nmap
+        p7zip
         pv
         python3
         rename

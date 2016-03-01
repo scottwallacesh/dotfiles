@@ -27,6 +27,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'ap/vim-buftabline'
 Plugin 'vim-scripts/WhiteWash'
 Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'davidhalter/jedi'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required

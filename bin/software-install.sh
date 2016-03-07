@@ -39,6 +39,12 @@ function install_osx_software {
     #-------------------------------
 
     #-------------------------------
+    # Update Brew formulae if older than 24 hours
+    #-------------------------------
+    find /usr/local/.git -name FETCH_HEAD -mtime +0 -exec brew update \;
+    #-------------------------------
+
+    #-------------------------------
     # Install the basics
     #-------------------------------
     xargs brew install <<-EOF
@@ -98,6 +104,10 @@ function install_osx_software {
     #-------------------------------
 }
 
+echo "#-------------------------------"
+echo "# START: $(date)"
+echo "#-------------------------------"
+
 #-------------------------------
 # Check for Mac OS X
 #-------------------------------
@@ -111,7 +121,12 @@ fi
 #-------------------------------
 # Ensure Vim plugins are up-to-date
 #-------------------------------
-vim +PluginInstall +PluginUpdate +qall
+vim -T dumb +PluginInstall! +PluginClean! +qall 2>/dev/null |\
+    sed -E s/'\[[0-9]{1,2};[0-9]{1,2}[mKH]'//g
 #-------------------------------
+
+echo "#-------------------------------"
+echo "# END: $(date)"
+echo "#-------------------------------"
 
 exit 0

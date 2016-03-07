@@ -133,18 +133,9 @@ fi
 #--------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------
-# Update brew if it's older than one day
+# Update software if it's been longer than one day
 #--------------------------------------------------------------------------------
-if [ -x /usr/local/bin/brew ]; then
-    export HOMEBREW_GITHUB_API_TOKEN=$(getkey HOMEBREW_GITHUB_API_TOKEN)
-    (
-        find /usr/local/.git -name FETCH_HEAD -mtime +0 -exec \
-        bash -c "echo \"--Start: $(date)\"; \
-                 brew update; \
-                 echo \"--End: $(date)\"" \
-        \; >> ~/var/log/brew-update.log 2>&1 &
-    )
-fi
+( find ~/var/log -name update.log -mtime +0 -exec ~/bin/software-install.sh \; >> ~/var/log/update.log 2>&1 & )
 #--------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------

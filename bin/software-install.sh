@@ -108,4 +108,10 @@ else
 fi
 #-------------------------------
 
+#-------------------------------
+# Ensure Vim plugins are up-to-date
+#-------------------------------
+vim +PluginInstall +PluginUpdate +qall
+#-------------------------------
+
 exit 0

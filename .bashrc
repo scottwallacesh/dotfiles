@@ -80,7 +80,7 @@ fi
 # Add bash completion scripts
 #--------------------------------------------------------------------------------
 if [ -f $(brew --prefix 2>/dev/null)/etc/bash_completion ]; then
-    . $(brew --prefix)/etc/bash_completion
+    . $(brew --prefix 2>/dev/null)/etc/bash_completion
 fi
 #--------------------------------------------------------------------------------
 

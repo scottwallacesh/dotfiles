@@ -121,8 +121,7 @@ fi
 #-------------------------------
 # Ensure Vim plugins are up-to-date
 #-------------------------------
-vim -T dumb +PluginInstall! +PluginClean! +qall 2>/dev/null |\
-    sed -E s/'\[[0-9]{1,2};[0-9]{1,2}[mKH]'//g
+vim +PluginInstall! +PluginClean! +qall
 #-------------------------------
 
 echo "#-------------------------------"

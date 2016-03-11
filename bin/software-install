@@ -14,7 +14,7 @@ function install_linux_software {
     fi
     #-------------------------------
 
-    xargs sudo ${INSTALLCMD} <<-EOF
+    xargs -n1 sudo ${INSTALLCMD} <<-EOF
         ack
         archey
         bash-completion

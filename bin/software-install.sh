@@ -38,70 +38,47 @@ function install_osx_software {
     fi
     #-------------------------------
 
-    #-------------------------------
     # Update Brew formulae if older than 24 hours
-    #-------------------------------
     find /usr/local/.git -name FETCH_HEAD -mtime +0 -exec brew update \;
+
+    # Install homebrew/bundle tap if we don't have it
+    [ -d /usr/local/Library/Taps/homebrew/homebrew-bundle ] || brew tap homebrew/bundle
+
+    #-------------------------------
+    # Run brew bundle if there's a newer version of Brewfile
+    #-------------------------------
+    if [ ~/Brewfile -nt ~/.Brewfile.updated ]; then
+        brew bundle && touch ~/.Brewfile.updated
+    fi
     #-------------------------------
 
     #-------------------------------
-    # Install the basics
+    # Upgrade and clean
     #-------------------------------
-    xargs brew install <<-EOF
-        ack
-        archey
-        bash-completion
-        git
-        coreutils
-        htop-osx
-        mosh
-        nmap
-        p7zip
-        pv
-        python3
-        rename
-        vim
-	EOF
-    #-------------------------------
-
-    #-------------------------------
-    # Install Casks
-    #-------------------------------
-    xargs brew cask install <<-EOF
-        1password
-        alfred
-        bbc-iplayer-downloads
-        beardedspice
-        bittorrent-sync
-        cleanmymac
-        day-o
-        dropbox
-        firefox
-        flux
-        gitx
-        gpgtools
-        google-chrome
-        google-drive
-        google-hangouts
-        handbrake
-        iterm2
-        sonos
-        textmate
-        vlc
-        vmware-fusion
-        wireshark
-        xquartz
-        yubikey-neo-manager
-        yubikey-personalization-gui
-	EOF
-    #-------------------------------
-
-    #-------------------------------
-    # Clean up
-    #-------------------------------
+    brew upgrade
     brew cleanup
+    brew bundle check || ( cask-upgrade auto && cask-tidy )
     brew cask cleanup
     #-------------------------------
+}
+
+function __remove-cask {
+    caskBasePath="/opt/homebrew-cask/Caskroom"
+    local cask="$1"
+    local caskDirectory="$caskBasePath/$cask"
+    local versionsToRemove="$(ls -r $caskDirectory | sed 1,1d)"
+    if [[ -n $versionsToRemove ]]; then
+        while read versionToRemove ; do
+            echo "Removing $cask $versionToRemove..."
+            rm -rf "$caskDirectory/$versionToRemove"
+        done <<< "$versionsToRemove"
+    fi
+}
+
+function cask-tidy {
+    while read cask; do
+        __remove-cask "$cask"
+    done <<< "$(brew cask list)"
 }
 
 echo "#-------------------------------"

@@ -48,7 +48,7 @@ function install_osx_software {
     # Run brew bundle if there's a newer version of Brewfile
     #-------------------------------
     if [ ~/Brewfile -nt ~/.Brewfile.updated ]; then
-        brew bundle && touch ~/.Brewfile.updated
+        ( cd ~ && brew bundle && touch ~/.Brewfile.updated )
     fi
     #-------------------------------
 
@@ -57,7 +57,7 @@ function install_osx_software {
     #-------------------------------
     brew upgrade
     brew cleanup
-    brew bundle check || ( cask-upgrade auto && cask-tidy )
+    ( cd ~ && brew bundle check ) || ( cask-upgrade auto && cask-tidy )
     brew cask cleanup
     #-------------------------------
 }
@@ -79,9 +79,9 @@ fi
 #-------------------------------
 # Ensure Vim plugins are up-to-date, if older than one day
 #-------------------------------
-find .vim/updated -mtime +0 -exec bash -c "\
+find ~/.vim/updated -mtime +0 -exec bash -c "\
     vim +PluginInstall! +PluginClean! +qall
-    touch .vim/updated
+    touch ~/.vim/updated
 " \;
 #-------------------------------
 

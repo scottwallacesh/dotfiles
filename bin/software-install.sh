@@ -62,25 +62,6 @@ function install_osx_software {
     #-------------------------------
 }
 
-function __remove-cask {
-    caskBasePath="/opt/homebrew-cask/Caskroom"
-    local cask="$1"
-    local caskDirectory="$caskBasePath/$cask"
-    local versionsToRemove="$(ls -r $caskDirectory | sed 1,1d)"
-    if [[ -n $versionsToRemove ]]; then
-        while read versionToRemove ; do
-            echo "Removing $cask $versionToRemove..."
-            rm -rf "$caskDirectory/$versionToRemove"
-        done <<< "$versionsToRemove"
-    fi
-}
-
-function cask-tidy {
-    while read cask; do
-        __remove-cask "$cask"
-    done <<< "$(brew cask list)"
-}
-
 echo "#-------------------------------"
 echo "# START: $(date)"
 echo "#-------------------------------"

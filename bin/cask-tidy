@@ -1,6 +1,6 @@
 #!/bin/bash
 
-[ ! -x $(which brew) -a ! -d /opt/homebrew-cask ] && exit 1
+[ ! -x "$(which brew 2>/dev/null)" -a ! -d /opt/homebrew-cask ] && exit 1
 
 function __remove-cask {
     caskBasePath="/opt/homebrew-cask/Caskroom"

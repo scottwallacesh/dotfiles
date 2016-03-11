@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function install_linux_software {
+function install_Linux_software {
     #-------------------------------
     # Check the OS and set install command
     #-------------------------------
@@ -29,7 +29,7 @@ function install_linux_software {
 	EOF
 }
 
-function install_osx_software {
+function install_Darwin_software {
     #-------------------------------
     # Install Homebrew if missing
     #-------------------------------
@@ -66,15 +66,8 @@ echo "#-------------------------------"
 echo "# START: $(date)"
 echo "#-------------------------------"
 
-#-------------------------------
-# Check for Mac OS X
-#-------------------------------
-if [ $(uname -s) == "Darwin" ]; then
-    install_osx_software
-else
-    install_linux_software
-fi
-#-------------------------------
+# Call the install function appropriate for this platform
+install_$(uname -s)_software
 
 #-------------------------------
 # Ensure Vim plugins are up-to-date, if older than one day

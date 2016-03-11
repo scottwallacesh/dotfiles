@@ -96,9 +96,12 @@ fi
 #-------------------------------
 
 #-------------------------------
-# Ensure Vim plugins are up-to-date
+# Ensure Vim plugins are up-to-date, if older than one day
 #-------------------------------
-vim +PluginInstall! +PluginClean! +qall
+find .vim/updated -mtime +0 -exec bash -c "\
+    vim +PluginInstall! +PluginClean! +qall
+    touch .vim/updated
+" \;
 #-------------------------------
 
 echo "#-------------------------------"

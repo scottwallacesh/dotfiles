@@ -59,7 +59,9 @@ pathadd ~/bin
 #--------------------------------------------------------------------------------
 # Set some variables
 #--------------------------------------------------------------------------------
-export HOMEBREW_GITHUB_API_TOKEN=$(getkey HOMEBREW_GITHUB_API_TOKEN)
+if [ -x "$(which brew 2>/dev/null)" ]; then
+    export HOMEBREW_GITHUB_API_TOKEN=$(getkey HOMEBREW_GITHUB_API_TOKEN)
+fi
 #--------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------

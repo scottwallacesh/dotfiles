@@ -6,141 +6,116 @@
 # Therefore casks that use "latest" will not be updated
 #
 # NOTE: THIS SCRIPT COMPLETELY REMOVES OUT-OF-DATE CASKS & ADDS THE LATEST VERSION.
-#
-# Usage :
-# cask-upgrade 		: prompt each time it encouter an update to install it
-# cask-upgrade auto : will upgrade applications automatically
-# cask-upgrade atom : will search for an application called atom and upgrade it
 
-class String
-  def black;          "\e[30m#{self}\e[0m" end
-  def red;            "\e[31m#{self}\e[0m" end
-  def green;          "\e[32m#{self}\e[0m" end
-  def brown;          "\e[33m#{self}\e[0m" end
-  def blue;           "\e[34m#{self}\e[0m" end
-  def magenta;        "\e[35m#{self}\e[0m" end
-  def cyan;           "\e[36m#{self}\e[0m" end
-  def gray;           "\e[1;30m#{self}\e[0m" end
+require 'optparse'
 
-  def bg_black;       "\e[40m#{self}\e[0m" end
-  def bg_red;         "\e[41m#{self}\e[0m" end
-  def bg_green;       "\e[42m#{self}\e[0m" end
-  def bg_brown;       "\e[43m#{self}\e[0m" end
-  def bg_blue;        "\e[44m#{self}\e[0m" end
-  def bg_magenta;     "\e[45m#{self}\e[0m" end
-  def bg_cyan;        "\e[46m#{self}\e[0m" end
-  def bg_gray;        "\e[47m#{self}\e[0m" end
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: #{opts.program_name()} <options> <package name>"
 
-  def bold;           "\e[1m#{self}\e[22m" end
-  def italic;         "\e[3m#{self}\e[23m" end
-  def underline;      "\e[4m#{self}\e[24m" end
-  def blink;          "\e[5m#{self}\e[25m" end
-  def reverse_color;  "\e[7m#{self}\e[27m" end
-end
+  opts.on("-y", "Assume yes") do |y|
+    options[:auto] = y
+  end
+end.parse!
 
-option = ARGV[0]
-auto = (option == 'auto') ? true : false
-# this is where you want to install casks
-appdir = '/Applications'
-
-system('clear')
-
-# CHANGE APP FOLDER
-CASK_OPTIONS = `echo $HOMEBREW_CASK_OPTS`.freeze
-if appdiropt = CASK_OPTIONS.match(/--appdir=(\S+)\s+/)
-  appdir = appdiropt[1] if File.exist?(appdiropt[1])
-end
-puts "Application directory: #{appdir}"
+options[:package] = ARGV[0]
 
 # UPGRADE SPECIFIC APP
-if !option.nil? && !option.empty? && option != 'auto'
-  app = option.chomp
+if options[:package]
+  app = options[:package]
   if system("brew cask info #{app} &>/dev/null")
-    print "Do you want to reinstall #{app}? " + '[ y/N ] '.gray
-    update = STDIN.gets.strip
+    print "Do you want to reinstall #{app}? " + '[y/N]'
+    if options[:auto]
+        update = 'y'
+    else
+        update = STDIN.gets.strip
+    end
     if update =~ /[yY]/
-      puts "closing any open instances of #{app}".cyan
+      puts "Closing any open instances of #{app}"
       system("osascript -e \'quit app \"#{app}\"\' && sleep 1")
       puts "Upgrading #{app}".green
       system("brew cask uninstall #{app} --force && sleep 1 && brew cask install #{app} --force")
     else
-      puts 'Canceling update...'.brown
+      puts 'Cancelling update...'
     end
   else
-    puts 'Unknow app to update'.red
+    puts 'Unknown app to update'
   end
   exit!
 end
 
 # UPDATE HOMEBREW
-puts 'Updating homebrew cask, please wait...'.cyan
+puts 'Updating homebrew cask, please wait...'
 system('brew cask update')
 if $CHILD_STATUS == 1
   puts 'Cask update failed'.red
   exit!
 end
-system('clear')
 
 # BREW CASK LIST
-# IO.popen("echo atom") { |apps|
 IO.popen('brew cask list') do |apps|
   apps.each do |app|
     app.chomp!
-    puts '+-------------------------------------------------------------------+'
-    infosstr = app.upcase
+    infosstr = app
     infos = `brew cask info #{app}`
-    if vmatch = /: ([0-9\._]+)/.match(infos.lines.first)
+    if vmatch = /: ([A-z0-9\._]+)/.match(infos.lines.first)
       version, build = vmatch[1].split(/[_-]/)
-      infosstr += " version #{version}".gray
-      infosstr += " (#{build})".gray if build
+      infosstr += " version: #{version}"
+      infosstr += " (#{build})" if build
 
       print infosstr.to_s
-      column1length = 69 - infosstr.gsub(/\e\[[0-9;]+[m]?/, '').length
+      column1length = 80 - infosstr.gsub(/\e\[[0-9;]+[m]?/, '').length
 
-      if appname = /(.*) \(app\)/.match(infos)
+      if appname = /(.+) \(app\)/.match(infos)
         # APPLICATION FILENAME
         appname = appname[1].strip
-        if File.exist?("#{appdir}/#{appname}")
+
+        fullpath = `mdfind -onlyin /opt/homebrew-cask/Caskroom -onlyin /Applications -onlyin ~/Applications "#{appname}" | grep "#{appname}"`.strip
+        if File.exist?(fullpath)
           # GET APPLICATION VERSION WITH SPOTLIGHT
-          if currentmatch = /([0-9\.]+)/.match(`mdls "#{appdir}/#{appname}" -name kMDItemVersion -raw`)
+          if currentmatch = /([A-z0-9\.]+)/.match(`mdls "#{fullpath}" -name kMDItemVersion -raw`)
             current = currentmatch[1].chomp
+
             # COMPARE INSTALLED VERSION WITH CASK VERSION
-            if Gem::Version.new(version) <= Gem::Version.new(current)
-              puts 'up-to-date'.rjust(column1length).green
-            elsif current != '(null)' && version != 'latest'
-              puts 'update available'.rjust(column1length).cyan
-              print "Do you want to update #{app} to version #{version.green} (current #{current.green})? " + '[ y/N ] '.gray
-              if auto
-                puts 'auto'.cyan
-                update = 'y'
+            begin
+              if Gem::Version.new(version) <= Gem::Version.new(current)
+                puts 'Up-to-date'.rjust(column1length)
+              elsif current != '(null)' && version != 'latest'
+                puts 'Update available'.rjust(column1length)
+                print "Do you want to update #{app} to version #{version.green} (current #{current.green})? " + '[y/N] '
+                if options[:auto]
+                  update = 'y'
+                else
+                  update = STDIN.gets.strip
+                end
+                # UPDATE CURRENT APPLICAION
+                if update =~ /[yY]/
+                  puts "Updating #{app} to version #{version}"
+                  puts "Closing any open instances of #{app}"
+                  system("osascript -e \'quit app \"#{app}\"\' && sleep 1")
+                  system("brew cask uninstall #{app} --force && sleep 1 && brew cask install #{app} --force")
+                else
+                  puts 'Cancelling update'
+                end
               else
-                update = STDIN.gets.strip
+                puts 'Update undefined'.rjust(column1length)
               end
-              # UPDATE CURRENT APPLICAION
-              if update =~ /[yY]/
-                puts "Updating #{app} to version #{version}".green
-                puts "Closing any open instances of #{app}".cyan
-                system("osascript -e \'quit app \"#{app}\"\' && sleep 1")
-                system("brew cask uninstall #{app} --force && sleep 1 && brew cask install #{app} --force")
-              else
-                puts 'Cancel update...'.brown
-              end
-            else
-              puts 'update undefined...'.rjust(column1length)
+            rescue
+              puts 'Cannot determine latest version'.rjust(column1length)
             end
           else
-            puts 'unknown installed version'.rjust(column1length).brown
+            puts 'Unknown installed version'.rjust(column1length)
           end
         else
-          puts 'not found'.rjust(column1length)
+          puts 'Not found'.rjust(column1length)
         end
       else
-        puts 'unknown app'.rjust(column1length).brown
+        puts 'Unknown app'.rjust(column1length)
       end
     else
       print infosstr.to_s
-      column1length = 69 - infosstr.length
-      puts 'unknown version'.rjust(column1length).brown
+      column1length = 80 - infosstr.length
+      puts 'Unknown version'.rjust(column1length)
     end
   end
 end

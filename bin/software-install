@@ -57,7 +57,7 @@ function install_Darwin_software {
     #-------------------------------
     brew upgrade
     brew cleanup
-    ( cd ~ && brew bundle check ) || ( cask-upgrade auto && cask-tidy )
+    ( cd ~ && brew bundle check ) || ( cask-upgrade -y && cask-tidy )
     brew cask cleanup
     #-------------------------------
 }

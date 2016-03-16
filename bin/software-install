@@ -48,7 +48,7 @@ function install_Darwin_software {
     # Run brew bundle if there's a newer version of Brewfile
     #-------------------------------
     if [ ~/Brewfile -nt ~/.Brewfile.updated ]; then
-        ( cd ~ && brew bundle && touch ~/.Brewfile.updated )
+        ( brew bundle --global && touch ~/.Brewfile.updated )
     fi
     #-------------------------------
 
@@ -57,7 +57,7 @@ function install_Darwin_software {
     #-------------------------------
     brew upgrade
     brew cleanup
-    ( cd ~ && brew bundle check ) || ( cask-upgrade -y && cask-tidy )
+    ( brew bundle --global check ) || ( cask-upgrade -y && cask-tidy )
     brew cask cleanup
     #-------------------------------
 }

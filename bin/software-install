@@ -47,8 +47,8 @@ function install_Darwin_software {
     #-------------------------------
     # Run brew bundle if there's a newer version of Brewfile
     #-------------------------------
-    if [ ~/Brewfile -nt ~/.Brewfile.updated ]; then
-        ( brew bundle --global && touch ~/.Brewfile.updated )
+    if [ ~/.Brewfile -nt ~/.Brewfile.updated ]; then
+        ( brew bundle --global install && touch ~/.Brewfile.updated )
     fi
     #-------------------------------
 

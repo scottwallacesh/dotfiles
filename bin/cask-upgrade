@@ -31,10 +31,8 @@ if options[:package]
         update = STDIN.gets.strip
     end
     if update =~ /[yY]/
-      puts "Closing any open instances of #{app}"
-      system("osascript -e \'quit app \"#{app}\"\' && sleep 1")
-      puts "Upgrading #{app}".green
-      system("brew cask uninstall #{app} --force && sleep 1 && brew cask install #{app} --force")
+      puts "Upgrading #{app}"
+      system("brew cask uninstall #{app} --force && brew cask install #{app} --force")
     else
       puts 'Cancelling update...'
     end
@@ -48,7 +46,7 @@ end
 puts 'Updating homebrew cask, please wait...'
 system('brew cask update')
 if $CHILD_STATUS == 1
-  puts 'Cask update failed'.red
+  puts 'Cask update failed'
   exit!
 end
 
@@ -82,7 +80,7 @@ IO.popen('brew cask list') do |apps|
                 puts 'Up-to-date'.rjust(column1length)
               elsif current != '(null)' && version != 'latest'
                 puts 'Update available'.rjust(column1length)
-                print "Do you want to update #{app} to version #{version.green} (current #{current.green})? " + '[y/N] '
+                print "Do you want to update #{app} to version #{version} (current #{current})? " + '[y/N] '
                 if options[:auto]
                   update = 'y'
                 else
@@ -91,9 +89,7 @@ IO.popen('brew cask list') do |apps|
                 # UPDATE CURRENT APPLICAION
                 if update =~ /[yY]/
                   puts "Updating #{app} to version #{version}"
-                  puts "Closing any open instances of #{app}"
-                  system("osascript -e \'quit app \"#{app}\"\' && sleep 1")
-                  system("brew cask uninstall #{app} --force && sleep 1 && brew cask install #{app} --force")
+                  system("brew cask uninstall #{app} --force && brew cask install #{app} --force")
                 else
                   puts 'Cancelling update'
                 end

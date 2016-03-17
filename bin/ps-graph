@@ -1,0 +1,254 @@
+#!/bin/sh
+#
+# USAGE: ${0} ptree1.txt [...]
+#
+# Converts provided ptree input files to .gv files.  The input file has the
+# following format (space or tab delimitered):
+#
+#	zonename ppid pid rss pcpu comm [present=1]
+#
+# Which can be generated using "ps -eo zone,ppid,pid,rss,pcpu,comm".
+# If your OS does not have the zone field, then add a dummy field using awk,
+# or edit this script to drop it. The final optional column, present, can be
+# post-generated using perl, and is used for animated sequences.
+#
+# See: http://www.brendangregg.com/ColonyGraphs/cloud.html
+
+hidezone=1	# convert zonenames to "zone-000n"
+cpulimit=10	# scale node size from 0 to cpulimit percent
+
+# For an OS where a single busy process shows pcpu as 100%, such as Linux,
+# cpulimit can be set to 100. You may want to use smaller values, eg, 10, to
+# emphasize smaller CPU consumers. For OSes where pcpu is the average across
+# all CPUs, eg, Solaris, you will want to make cpulimit much smaller (divide
+# by number of CPUs).
+
+function output_colors {
+    echo '
+        # web
+        comm2color["httpd"] = "palevioletred3";
+        comm2color["nginx"] = "palevioletred3";
+        comm2color["zeus.zxtm"] = "palevioletred3";
+        comm2color["zeus.monitor"] = "palevioletred3";
+        comm2color["zeus.eventsd"] = "palevioletred3";
+        comm2color["zeus.admin"] = "palevioletred3";
+        comm2color["zeus.eventd"] = "palevioletred3";
+        comm2color["zeus.flipper"] = "palevioletred3";
+        comm2color["curl"] = "palevioletred3";
+        comm2color["wget"] = "palevioletred3";
+
+        # databases
+        comm2color["mysqld"] = "orchid";
+        comm2color["./mysqld"] = "orchid";
+        comm2color["mysql"] = "orchid";
+        comm2color["mysqladmin"] = "orchid";
+        comm2color["memcached"] = "orchid";
+        comm2color["riak"] = "orchid";
+
+        # languages
+        comm2color["ruby"] = "palegreen3";
+        comm2color["ruby18"] = "palegreen3";
+        comm2color["php"] = "palegreen3";
+        comm2color["php5-cgi"] = "palegreen3";
+        comm2color["php-cgi"] = "palegreen3";
+        comm2color["perl"] = "palegreen3";
+        comm2color["miniperl"] = "palegreen3";
+        comm2color["python"] = "palegreen3";
+        comm2color["python2.5"] = "palegreen3";
+        comm2color["python2.6"] = "palegreen3";
+        comm2color["java"] = "palegreen3";
+        comm2color["erl"] = "palegreen3";
+        comm2color["run_erl"] = "palegreen3";
+        comm2color["beam.smp"] = "palegreen3";
+        comm2color["Beam.smp"] = "palegreen3";
+
+        # user
+        comm2color["screen"] = "olivedrab3";
+        comm2color["vi"] = "olivedrab3";
+        comm2color["vim"] = "olivedrab3";
+        comm2color["emacs"] = "olivedrab3";
+        comm2color["ssh"] = "olivedrab3";
+        comm2color["firefox"] = "olivedrab3";
+        comm2color["Google"] = "olivedrab3";
+
+        # compiler
+        comm2color["gcc"] = "peachpuff3";
+        comm2color["ld"] = "peachpuff3";
+
+        # other
+        comm2color["sendmail"] = "skyblue3";
+        comm2color["nrpe"] = "skyblue3";
+        comm2color["master"] = "skyblue3";
+        comm2color["qmgr"] = "skyblue3";
+        comm2color["tslmgr"] = "skyblue3";
+        comm2color["pickup"] = "skyblue3";
+        comm2color["zabbix"] = "skyblue3";
+        comm2color["zabbix_agentd"] = "skyblue3";
+        comm2color["rrdtool"] = "skyblue3";
+        comm2color["couriertls"] = "skyblue3";
+        comm2color["couriertcpd"] = "skyblue3";
+        comm2color["courierlogger"] = "skyblue3";
+        #comm2color["authdaemond"] = "skyblue3";
+        comm2color["imapd"] = "skyblue3";
+        comm2color["postgres"] = "skyblue3";
+        comm2color["authdeamond"] = "skyblue3";
+        comm2color["smtp"] = "skyblue3";
+
+        # highlight
+        comm2color["iperf"] = "lightsalmon";
+        comm2color["bonnie"] = "lightsalmon";
+        comm2color["bonnie++"] = "lightsalmon";
+        comm2color["sysbench"] = "lightsalmon";
+        comm2color["top"] = "lightsalmon";
+
+        # shell scripting
+        comm2color["cat"] = "lightblue3";
+        comm2color["ggrep"] = "lightblue3";
+        comm2color["grep"] = "lightblue3";
+        comm2color["sed"] = "lightblue3";
+        comm2color["awk"] = "lightblue3";
+        comm2color["gawk"] = "lightblue3";
+        comm2color["head"] = "lightblue3";
+        comm2color["tail"] = "lightblue3";
+        comm2color["cut"] = "lightblue3";
+        comm2color["wc"] = "lightblue3";
+        comm2color["basename"] = "lightblue3";
+        comm2color["dirname"] = "lightblue3";
+        comm2color["hostname"] = "lightblue3";
+        comm2color["uname"] = "lightblue3";
+        comm2color["dc"] = "lightblue3";
+        comm2color["bc"] = "lightblue3";
+        comm2color["date"] = "lightblue3";
+        comm2color["sleep"] = "lightblue3";
+
+        # unused: lightcyan3
+
+        # system
+        comm2color["zlogin"] = "paleturquoise3";
+        comm2color["sh"] = "paleturquoise3";
+        comm2color["sshd"] = "paleturquoise3";
+        comm2color["bash"] = "paleturquoise3";
+        comm2color["-bash"] = "paleturquoise3";
+        comm2color["login"] = "paleturquoise3";
+        comm2color["init"] = "paleturquoise3";
+        comm2color["fsflush"] = "paleturquoise3";
+        comm2color["pageout"] = "paleturquoise3";
+        comm2color["sulogin"] = "paleturquoise3";
+        comm2color["<defunct>"] = "paleturquoise3";
+        comm2color["rotatelogs"] = "paleturquoise3";
+        comm2color["zoneadmd"] = "paleturquoise3";
+        comm2color["ttymon"] = "paleturquoise3";
+        comm2color["syseventd"] = "paleturquoise3";
+        comm2color["fmd"] = "paleturquoise3";
+        comm2color["devfsadmd"] = "paleturquoise3";
+        comm2color["ntpd"] = "paleturquoise3";
+        comm2color["rcapd"] = "paleturquoise3";
+        comm2color["in.ndpd"] = "paleturquoise3";
+        comm2color["picld"] = "paleturquoise3";
+        comm2color["ldap_cachemgr"] = "paleturquoise3";
+        comm2color["dlmgmtd"] = "paleturquoise3";
+        comm2color["sac"] = "paleturquoise3";
+        comm2color["ps"] = "paleturquoise3";
+        comm2color["sort"] = "paleturquoise3";
+        comm2color["nscd"] = "paleturquoise3";
+        comm2color["ttymod"] = "paleturquoise3";
+        comm2color["lockd"] = "paleturquoise3";
+        comm2color["statd"] = "paleturquoise3";
+        comm2color["poold"] = "paleturquoise3";
+        comm2color["lockd"] = "paleturquoise3";
+        comm2color["svc.startd"] = "paleturquoise3";
+        comm2color["svc.configd"] = "paleturquoise3";
+        comm2color["cron"] = "paleturquoise3";
+        comm2color["inetd"] = "paleturquoise3";
+        comm2color["utmpd"] = "paleturquoise3";
+        comm2color["syslogd"] = "paleturquoise3";
+        comm2color["zsched"] = "paleturquoise3";
+        comm2color["kcfd"] = "paleturquoise3";
+        comm2color["snmpd"] = "paleturquoise3";
+        comm2color["rpcbind"] = "paleturquoise3";
+
+        color2trans["palevioletred3"] = "#cd68893f";
+        color2trans["orchid"] = "#da70d63f";
+        color2trans["palegreen3"] = "#7ccd7c3f";
+        color2trans["olivedrab3"] = "#9acd323f";
+        color2trans["peachpuff3"] = "#cdaf953f";
+        color2trans["skyblue3"] = "#6ca6cd3f";
+        color2trans["lightsalmon"] = "#ffa07a3f";
+        color2trans["lightblue3"] = "#9ac0cd3f";
+        color2trans["paleturquoise3"] = "#96cdcd3f";
+
+        color2hex["palevioletred3"] = "#cd6889";
+        color2hex["orchid"] = "#da70d6";
+        color2hex["palegreen3"] = "#7ccd7c";
+        color2hex["olivedrab3"] = "#9acd32";
+        color2hex["peachpuff3"] = "#cdaf95";
+        color2hex["skyblue3"] = "#6ca6cd";
+        color2hex["lightsalmon"] = "#ffa07a";
+        color2hex["lightblue3"] = "#9ac0cd";
+        color2hex["paleturquoise3"] = "#96cdcd";
+    '
+}
+
+function ps2gv {
+    echo 'digraph ptree {'
+    echo 'node [ style = filled ];'
+
+    cat - | awk '
+        BEGIN {
+            curzone = ""; 
+            '"`output_colors`"'
+            hidezone = '$hidezone'
+            cpulimit = '$cpulimit'
+        }
+        $1 != curzone { curzone = $1 }
+        $3 > 10  && $3 != "PID" {
+            ppid = $2
+            pid = $3
+            realppid = ppid
+            gsub(/.*-/, "", realppid)
+            cpu = $5
+            if (cpu == "-") { cpu = "0" }
+            comm = $6
+            present = $7;
+            if (realppid == 1) {
+                realzone = curzone
+                gsub(/.*-/, "", realzone)
+                ppid = ppid "-" realzone
+                if (hidezone && !hidezonemask[curzone]) {
+                    hidezonemask[curzone] = 1
+                    zoneid++
+                    printf "	\"%s\" [ label = \"zone-%05d\" ];\n", ppid, zoneid
+                }
+            }
+            gsub(/^\/.*\//, "", comm)
+
+            colortxt = ""
+            if (comm2color[comm] != "") {
+                colortxt = "color = \"" comm2color[comm] "\" "
+            }
+
+            # animation, if column provided:
+            if (present != "" && present == "0") {
+                colortxt = colortxt " style = \"invis\""
+            }
+
+            # node size, based an pcpu:
+            if (cpu < 0.1) {
+                sizetxt = ""
+            } else {
+                if (cpu > cpulimit) { cpu = cpulimit; }
+                ratio = cpu / cpulimit;
+                width = sprintf("%.2f", 1 + 1.8 * ratio);
+                height = sprintf("%.2f", 0.7 + 2.3 * ratio);
+                sizetxt = " width = \"" width " \" height = \"" height "\" "
+            }
+
+            print "	\"" ppid "\" -> \"" pid "\" [ " colortxt " ];"
+            print "	\"" pid "\" [ label = \"" comm "\" " colortxt sizetxt " ];"
+        }
+    '
+    echo '}'
+}
+
+[ ! -x "$(which neato 2>/dev/null)" ] && echo "neato(1) (graphviz) is not installed." && exit 1
+ps -eo ppid,pid,rss,pcpu,comm | awk '{ print "-", $0 }' | ps2gv | neato -Tpng -Nfontsize=12 -Elen=1.9 | open -f -a /Applications/Preview.app

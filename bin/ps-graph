@@ -210,6 +210,7 @@ function ps2gv {
                 }
             }
             gsub(/^\/.*\//, "", comm)
+            gsub(/.*\./, "", comm)
 
             colortxt = ""
             if (comm2color[comm] != "") {

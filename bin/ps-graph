@@ -1,17 +1,5 @@
 #!/bin/sh
 #
-# USAGE: ${0} ptree1.txt [...]
-#
-# Converts provided ptree input files to .gv files.  The input file has the
-# following format (space or tab delimitered):
-#
-#	zonename ppid pid rss pcpu comm [present=1]
-#
-# Which can be generated using "ps -eo zone,ppid,pid,rss,pcpu,comm".
-# If your OS does not have the zone field, then add a dummy field using awk,
-# or edit this script to drop it. The final optional column, present, can be
-# post-generated using perl, and is used for animated sequences.
-#
 # See: http://www.brendangregg.com/ColonyGraphs/cloud.html
 
 hidezone=1	# convert zonenames to "zone-000n"

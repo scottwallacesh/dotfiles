@@ -4,6 +4,7 @@
 
 hidezone=1	# convert zonenames to "zone-000n"
 cpulimit=10	# scale node size from 0 to cpulimit percent
+ram=$(( $(sysctl -n hw.memsize) / 1000 ))
 
 # For an OS where a single busy process shows pcpu as 100%, such as Linux,
 # cpulimit can be set to 100. You may want to use smaller values, eg, 10, to
@@ -187,11 +188,13 @@ function ps2gv {
             '"`output_colors`"'
             hidezone = '$hidezone'
             cpulimit = '$cpulimit'
+            ram = '$ram'
         }
         $1 != curzone { curzone = $1 }
         $3 > 10  && $3 != "PID" {
             ppid = $2
             pid = $3
+            mem = $4
             realppid = ppid
             gsub(/.*-/, "", realppid)
             cpu = $5
@@ -225,7 +228,7 @@ function ps2gv {
                 sizetxt = ""
             } else {
                 if (cpu > cpulimit) { cpu = cpulimit; }
-                ratio = cpu / cpulimit;
+                ratio = ( mem / ram ) * 10;
                 width = sprintf("%.2f", 1 + 1.8 * ratio);
                 height = sprintf("%.2f", 0.7 + 2.3 * ratio);
                 sizetxt = " width = \"" width " \" height = \"" height "\" "

@@ -239,4 +239,7 @@ function ps2gv {
 }
 
 [ ! -x "$(which neato 2>/dev/null)" ] && echo "neato(1) (graphviz) is not installed." && exit 1
-ps -eo ppid,pid,rss,pcpu,comm | awk '{ print "-", $0 }' | ps2gv | neato -Tpng -Nfontsize=12 -Elen=1.9 | open -f -a /Applications/Preview.app
+
+[ $(uname -s) = "Darwin" ] && ZONE="sess"
+
+ps -eo ${ZONE:=zone},ppid,pid,rss,pcpu,comm | ps2gv | neato -Tpng -Nfontsize=12 -Elen=1.9 | open -f -a /Applications/Preview.app

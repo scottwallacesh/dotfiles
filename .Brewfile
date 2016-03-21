@@ -10,6 +10,7 @@ brew "p7zip"
 brew "pv"
 brew "python3"
 brew "rename"
+brew "sshrc"
 brew "vim"
 
 cask "1password"

@@ -115,7 +115,7 @@ export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a"
 #--------------------------------------------------------------------------------
 alias ll='ls -l'
 [[ -x $(which htop 2>/dev/null) ]] && alias top='sudo htop'
-alias psgrep='ps -ef | grep'
+[[ -x $(which psgrep 2>/dev/null) ]] || alias psgrep='ps -ef | grep'
 alias datafart='curl --data-binary @- datafart.com'
 #--------------------------------------------------------------------------------
 

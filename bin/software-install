@@ -23,6 +23,7 @@ function install_Linux_software {
         mosh
         nmap
         p7zip
+        psgrep
         pv
         ss
         vim

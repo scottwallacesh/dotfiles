@@ -39,6 +39,9 @@ function install_Darwin_software {
     fi
     #-------------------------------
 
+    # Disable Homebrew's Google Analytics tracking
+    brew analytics off
+
     # Update Brew formulae if older than 24 hours
     find /usr/local/.git -name FETCH_HEAD -mtime +0 -exec brew update \;
 

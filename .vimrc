@@ -4,9 +4,6 @@ filetype off                  " required
 " Disable bell
 set vb
 
-" Enable line numbers
-set number
-
 " Ensure vim knows about Go(lang)
 set rtp+=$GOROOT/misc/vim
 

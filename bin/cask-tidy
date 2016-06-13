@@ -3,7 +3,7 @@
 [ ! -x "$(which brew 2>/dev/null)" -a ! -d /opt/homebrew-cask ] && exit 1
 
 function __remove-cask {
-    caskBasePath="/opt/homebrew-cask/Caskroom"
+    caskBasePath="/usr/local/Caskroom"
     local cask="$1"
     local caskDirectory="$caskBasePath/$cask"
     local versionsToRemove="$(ls -r $caskDirectory | sed 1,1d)"

@@ -68,7 +68,7 @@ IO.popen('brew cask list') do |apps|
         # APPLICATION FILENAME
         appname = appname[1].strip
 
-        fullpath = `mdfind -onlyin /opt/homebrew-cask/Caskroom -onlyin /Applications -onlyin ~/Applications "#{appname}" | grep "#{appname}"`.strip
+        fullpath = `mdfind -onlyin /usr/local/Caskroom -onlyin /Applications -onlyin ~/Applications "#{appname}" | grep "#{appname}"`.strip
         if File.exist?(fullpath)
           # GET APPLICATION VERSION WITH SPOTLIGHT
           if currentmatch = /([A-z0-9\.]+)/.match(`mdls "#{fullpath}" -name kMDItemVersion -raw`)

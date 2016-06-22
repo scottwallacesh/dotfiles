@@ -125,6 +125,10 @@ alias ll='ls -l'
 [[ -x $(which htop 2>/dev/null) ]] && alias top='sudo htop'
 [[ -x $(which psgrep 2>/dev/null) ]] || alias psgrep='ps -ef | grep'
 alias datafart='curl --data-binary @- datafart.com'
+[[ -x $(which gdu 2>/dev/null) ]] && alias du='gdu'
+[[ -x $(which gsort 2>/dev/null) ]] && alias sort='gsort'
+
+alias space='du -ahx --max-depth=1 | sort -h'
 #--------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------

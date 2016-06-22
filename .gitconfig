@@ -22,6 +22,7 @@
     ci = commit
     co = checkout
     br = branch
+    ref = for-each-ref --format='%(committerdate) %09 %(authorname) %09 %(refname)' --sort=committerdate
 [color]
     ui = true
 [branch]

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+case $(uname -s) in
+    Darwin) osascript -e "set volume output volume 0"
+            ;;
+esac

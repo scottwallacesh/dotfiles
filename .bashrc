@@ -125,7 +125,7 @@ ll() { ls -l ${@}; } && export -f ll
 datafart() { curl --data-binary @- datafart.com; } && export -f datafart
 space() { du -ahx --max-depth=1 | sort -h;  } && export -f space
 [[ -x $(which htop 2>/dev/null) ]] && top() { sudo htop; } && export -f top
-[[ -x $(which psgrep 2>/dev/null) ]] || ( psgrep() { ps -ef | grep ${@}; } && export -f psgrep )
+[[ -x $(which psgrep 2>/dev/null) ]] || psgrep() { ps -ef | grep ${@}; } && export -f psgrep
 [[ -x $(which gdu 2>/dev/null) ]] && du() { gdu ${@}; } && export -f du
 [[ -x $(which gsort 2>/dev/null) ]] && sort() { gsort ${@}; } && export -f sort
 #--------------------------------------------------------------------------------

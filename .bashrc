@@ -124,8 +124,8 @@ export PROMPT_COMMAND="history -a; ${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}"
 datafart() { curl --data-binary @- datafart.com; } && export -f datafart
 space() { du -ahx --max-depth=1 | sort -h;  } && export -f space
 if ! alias ll >/dev/null 2>&1; then function ll() { ls -l ${@}; } && export -f ll; fi
+[[ ! -x $(which psgrep 2>/dev/null) ]] && psgrep() { ps -ef | grep ${@} | grep -v ${$}; } && export -f psgrep
 [[ -x $(which htop 2>/dev/null) ]] && top() { sudo htop; } && export -f top
-[[ -x $(which psgrep 2>/dev/null) ]] || ( psgrep() { ps -ef | grep ${@}; } && export -f psgrep )
 [[ -x $(which gdu 2>/dev/null) ]] && du() { gdu ${@}; } && export -f du
 [[ -x $(which gsort 2>/dev/null) ]] && sort() { gsort ${@}; } && export -f sort
 #--------------------------------------------------------------------------------

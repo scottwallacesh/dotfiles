@@ -40,7 +40,7 @@ getkey() {
 #--------------------------------------------------------------------------------
 # The best editor
 #--------------------------------------------------------------------------------
-[[ -x $(which vim 2>/dev/null) ]] && vi() { vim ${@}; } && export -f vi
+[[ -x $(which vim 2>/dev/null) ]] && function vi() { vim ${@}; } && export -f vi
 export EDITOR=vi
 #--------------------------------------------------------------------------------
 
@@ -121,13 +121,13 @@ export PROMPT_COMMAND="history -a; ${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}"
 #--------------------------------------------------------------------------------
 # Command alias functions
 #--------------------------------------------------------------------------------
-datafart() { curl --data-binary @- datafart.com; } && export -f datafart
-space() { du -ahx --max-depth=1 | sort -h;  } && export -f space
+function datafart() { curl --data-binary @- datafart.com; } && export -f datafart
+function space() { du -ahx --max-depth=1 | sort -h;  } && export -f space
 if ! alias ll >/dev/null 2>&1; then function ll() { ls -l ${@}; } && export -f ll; fi
-[[ ! -x $(which psgrep 2>/dev/null) ]] && psgrep() { ps -ef | grep ${@} | grep -v ${$}; } && export -f psgrep
-[[ -x $(which htop 2>/dev/null) ]] && top() { sudo htop; } && export -f top
-[[ -x $(which gdu 2>/dev/null) ]] && du() { gdu ${@}; } && export -f du
-[[ -x $(which gsort 2>/dev/null) ]] && sort() { gsort ${@}; } && export -f sort
+[[ ! -x $(which psgrep 2>/dev/null) ]] && function psgrep() { ps -ef | grep ${@} | grep -v ${$}; } && export -f psgrep
+[[ -x $(which htop 2>/dev/null) ]] && function top() { sudo htop; } && export -f top
+[[ -x $(which gdu 2>/dev/null) ]] && function du() { gdu ${@}; } && export -f du
+[[ -x $(which gsort 2>/dev/null) ]] && function sort() { gsort ${@}; } && export -f sort
 #--------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------

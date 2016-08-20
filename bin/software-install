@@ -1,5 +1,15 @@
 #!/bin/bash
 
+function configure_Linux_software {
+}
+
+function configure_Darwin_software {
+    cp ~/.dotconfig/Darwin/com.shauninman.Day-O.plist ~/Library/Preferences
+
+    # Ensure any preference cache is cleared
+    pkill -u ${USER} cfprefsd
+}
+
 function install_Linux_software {
     #-------------------------------
     # Check the OS and set install command
@@ -79,6 +89,7 @@ echo "#-------------------------------"
 
 # Call the install function appropriate for this platform
 install_$(uname -s)_software
+configure_$(uname -s)_software
 
 #-------------------------------
 # Ensure Vim plugins are up-to-date, if older than one day

@@ -1,0 +1,4 @@
+find ~/.vim/updated -mtime +0 -exec bash -c "\
+    vim +PluginInstall! +PluginClean! +qall
+    touch ~/.vim/updated
+" \;

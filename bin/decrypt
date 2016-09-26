@@ -1,0 +1,23 @@
+#!/bin/bash
+
+KEY_KEY=~/.ssh/scott@wallace.sh
+KEY=$(mktemp)
+
+if [ -f "${1}.enc" ]; then
+    INPUT=${1}
+else
+    echo "ERROR: Filenme not valid"
+    exit 1
+fi
+
+function cleanup() {
+    rm -f ${KEY}
+}
+
+trap cleanup EXIT
+
+# Decrypr key
+openssl rsautl -decrypt -inkey ${KEY_KEY} -out ${KEY} -in ${INPUT}.key
+
+# Decrypt file
+openssl enc -d -aes-256-cbc -salt -out ${INPUT} -in ${INPUT}.enc -pass file:${KEY}

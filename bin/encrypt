@@ -1,0 +1,26 @@
+#!/bin/bash
+
+KEY_KEY=~/.ssh/scott@wallace.sh
+KEY=$(mktemp)
+
+if [ -f "${1}" ]; then
+    INPUT=${1}
+else
+    echo "ERROR: Filenme not valid"
+    exit 1
+fi
+
+function cleanup() {
+    rm -f ${KEY}
+}
+
+trap cleanup EXIT
+
+# Generate key
+openssl rand -base64 256 > ${KEY}
+
+# Encrypt key
+openssl rsautl -encrypt -inkey ${KEY_KEY} -in ${KEY} -out ${INPUT}.key
+
+# Encrypt file
+openssl enc -aes-256-cbc -salt -in ${INPUT} -out ${INPUT}.enc -pass file:${KEY}

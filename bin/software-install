@@ -54,7 +54,7 @@ function install_Darwin_software {
     brew analytics off
 
     # Update Brew formulae if older than 24 hours
-    find /usr/local/.git -name FETCH_HEAD -mtime +0 -exec brew update \;
+    find /usr/local/Homebrew/.git -name FETCH_HEAD -mtime +0 -exec brew update \;
 
     # Install homebrew/bundle tap if we don't have it
     [ -d /usr/local/Library/Taps/homebrew/homebrew-bundle ] || brew tap homebrew/bundle

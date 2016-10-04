@@ -1,0 +1,4 @@
+# Launch/restore tmux command sessions
+if [ -x $(which tmux) ]; then
+    tmux has-session && tmux -CC attach || tmux -CC
+fi

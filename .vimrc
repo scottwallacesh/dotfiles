@@ -29,6 +29,7 @@ Plugin 'ap/vim-buftabline'
 Plugin 'vim-scripts/WhiteWash'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'davidhalter/jedi'
+Plugin 'plasticboy/vim-markdown'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -56,6 +57,9 @@ map <C-n> :NERDTreeToggle<CR>
 
 " Autocomplete
 let g:neocomplcache_enable_at_startup = 1
+
+" Disable Markdown folding
+let g:vim_markdown_folding_disabled = 1
 
 " Set filetypes
 au BufRead,BufNewFile *.md set filetype=markdown

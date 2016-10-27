@@ -1,4 +1,8 @@
-find ~/.vim/updated -mtime +0 -exec bash -c "\
+UPDATE_FILE=~/.vim/updated
+
+[ -f ${UPDATE_FILE} ] || touch -t 197001010000 ${UPDATE_FILE}
+
+find ${UPDATE_FILE} -mtime +0 -exec bash -c "\
     vim +PluginInstall! +PluginClean! +qall
-    touch ~/.vim/updated
 " \;
+touch ${UPDATE_FILE}

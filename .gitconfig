@@ -18,6 +18,7 @@
     lgd = log -p --decorate
     history = log --pretty=oneline --abbrev-commit --all --graph --decorate
     tidy = remote prune origin
+    update = !git pull && git tidy
     st = status
     ci = commit
     co = checkout

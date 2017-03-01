@@ -1,0 +1,22 @@
+"*":
+  core:
+    telemetryConsent: "no"
+    themes: [
+      "one-dark-ui"
+      "base16-tomorrow-dark-theme"
+    ]
+  editor:
+    fontSize: 10
+  "exception-reporting":
+    userId: "20e0c61d-eca4-03f1-2f3a-a82ae80acbe3"
+  "git-plus":
+    experimental:
+      useSplitDiff: true
+    general:
+      splitPane: "Right"
+  "split-diff":
+    diffWords: true
+    ignoreWhitespace: true
+    syncHorizontalScroll: true
+  welcome:
+    showOnStartup: false

@@ -16,6 +16,8 @@
       useSplitDiff: true
     general:
       splitPane: "Right"
+  "project-manager":
+    includeGitRepositories: true
   "split-diff":
     ignoreWhitespace: true
     syncHorizontalScroll: true

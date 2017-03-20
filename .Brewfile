@@ -14,6 +14,7 @@ brew "psgrep"
 brew "pv"
 brew "python3"
 brew "rename"
+brew "task"
 brew "vim"
 
 cask "1password"

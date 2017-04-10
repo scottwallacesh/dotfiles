@@ -5,8 +5,6 @@ function configure_Linux_software {
 }
 
 function configure_Darwin_software {
-    cp ~/.dotconfig/Darwin/com.shauninman.Day-O.plist ~/Library/Preferences
-
     # Ensure any preference cache is cleared
     pkill -u ${USER} cfprefsd
 }

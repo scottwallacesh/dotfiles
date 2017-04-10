@@ -75,6 +75,7 @@ function install_Darwin_software {
     brew cleanup
     brew bundle --global check
     brew cask cleanup
+    brew cu -y --cleanup
     #-------------------------------
 
     #-------------------------------

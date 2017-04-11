@@ -79,7 +79,7 @@ function install_Darwin_software {
     #-------------------------------
     # OS X software update
     #-------------------------------
-    softwareupdate -irv
+    softwareupdate -ia --verbose
     #-------------------------------
 }
 

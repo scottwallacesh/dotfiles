@@ -1,24 +1,45 @@
-#!/bin/bash
+#!/usr/bin/env python
+"""Module to generate a random string
 
-ECHOARGS=
-LENGTH=12
+Attributes:
+    LENGTH (int): Defaults to a length of 16
+"""
 
-while getopts nl: ARG; do
-    case ${ARG} in
-        n) ECHOARGS="-n"
-           ;;
+import sys
+import logging
+import optparse
 
-        l) LENGTH=${OPTARG}
-           ;;
+try:
+    import OpenSSL
+except ImportError:
+    logging.error('Missing PyOpenSSL.')
+    logging.debug('Try `pip install pyopenssl`')
+    sys.exit(1)
 
-        ?) printf "Usage: %s [-n] [-l X]\n" ${0}
-           exit 1
-           ;;
-    esac
-done
+import base64
 
-PW=$(openssl rand -base64 ${LENGTH} | cut -c1-${LENGTH})
+LENGTH = 16
 
-echo ${ECHOARGS} ${PW}
 
-exit 0
+def generate(length):
+    """Simple function to call OpenSSL
+
+    Args:
+        length (int): length of string to return
+    """
+    return base64.encodestring(OpenSSL.rand.bytes(256))[:length]
+
+
+def main():
+    """Main function to call
+    """
+    parser = optparse.OptionParser()
+    parser.add_option('-n', dest='length', default=LENGTH, type=int)
+    opts, _ = parser.parse_args()
+
+    print generate(opts.length)
+
+
+if __name__ == '__main__':
+    main()
+    sys.exit(0)

@@ -83,6 +83,10 @@ function install_Darwin_software {
     #-------------------------------
 }
 
+function install_python_modules {
+    pip install pyopenssl
+}
+
 echo "#-------------------------------"
 echo "# START: $(date)"
 echo "#-------------------------------"
@@ -90,6 +94,7 @@ echo "#-------------------------------"
 # Call the install function appropriate for this platform
 install_$(uname -s)_software
 configure_$(uname -s)_software
+install_python_modules
 
 echo "#-------------------------------"
 echo "# END: $(date)"

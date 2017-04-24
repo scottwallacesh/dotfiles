@@ -128,6 +128,7 @@ if ! alias ll >/dev/null 2>&1; then function ll() { ls -l ${@}; } && export -f l
 [[ -x $(which htop 2>/dev/null) ]] && function top() { sudo htop; } && export -f top
 [[ -x $(which gdu 2>/dev/null) ]] && function du() { gdu ${@}; } && export -f du
 [[ -x $(which gsort 2>/dev/null) ]] && function sort() { gsort ${@}; } && export -f sort
+[[ -x /bin/ps && -x $(which pstree 2>/dev/null) ]] && function ps() { if [[ ${1} =~ 'f' ]]; then pstree; else /bin/ps ${@}; fi }
 #--------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------

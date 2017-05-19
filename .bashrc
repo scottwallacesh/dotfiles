@@ -104,12 +104,12 @@ export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
 #--------------------------------------------------------------------------------
 # Record history for longer and more dynamically
 #--------------------------------------------------------------------------------
-# Large history buffer
-export HISTSIZE=9999
-export HISTFILESIZE=9999
+# Unlimited history buffer
+export HISTSIZE=
+export HISTFILESIZE=
 
 # Avoid duplicates in the history...
-export HISTCONTROL=ignoredups:erasedups
+export HISTCONTROL=ignoreboth
 
 # Append history entries...
 shopt -s histappend

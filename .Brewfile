@@ -2,7 +2,6 @@ tap "caskroom/versions"
 tap "buo/homebrew-cask-upgrade"
 
 brew "ack"
-brew "archey"
 brew "bash-completion"
 brew "git"
 brew "coreutils"

@@ -15,6 +15,7 @@ brew "pv"
 brew "python3"
 brew "rename"
 brew "task"
+brew "tree"
 brew "vim"
 
 cask "alfred"

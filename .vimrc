@@ -4,6 +4,9 @@ filetype off                  " required
 " Disable bell
 set vb
 
+" Enable modeline in files
+set modeline
+
 " Ensure vim knows about Go(lang)
 set rtp+=$GOROOT/misc/vim
 

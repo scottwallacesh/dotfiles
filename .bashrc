@@ -105,6 +105,9 @@ export HISTFILESIZE=
 # Avoid duplicates in the history...
 export HISTCONTROL=ignoreboth
 
+# Record the timestamp in the bash history
+export HISTTIMEFORMAT="%Y-%m-%d %T "
+
 # Append history entries...
 shopt -s histappend
 

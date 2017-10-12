@@ -1,0 +1,4 @@
+- name: Mac desktops
+  hosts: mac_desktops
+  roles:
+      - mac_desktop

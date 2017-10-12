@@ -1,0 +1,50 @@
+homebrew_tap_items:
+  - caskroom/versions
+  - buo/homebrew-cask-upgrade
+
+homebrew_brew_items:
+  - ack
+  - bash-completion
+  - curl
+  - git
+  - coreutils
+  - htop-osx
+  - ipcalc
+  - mas
+  - mosh
+  - nmap
+  - p7zip
+  - psgrep
+  - pv
+  - python3
+  - rename
+  - screen
+  - task
+  - tree
+  - vim
+  - watch
+
+homebrew_cask_items:
+  - alfred
+  - bbc-iplayer-downloads
+  - beardedspice
+  - cleanmymac
+  - enpass
+  - firefox
+  - flux
+  - google-backup-and-sync
+  - google-chrome
+  - google-hangouts
+  - handbrake
+  - iterm2
+  - itsycal
+  - osxfuse
+  - resilio-sync
+  - sonos
+  - sublime-text
+  - virtualbox
+  - whatsapp
+  - wireshark
+  - xquartz
+  - yubikey-manager
+  - yubikey-personalization-gui

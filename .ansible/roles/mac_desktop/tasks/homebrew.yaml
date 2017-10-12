@@ -1,0 +1,39 @@
+# Install Homebrew
+- name: Check for Homebrew
+  stat:
+    path: /usr/local/bin/brew
+  register: st
+
+- name: Install Homebrew
+  command: ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  when: st.stat.executable != True
+
+- name: Disable Homebrew analytics
+  command: brew analytics off
+
+# Taps
+- name: Install Homebrew Taps
+  homebrew_tap:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ homebrew_tap_items }}"
+
+# Update and upgrades
+- name: Homebrew update and upgrades
+  homebrew:
+    update_homebrew: True
+    upgrade_all: True
+
+# Brews
+- name: Install Homebrew Brews
+  homebrew:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ homebrew_brew_items }}"
+
+# Casks
+- name: Install Homebrew Casks
+  homebrew_cask:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ homebrew_cask_items }}"

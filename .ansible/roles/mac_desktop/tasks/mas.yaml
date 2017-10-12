@@ -1,2 +1,2 @@
-- name: Upgrade AppStore apps
+- name: Upgrade App Store apps
   command: mas upgrade

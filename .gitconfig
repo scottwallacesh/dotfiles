@@ -24,6 +24,7 @@
     co = checkout
     br = branch
     ref = for-each-ref --format='%(committerdate) %09 %(authorname) %09 %(refname)' --sort=committerdate
+    rl = reflog --date=iso
 [color]
     ui = true
 [branch]

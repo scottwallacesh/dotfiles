@@ -25,13 +25,13 @@ homebrew_brew_items:
   - watch
 
 homebrew_cask_items:
+  - alfred
   - bbc-iplayer-downloads
   - beardedspice
   - cleanmymac
   - enpass
   - firefox
   - flux
-  - flycut
   - google-backup-and-sync
   - google-chrome
   - google-hangouts

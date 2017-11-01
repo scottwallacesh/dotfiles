@@ -46,5 +46,3 @@ homebrew_cask_items:
   - whatsapp
   - wireshark
   - xquartz
-  - yubikey-manager
-  - yubikey-personalization-gui

@@ -40,6 +40,7 @@ homebrew_cask_items:
   - itsycal
   - osxfuse
   - resilio-sync
+  - signal
   - sonos
   - sublime-text
   - virtualbox

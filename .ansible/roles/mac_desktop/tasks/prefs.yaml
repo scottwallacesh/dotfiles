@@ -1,12 +1,18 @@
 - name: 'Firefox: Set base path'
+  tags:
+    - config
   set_fact:
     firefox_path: '~/Library/Application Support/Firefox'
 
 - name: 'Firefox: Find profile path'
+  tags:
+    - config
   set_fact:
     profile_path: "{{ lookup('ini', 'Path section=Profile0 file=' + firefox_path + '/profiles.ini') }}"
 
 - name: 'Firefox: Add local config'
+  tags:
+    - config
   copy:
     content: |
       user_pref("privacy.firstparty.isolate", true);
@@ -34,4 +40,6 @@
     mode: 0440
 
 - name: 'OS X: Clear preferences cache'
+  tags:
+    - config
   command: pkill -u ${USER} cfprefsd

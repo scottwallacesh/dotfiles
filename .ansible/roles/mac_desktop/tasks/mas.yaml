@@ -1,2 +1,4 @@
 - name: Upgrade App Store apps
+  tags:
+    - upgrade
   command: mas upgrade

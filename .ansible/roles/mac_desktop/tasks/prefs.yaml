@@ -39,6 +39,24 @@
     dest: "{{ firefox_path  }}/{{ profile_path }}/user.js"
     mode: 0440
 
+- name: 'OS X: Dock orientation'
+  tags:
+    - config
+  osx_defaults:
+    domain: com.apple.dock
+    type: string
+    key: orientation
+    value: right
+
+- name: 'OS X: Dock size'
+  tags:
+    - config
+  osx_defaults:
+    domain: com.apple.dock
+    type: float
+    key: tilesize
+    value: 35
+
 - name: 'OS X: Clear preferences cache'
   tags:
     - config

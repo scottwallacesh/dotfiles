@@ -22,7 +22,7 @@
       user_pref("browser.safebrowsing.malware.enabled", false);
       user_pref("browser.safebrowsing.phishing.enabled", false);
       user_pref("browser.send_pings", false);
-      user_pref("browser.sessionstore.max_tabs_undo", 0);
+      user_pref("browser.sessionstore.max_tabs_undo", 10);
       user_pref("browser.urlbar.speculativeConnect.enabled", false);
       user_pref("dom.battery.enabled", false);
       user_pref("dom.event.clipboardevents.enabled", false);

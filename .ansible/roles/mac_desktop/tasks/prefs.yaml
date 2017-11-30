@@ -75,6 +75,24 @@
       key: NSAutomaticDashSubstitutionEnabled
       value: 0
 
+- name: 'OS X: Spell correction off'
+  tags:
+    - config
+  osx_defaults:
+      domain: NSGlobalDomain
+      type: int
+      key: NSAutomaticSpellingCorrectionEnabled
+      value: 0
+
+- name: 'OS X: Web spell correction off'
+  tags:
+    - config
+  osx_defaults:
+      domain: NSGlobalDomain
+      type: int
+      key: WebAutomaticSpellingCorrectionEnabled
+      value: 0
+
 - name: 'OS X: Clear preferences cache'
   tags:
     - config

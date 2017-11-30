@@ -57,6 +57,24 @@
     key: tilesize
     value: 35
 
+- name: 'OS X: Smart quotes off'
+  tags:
+    - config
+  osx_defaults:
+      domain: NSGlobalDomain
+      type: int
+      key: NSAutomaticQuoteSubstitutionEnabled
+      value: 0
+
+- name: 'OS X: Smart dashes off'
+  tags:
+    - config
+  osx_defaults:
+      domain: NSGlobalDomain
+      type: int
+      key: NSAutomaticDashSubstitutionEnabled
+      value: 0
+
 - name: 'OS X: Clear preferences cache'
   tags:
     - config

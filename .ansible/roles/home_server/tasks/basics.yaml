@@ -1,0 +1,16 @@
+- name: Basic package installs
+  tags:
+    - install
+  yum:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - epel-release
+    - git
+    - lsof
+    - net-tools
+    - psmisc
+    - rsync
+    - telnet
+    - vim
+  become: true

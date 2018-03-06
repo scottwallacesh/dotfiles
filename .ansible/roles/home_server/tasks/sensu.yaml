@@ -1,0 +1,156 @@
+- name: Add Sensu repo
+  tags:
+    - install
+  yum_repository:
+    name: sensu
+    description: Sensu YUM repo
+    baseurl: https://sensu.global.ssl.fastly.net/yum/$releasever/$basearch/
+    gpgcheck: false
+  become: true
+
+- name: Install Erlang
+  tags:
+    - install
+  yum:
+    name: erlang
+    state: present
+  become: true
+  
+- name: Install RabbitMQ & Redis
+  tags:
+    - install
+  yum:
+    name: "{{ item }}"
+    state: present
+  become: true
+  with_items:
+    - http://www.rabbitmq.com/releases/rabbitmq-server/current/rabbitmq-server-3.6.15-1.el7.noarch.rpm
+    - redis
+  
+- name: Install the latest version of Sensu
+  tags:
+    - install
+  yum:
+    name: "{{ item }}"
+    state: latest
+  become: true
+  with_items:
+    - sensu
+    - uchiwa
+
+- name: Set Sensu base path
+  tags:
+    - config
+  set_fact:
+    sensu_basepath: /etc/sensu
+
+- name: Configure Sensu client
+  tags:
+    - config
+  sensu_client:
+    subscriptions:
+      - default
+  notify:
+    - restart sensu-client
+  become: true
+
+- name: Configure the Sensu transport
+  tags:
+    - config
+  copy:
+    content: |
+      {
+        "transport": {
+          "name": "rabbitmq",
+          "reconnect_on_error": true
+        }
+      }
+    dest: "{{ sensu_basepath }}/conf.d/transport.json"
+  become: true
+
+- name: Configure the Sensu API
+  tags:
+    - config
+  copy:
+    content: |
+      {
+        "api": {
+          "host": "localhost",
+          "bind": "0.0.0.0",
+          "port": 4567
+        }
+      }    
+    dest: "{{ sensu_basepath }}/conf.d/api.json"
+  become: true
+
+- name: Configure Redis
+  tags:
+    - config
+  copy:
+    content: |
+      {
+        "redis": {
+          "host": "127.0.0.1",
+          "port": 6379
+        }
+      }
+    dest: "{{ sensu_basepath }}/conf.d/redis.json"
+  notify:
+    - restart sensu-client
+  become: true
+
+
+- name: Configure Uchiwa dashboard
+  tags:
+    - config
+  copy:
+    content: |
+      {
+        "sensu": [
+          {
+            "name": "home network",
+            "host": "localhost",
+            "port": 4567,
+            "timeout": 10
+          }
+        ],
+        "uchiwa": {
+          "host": "0.0.0.0",
+          "port": 3000,
+          "refresh": 10
+        }
+      }
+    dest: "{{ sensu_basepath }}/uchiwa.json"
+  notify:
+    - restart uchiwa
+  become: true
+
+- name: Enable Sensu services
+  tags:
+    - services
+  service:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  with_items:
+    - sensu-client
+    - sensu-server
+    - sensu-api
+    - uchiwa
+    - rabbitmq-server
+    - redis
+  become: true
+
+- name: Uchiwa firewalld
+  tags:
+    - services
+  firewalld:
+    port: 3000/tcp
+    permanent: true
+    zone: public
+    state: enabled
+  notify:
+    - restart firewalld
+  become: true
+  
+- import_tasks: sensu_checks.yaml

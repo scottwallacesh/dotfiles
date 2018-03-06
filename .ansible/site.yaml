@@ -1,4 +1,9 @@
 - name: Mac desktops
   hosts: mac_desktops
   roles:
-      - mac_desktop
+    - mac_desktop
+
+- name: Home server
+  hosts: home_servers
+  roles:
+    - home_server

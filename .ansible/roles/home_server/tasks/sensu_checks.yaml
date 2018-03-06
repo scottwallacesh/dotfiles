@@ -1,0 +1,51 @@
+- name: Install Sensu basic checks
+  tags:
+    - install
+  command: "sensu-install -p {{ item }}"
+  become: true
+  with_items:
+    - cpu-checks
+    - disk-checks
+    - memory-checks
+    - process-checks
+    - load-checks
+    - vmstats
+
+- name: Get CPU metrics
+  tags:
+    - config
+  sensu_check:
+    name: CPU
+    command: /opt/sensu/embedded/bin/check-cpu.rb -w 80 -c 90
+    metric: yes
+    handlers: default
+    subscribers: default
+    interval: 60
+  notify: restart sensu-server
+  become: true
+
+- name: Get disk metrics
+  tags:
+    - config
+  sensu_check:
+    name: Disk
+    command: /opt/sensu/embedded/bin/check-disk-usage.rb -t xfs -w 80 -c 90
+    metric: yes
+    handlers: default
+    subscribers: default
+    interval: 60
+  notify: restart sensu-server
+  become: true
+
+- name: Get memory metrics
+  tags:
+    - config
+  sensu_check:
+    name: Memory
+    command: /opt/sensu/embedded/bin/check-memory-percent.rb -w 80 -c 90
+    metric: yes
+    handlers: default
+    subscribers: default
+    interval: 60
+  notify: restart sensu-server
+  become: true

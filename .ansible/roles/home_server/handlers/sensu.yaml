@@ -1,0 +1,7 @@
+- name: restart sensu-client
+  service: name=sensu-client state=restarted
+  become: true
+
+- name: restart uchiwa
+  service: name=uchiwa state=restarted
+  become: true

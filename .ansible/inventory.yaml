@@ -1,4 +1,8 @@
 mac_desktops:
-    hosts:
-        localhost:
-            ansible_connection: local
+  hosts:
+    localhost:
+      ansible_connection: local
+
+home_servers:
+  hosts:
+    homer

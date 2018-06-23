@@ -11,7 +11,6 @@ homebrew_brew_items:
   - htop
   - ipcalc
   - mas
-  - mosh
   - nmap
   - p7zip
   - psgrep
@@ -26,13 +25,10 @@ homebrew_brew_items:
 
 homebrew_cask_items:
   - alfred
-  - bbc-iplayer-downloads
-  - beardedspice
   - cleanmymac
   - enpass
   - firefox
-  - flux
-  - google-backup-and-sync
+  - google-drive-file-stream
   - google-chrome
   - google-hangouts
   - handbrake
@@ -41,10 +37,11 @@ homebrew_cask_items:
   - keybase
   - osxfuse
   - resilio-sync
+  - shiftit
   - signal
   - sonos
-  - sublime-text
   - virtualbox
+  - visual-studio-code
   - whatsapp
   - wireshark
   - xquartz

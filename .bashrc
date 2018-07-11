@@ -128,6 +128,7 @@ if ! alias ll >/dev/null 2>&1; then function ll() { ls -l ${@}; } && export -f l
 [[ -x /bin/ps && -x $(which pstree 2>/dev/null) ]] && function ps() { if [[ ${1} =~ 'f' ]]; then pstree; else /bin/ps ${@}; fi }
 [[ -x $(which tree 2>/dev/null) ]] && alias tree="tree -AQh --du"
 alias _ssh="ssh -o RemoteCommand=none"
+export GIT_SSH_COMMAND="$(which ssh) -o RemoteCommand=none"
 #--------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------

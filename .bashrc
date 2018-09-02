@@ -81,11 +81,13 @@ fi
 #--------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------
-# Add bash completion scripts
+# Add bash completion scripts (deferred until the end and backgrounded)
 #--------------------------------------------------------------------------------
-if [ -f $(brew --prefix 2>/dev/null)/etc/bash_completion ]; then
-    . $(brew --prefix 2>/dev/null)/etc/bash_completion
-fi
+function _deferred {
+    if [ -f $(brew --prefix 2>/dev/null)/etc/bash_completion ]; then
+        . $(brew --prefix 2>/dev/null)/etc/bash_completion
+    fi
+}
 #--------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------
@@ -164,4 +166,11 @@ fi
 # Run local .bashrc for any local-only commands
 #--------------------------------------------------------------------------------
 [ -f ~/.bashrc_local ] && source ~/.bashrc_local
+#--------------------------------------------------------------------------------
+
+#--------------------------------------------------------------------------------
+# Kick off the _deferred() function and background it (speeding up Bash loading)
+#--------------------------------------------------------------------------------
+trap '_deferred 2>/dev/null; trap USR1' USR1
+{ sleep 0.1 ; builtin kill -USR1 $$ ; } & disown
 #--------------------------------------------------------------------------------

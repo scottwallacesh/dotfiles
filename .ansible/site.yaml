@@ -7,3 +7,8 @@
   hosts: home_servers
   roles:
     - home_server
+
+- name: pi-hole
+  hosts: pihole
+  roles:
+    - pi_hole

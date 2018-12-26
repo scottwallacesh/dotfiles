@@ -6,3 +6,7 @@ mac_desktops:
 home_servers:
   hosts:
     homer
+
+pihole:
+  hosts:
+    pihole

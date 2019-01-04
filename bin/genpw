@@ -6,16 +6,8 @@ Attributes:
 """
 
 import sys
-import logging
 import optparse
-
-try:
-    import OpenSSL
-except ImportError:
-    logging.error('Missing PyOpenSSL.')
-    logging.debug('Try `pip install pyopenssl`')
-    sys.exit(1)
-
+import os
 import base64
 
 LENGTH = 16
@@ -27,7 +19,7 @@ def generate(length):
     Args:
         length (int): length of string to return
     """
-    return base64.encodestring(OpenSSL.rand.bytes(256))[:length]
+    return base64.encodestring(os.urandom(256))[:length]
 
 
 def main():

@@ -1,14 +1,4 @@
-- name: Mac desktops
-  hosts: mac_desktops
-  roles:
-    - mac_desktop
-
 - name: Home server
   hosts: home_servers
   roles:
     - home_server
-
-- name: pi-hole
-  hosts: pihole
-  roles:
-    - pi_hole

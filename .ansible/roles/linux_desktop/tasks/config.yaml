@@ -1,0 +1,7 @@
+- name: Checkout some repositories for local config
+  tags:
+    - config
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ item.dest }}"
+  with_items: "{{ config_repos }}"

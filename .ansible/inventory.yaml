@@ -3,10 +3,11 @@ mac_desktops:
     localhost:
       ansible_connection: local
 
+linux_desktops:
+  hosts:
+    localhost:
+      ansible_connection: local
+
 home_servers:
   hosts:
     homer
-
-pihole:
-  hosts:
-    pihole

@@ -1,0 +1,4 @@
+- name: Linux desktops
+  hosts: linux_desktops
+  roles:
+    - linux_desktop

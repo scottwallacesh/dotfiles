@@ -1,0 +1,24 @@
+- name: Adding repositories
+  tags: install
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+  with_items: "{{ linux_repos }}"
+  become: true
+
+- name: Installing packages
+  tags: install
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ linux_packages }}"
+  become: true
+
+- name: Installing Snaps
+  tags: install
+#   snap:
+#     name: "{{ item }}"
+#     state: present
+  command: "snap install {{ item }}"
+  with_items: "{{ linux_apps }}"
+  become: true

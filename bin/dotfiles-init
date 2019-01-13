@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+set -e
+
+OS=$(uname -s | tr A-Z a-z)
+
+if [ -d ~/dotfiles ]; then
+  echo "[DOTFILES] Detected: moving to correct location"
+  mv -nv ~/dotfiles/* ~
+  mv -nv ~/dotfiles/.* ~
+  rmdir ~/dotfiles
+fi
+
+if [ -x "$(which vim)" -a -e ~/.vim/bundle ]; then
+  echo "[VIM] Detected: initialising Vim bundle"
+  git submodule init
+  git submodule update
+
+  echo "[VIM] Upgrading plugins"
+  ~/bin/vim-upgrade
+fi
+
+if [ -x "$(which ansible)" -a -f ~/.ansible/${OS}_galaxy.yaml ]; then
+  echo "[ANSIBLE] Detected: initialising Galaxy dependencies"
+  ansible-galaxy install -r ~/.ansible/${OS}_galaxy.yaml
+  echo "[ANSIBLE] Running desktop installation and configuration"
+  ansible-playbook ~/.ansible/desktop.yaml -K
+fi

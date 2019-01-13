@@ -23,6 +23,12 @@
   with_items: "{{ linux_apps }}"
   become: true
 
+- name: Checking for Modern Pictogram font
+  tags: install
+  stat:
+    path: "~/.local/share/fonts/modernpics.otf"
+  register: fontfile
+
 - name: Installing fonts
   tags: install
   block:
@@ -52,3 +58,4 @@
 
     - name: Refresh font cache
       command: "fc-cache -f"
+  when: fontfile.stat.exists == false

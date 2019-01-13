@@ -19,7 +19,7 @@
       user_pref("privacy.window.maxInnerWidth", 1400);
       user_pref("privacy.window.maxInnerHeight", 900);
     dest: "{{ firefox_path  }}/{{ profile_path }}/user.js"
-    mode: 0440
+    mode: '0600'
 
 - name: 'OS X: Dock orientation'
   tags:
@@ -37,7 +37,7 @@
     domain: com.apple.dock
     type: float
     key: tilesize
-    value: 35
+    value: '35'
 
 - name: 'OS X: Smart quotes off'
   tags:
@@ -46,7 +46,7 @@
       domain: NSGlobalDomain
       type: int
       key: NSAutomaticQuoteSubstitutionEnabled
-      value: 0
+      value: '0'
 
 - name: 'OS X: Smart dashes off'
   tags:
@@ -55,7 +55,7 @@
       domain: NSGlobalDomain
       type: int
       key: NSAutomaticDashSubstitutionEnabled
-      value: 0
+      value: '0'
 
 - name: 'OS X: Spell correction off'
   tags:
@@ -64,7 +64,7 @@
       domain: NSGlobalDomain
       type: int
       key: NSAutomaticSpellingCorrectionEnabled
-      value: 0
+      value: '0'
 
 - name: 'OS X: Web spell correction off'
   tags:
@@ -73,9 +73,9 @@
       domain: NSGlobalDomain
       type: int
       key: WebAutomaticSpellingCorrectionEnabled
-      value: 0
+      value: '0'
 
 - name: 'OS X: Clear preferences cache'
   tags:
     - config
-  command: pkill -u ${USER} cfprefsd
+  command: 'pkill -u ${USER} cfprefsd'

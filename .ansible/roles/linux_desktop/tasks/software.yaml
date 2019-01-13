@@ -1,5 +1,6 @@
 - name: Adding repositories
-  tags: install
+  tags:
+    - install
   apt_repository:
     repo: "{{ item }}"
     state: present
@@ -7,7 +8,8 @@
   become: true
 
 - name: Installing packages
-  tags: install
+  tags:
+    - install
   package:
     name: "{{ item }}"
     state: present
@@ -15,7 +17,8 @@
   become: true
 
 - name: Installing Snaps
-  tags: install
+  tags:
+    - install
 #   snap:
 #     name: "{{ item }}"
 #     state: present
@@ -24,18 +27,20 @@
   become: true
 
 - name: Checking for Modern Pictogram font
-  tags: install
+  tags:
+    - install
   stat:
-    path: "~/.local/share/fonts/modernpics.otf"
+    path: '~/.local/share/fonts/modernpics.otf'
   register: fontfile
 
 - name: Installing fonts
-  tags: install
+  tags:
+    - install
   block:
     - name: Create temporary file for Modern Pictograms font
       tempfile:
         state: file
-        suffix: ".zip"
+        suffix: '.zip'
       register: fontzip
 
     - name: Download Modern Pictograms font
@@ -48,8 +53,8 @@
     - name: Unzip Modern Pictograms font
       unarchive:
         src: "{{ fontzip.path }}"
-        dest: "~/.local/share/fonts"
-        exclude: "*.txt"
+        dest: '~/.local/share/fonts'
+        exclude: '*.txt'
 
     - name: Remove temporary file
       file:
@@ -57,5 +62,5 @@
         state: absent
 
     - name: Refresh font cache
-      command: "fc-cache -f"
+      command: 'fc-cache -f'
   when: fontfile.stat.exists == false

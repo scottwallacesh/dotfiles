@@ -1,17 +1,14 @@
 config_repos:
-  # - name: "dotfiles"
-  #   repo: "git@github.com:scottwallacesh/dotfiles.git"
-  #   dest: "~/"
-  - name: "albert"
-    repo: "git@github.com:scottwallacesh/albert.git"
-    dest: "~/.local/share/albert"
+  - name: 'albert'
+    repo: 'git@github.com:scottwallacesh/albert.git'
+    dest: '~/.local/share/albert'
 
 linux_repos:
-  - "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"             # Visual Studio Code
-  - "deb http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_18.10/ /" # Albert
-  - "deb http://linux-packages.resilio.com/resilio-sync/deb resilio-sync non-free"         # Resilio Sync
-  - "deb http://prerelease.keybase.io/deb stable main"                                     # Keybase
-  - "deb https://apt.enpass.io/ stable main"                                               # Enpass
+  - 'deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main'             # Visual Studio Code
+  - 'deb http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_18.10/ /' # Albert
+  - 'deb http://linux-packages.resilio.com/resilio-sync/deb resilio-sync non-free'         # Resilio Sync
+  - 'deb http://prerelease.keybase.io/deb stable main'                                     # Keybase
+  - 'deb https://apt.enpass.io/ stable main'                                               # Enpass
 
 linux_packages:
   - albert

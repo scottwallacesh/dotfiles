@@ -33,7 +33,7 @@ conky.config = {
 	minimum_width = 0, minimum_height = 0,
 };
 conky.text = [[
-	${color #DD3A21}${nodename}${color}${goto 105}${font Modern Pictograms}6 ${font}${battery_short}${goto 200}${font Modern Pictograms}3${font}${voffset -2} ${time %d/%m/%y}  ${font Modern Pictograms}}${font}${voffset -2} ${time %H:%M}
+	${color #DD3A21}${nodename}${color}${goto 105}${font Webdings}~ ${font}${battery_short}${goto 200}${font Modern Pictograms}3${font}${voffset -2} ${time %d/%m/%y}  ${font Modern Pictograms}}${font}${voffset -2} ${time %H:%M}
 	${hr}
 	${font Modern Pictograms}^${font}${voffset -2} ${addrs wlp3s0}
 	${goto 202}${upspeedgraph wlp3s0 30,178 06E9F8 2104FA}

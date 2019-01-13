@@ -45,7 +45,7 @@ linux_apps:
   - skype
   - wireguard-ammp
 
-gnome_extensions:
+gnome_extension_ids:
   - 358    # activities configurator
   - 1206   # clock-override
   - 28     # gtile

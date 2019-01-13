@@ -1,7 +1,0 @@
-- name: Linux desktops
-  hosts: linux_desktops
-  roles:
-    - linux_desktop
-    - jaredhocutt.gnome_extensions
-  vars:
-    gnome_extension_ids: "{{ gnome_extensions }}"

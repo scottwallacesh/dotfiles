@@ -1,9 +1,4 @@
-mac_desktops:
-  hosts:
-    localhost:
-      ansible_connection: local
-
-linux_desktops:
+desktop:
   hosts:
     localhost:
       ansible_connection: local

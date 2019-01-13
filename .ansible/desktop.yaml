@@ -1,0 +1,10 @@
+- name: Desktop installation and configuration
+  hosts: desktop
+
+  roles:
+    - role: linux_desktop
+      when: ansible_system == 'Linux'
+    - role: jaredhocutt.gnome_extensions
+      when: ansible_system == 'Linux'
+    - role: mac_desktop
+      when: ansible_system == 'Darwin'

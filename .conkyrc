@@ -35,19 +35,19 @@ conky.config = {
 conky.text = [[
 	${color #DD3A21}${nodename}${color}${goto 105}${font Webdings}~ ${font}${battery_short}${goto 200}${font Modern Pictograms}3${font}${voffset -2} ${time %d/%m/%y}  ${font Modern Pictograms}}${font}${voffset -2} ${time %H:%M}
 	${hr}
-	${font Modern Pictograms}^${font}${voffset -2} ${addrs wlp3s0}
-	${goto 202}${upspeedgraph wlp3s0 30,178 06E9F8 2104FA}
-	${goto 202}${font Modern Pictograms}]${font} ${upspeed wlp3s0}
-    ${goto 202}${downspeedgraph wlp3s0 30,175 FFFF00 DD3A21}
-	${goto 202}${font Modern Pictograms}[${font} ${downspeed wlp3s0}
+	${font Modern Pictograms}^${font}${voffset -2} ${addrs wlp3s0} / ${curl https://ipinfo.io/ip}
+	${goto 20}${upspeedgraph wlp3s0 30,350 06E9F8 2104FA}
+	${goto 20}${font Modern Pictograms}]${font} ${upspeed wlp3s0}
+    ${goto 20}${downspeedgraph wlp3s0 30,350 FFFF00 DD3A21}
+	${goto 20}${font Modern Pictograms}[${font} ${downspeed wlp3s0}
 	${hr}
 	${font Modern Pictograms}V${font}${voffset -2} ${mem}/${memmax} (${memperc}%) | Swap: ${swapperc}%
-	${goto 20}${memgraph 30,355 AAF5D0 00B35B}
+	${goto 20}${memgraph 30,350 AAF5D0 00B35B}
 	${hr}
-	${goto 20}CPU0: ${cpu cpu0}%${goto 100}${cpubar 7,80 cpu0}
-	${goto 20}CPU1: ${cpu cpu1}%${goto 100}${cpubar 7,80 cpu1}
-	${goto 20}CPU2: ${cpu cpu2}%${goto 100}${cpubar 7,80 cpu2}
-	${goto 20}CPU3: ${cpu cpu3}%${goto 100}${cpubar 7,80 cpu3}
+	${goto 20}CPU0: ${cpu cpu0}%${goto 100}${cpubar 7,280 cpu0}
+	${goto 20}CPU1: ${cpu cpu1}%${goto 100}${cpubar 7,280 cpu1}
+	${goto 20}CPU2: ${cpu cpu2}%${goto 100}${cpubar 7,280 cpu2}
+	${goto 20}CPU3: ${cpu cpu3}%${goto 100}${cpubar 7,280 cpu3}
 	${hr}
 	${color #FFFF00}${goto 20}Name ${goto 200}Pid${goto 255}Cpu%${goto 310}Mem%${color}
 	${goto 20}${top name 1} ${goto 180}${top pid 1}${goto 235}${top cpu 1}${goto 290}${top mem 1}

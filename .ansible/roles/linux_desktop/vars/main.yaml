@@ -15,6 +15,7 @@ linux_repos:
 
 linux_packages:
   - albert
+  - chrome-gnome-shell
   - code
   - conky
   - copyq
@@ -23,6 +24,10 @@ linux_packages:
   - franz
   - git
   - glances
+  - gnome-shell-extension-caffeine
+  - gnome-shell-extension-dashtodock
+  - gnome-shell-extension-mediaplayer
+  - gnome-shell-extension-weather
   - gnome-tweaks
   - keybase
   - netcat
@@ -39,3 +44,10 @@ linux_apps:
   - google-play-music-desktop-player
   - skype
   - wireguard-ammp
+
+gnome_extensions:
+  - 358    # activities configurator
+  - 1206   # clock-override
+  - 28     # gtile
+  - 1386   # notification counter
+  - 19     # user themes

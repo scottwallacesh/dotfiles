@@ -17,7 +17,7 @@
     - config
     - firefox
   block:
-    - name: 'Firefox: Download config'
+    - name: 'Firefox: Download lockdown (relaxed) config'
       get_url:
         url: 'https://raw.githubusercontent.com/pyllyukko/user.js/relaxed/user.js'
         dest: "{{ profile_path }}/user.js-lockdown"
@@ -32,3 +32,15 @@
         mode: '0600'
         force: yes
         backup: yes
+
+- name: 'Firefox: Relaxing further'
+  tags:
+    - config
+    - firefox
+  block:
+    - name: 'Firefox: Allow searching from URL bar'
+      lineinfile:
+        path: "{{ profile_path }}/user.js"
+        state: present
+        regexp: 'keyword\.enabled'
+        line: 'user_pref("keyword.enabled", true);'

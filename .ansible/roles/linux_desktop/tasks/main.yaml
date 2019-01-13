@@ -1,3 +1,4 @@
 - name: Linux desktop tasks
   import_tasks: software.yaml
 - import_tasks: config.yaml
+- import_tasks: firefox.yaml

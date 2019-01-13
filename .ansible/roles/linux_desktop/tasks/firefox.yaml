@@ -1,0 +1,34 @@
+- name: 'Firefox: Set base path'
+  tags:
+    - config
+    - firefox
+  set_fact:
+    firefox_path: '~/.mozilla/firefox'
+
+- name: 'Firefox: Discover profile path'
+  tags:
+    - config
+    - firefox
+  set_fact:
+    profile_path: "{{ firefox_path }}/{{ lookup('ini', 'Path section=Profile0 file=' + firefox_path + '/profiles.ini') }}"
+
+- name: 'Firefox: Lockdown config (relaxed)'
+  tags:
+    - config
+    - firefox
+  block:
+    - name: 'Firefox: Download config'
+      get_url:
+        url: 'https://raw.githubusercontent.com/pyllyukko/user.js/relaxed/user.js'
+        dest: "{{ profile_path }}/user.js-lockdown"
+        mode: '0600'
+        force: yes
+        backup: yes
+
+    - name: 'Firefox: Replace user.js'
+      copy:
+        src: "{{ profile_path }}/user.js-lockdown"
+        dest: "{{ profile_path }}/user.js"
+        mode: '0600'
+        force: yes
+        backup: yes

@@ -30,6 +30,7 @@ linux_packages:
   - resilio-sync
   - screen
   - sonos-controller-unofficial
+  - ttf-mscorefonts-installer
   - units
   - vim
   - wireshark-qt

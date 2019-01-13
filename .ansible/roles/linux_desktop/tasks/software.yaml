@@ -22,3 +22,33 @@
   command: "snap install {{ item }}"
   with_items: "{{ linux_apps }}"
   become: true
+
+- name: Installing fonts
+  tags: install
+  block:
+    - name: Create temporary file for Modern Pictograms font
+      tempfile:
+        state: file
+        suffix: ".zip"
+      register: fontzip
+
+    - name: Download Modern Pictograms font
+      get_url:
+        url: https://www.fontsquirrel.com/fonts/download/modern-pictograms
+        dest: "{{ fontzip.path }}"
+        force: true
+      register: fetchurl
+
+    - name: Unzip Modern Pictograms font
+      unarchive:
+        src: "{{ fontzip.path }}"
+        dest: "~/.local/share/fonts"
+        exclude: "*.txt"
+
+    - name: Remove temporary file
+      file:
+        path: "{{ fontzip.path }}"
+        state: absent
+
+    - name: Refresh font cache
+      command: "fc-cache -f"

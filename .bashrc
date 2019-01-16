@@ -93,8 +93,13 @@ function _deferred {
 #--------------------------------------------------------------------------------
 # A useful prompt
 #--------------------------------------------------------------------------------
+function __PROMPT_COMMAND() {
+    history -a
+    echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"
+}
+
 export PS1="[\u@\h \W \[\033[32m\]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ <\1>/')\[\033[00m\]]\\$ "
-export PROMPT_COMMAND+='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
+export PROMPT_COMMAND="${PROMPT_COMMAND:+"${PROMPT_COMMAND%%';__PROMPT_COMMAND'};"}__PROMPT_COMMAND"
 #--------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------
@@ -112,9 +117,6 @@ export HISTTIMEFORMAT="%Y-%m-%d %T "
 
 # Append history entries...
 shopt -s histappend
-
-# After each command, save and reload history
-export PROMPT_COMMAND="history -a; ${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}"
 #--------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------

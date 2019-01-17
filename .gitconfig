@@ -20,7 +20,7 @@
     lg = !"git lg1"
     lgd = log -p --decorate
     history = log --pretty=oneline --abbrev-commit --all --graph --decorate
-    tidy = !git remote prune origin && git fetch -p && git branch -vv | awk '/: gone]/ {print $1}' | xargs git branch -D
+    tidy = !git remote prune origin && git fetch -p && git branch -vv | awk '/: gone]/ {print $1}' | xargs -r git branch -D
     update = !git pull && git tidy
     st = status
     ci = commit

@@ -1,0 +1,9 @@
+server_packages:
+  - epel-release
+  - git
+  - lsof
+  - net-tools
+  - psmisc
+  - rsync
+  - telnet
+  - vim

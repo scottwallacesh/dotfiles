@@ -20,9 +20,7 @@ if [ -x "$(which vim)" -a -e ~/.vim/bundle ]; then
   ~/bin/vim-upgrade
 fi
 
-if [ -x "$(which ansible)" -a -f ~/.ansible/${OS}_galaxy.yaml ]; then
-  echo "[ANSIBLE] Detected: initialising Galaxy dependencies"
-  ansible-galaxy install -r ~/.ansible/${OS}_galaxy.yaml
+if [ -x "$(which ansible)" ]; then
   echo "[ANSIBLE] Running desktop installation and configuration"
   ansible-playbook ~/.ansible/desktop.yaml -K
 fi

@@ -64,3 +64,13 @@
     - name: Refresh font cache
       command: 'fc-cache -f'
   when: fontfile.stat.exists == false
+
+- name: Platform specific packages
+  tags:
+    - install
+    - platform
+  package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ lookup('vars', lookup('vars', 'ansible_system_vendor') + '_' + lookup('vars', 'ansible_form_factor') + '_packages') }}"
+  become: true

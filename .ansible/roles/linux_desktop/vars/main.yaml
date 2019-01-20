@@ -48,3 +48,8 @@ gnome_extension_ids:
   - 28     # gtile
   - 1386   # notification counter
   - 19     # user themes
+
+# Platform specific packages
+# Format: systemvendor_formfactor_packages
+"Apple Inc._Laptop_packages":
+  - mbpfan

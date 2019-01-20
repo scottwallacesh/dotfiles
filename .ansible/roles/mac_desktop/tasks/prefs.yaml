@@ -3,26 +3,62 @@
     - config
     - iterm2
   template:
-    src: "{{ item }}"
+    src: "iterm2/{{ item }}"
     dest: '~/.iterm2'
     mode: '0600'
-  loop: "{{ query('fileglob', 'iterm2/*') }}"
+  loop: ['com.googlecode.iterm2.plist', 'hybrid.itermcolors']
+
+- name: 'Iterm2: Shell integration'
+  tags:
+    - config
+    - iterm2
+  copy:
+    src: 'iterm2/shell_integration.bash'
+    dest: '~/.bashrc.d'
+    mode: '0400'
+
+- name: 'Shell: ps alias'
+  tags:
+    - config
+    - shell
+  copy:
+    content: |
+      [[ -x /bin/ps && -x $(which pstree 2>/dev/null) && $(uname -s) = 'Darwin' ]] && function ps() { if [[ ${1} =~ 'f' ]]; then pstree; else /bin/ps ${@}; fi }
+    dest: '~/.bashrc.d/alias.ps'
+    mode: '0400'
+
+- name: 'Shell: GNU overrides'
+  tags:
+    - config
+    - shell
+  copy:
+    content: |
+      [[ -x $(which gdu 2>/dev/null) ]] && function du() { gdu ${@}; } && export -f du
+      [[ -x $(which gsort 2>/dev/null) ]] && function sort() { gsort ${@}; } && export -f sort
+    dest: '~/.bashrc.d/alias.gnu'
+    mode: '0400'
 
 - name: 'Firefox: Set base path'
   tags:
     - config
+    - firefox
+    - browser
   set_fact:
     firefox_path: '~/Library/Application Support/Firefox'
 
 - name: 'Firefox: Find profile path'
   tags:
     - config
+    - firefox
+    - browser
   set_fact:
     profile_path: "{{ lookup('ini', 'Path section=Profile0 file=' + firefox_path + '/profiles.ini') }}"
 
 - name: 'Firefox: Add local config'
   tags:
     - config
+    - firefox
+    - browser
   copy:
     content: |
       user_pref("geo.enabled", false);
@@ -31,61 +67,53 @@
     dest: "{{ firefox_path  }}/{{ profile_path }}/user.js"
     mode: '0600'
 
-- name: 'OS X: Dock orientation'
+- name: 'OS X: Preferences'
   tags:
     - config
-  osx_defaults:
-    domain: com.apple.dock
-    type: string
-    key: orientation
-    value: right
+    - os
+    - osx
+  block:
+  - name: 'OS X: Dock orientation'
+    osx_defaults:
+      domain: com.apple.dock
+      type: string
+      key: orientation
+      value: right
 
-- name: 'OS X: Dock size'
-  tags:
-    - config
-  osx_defaults:
-    domain: com.apple.dock
-    type: float
-    key: tilesize
-    value: '35'
+  - name: 'OS X: Dock size'
+    osx_defaults:
+      domain: com.apple.dock
+      type: float
+      key: tilesize
+      value: '35'
 
-- name: 'OS X: Smart quotes off'
-  tags:
-    - config
-  osx_defaults:
-      domain: NSGlobalDomain
-      type: int
-      key: NSAutomaticQuoteSubstitutionEnabled
-      value: '0'
+  - name: 'OS X: Smart quotes off'
+    osx_defaults:
+        domain: NSGlobalDomain
+        type: int
+        key: NSAutomaticQuoteSubstitutionEnabled
+        value: '0'
 
-- name: 'OS X: Smart dashes off'
-  tags:
-    - config
-  osx_defaults:
-      domain: NSGlobalDomain
-      type: int
-      key: NSAutomaticDashSubstitutionEnabled
-      value: '0'
+  - name: 'OS X: Smart dashes off'
+    osx_defaults:
+        domain: NSGlobalDomain
+        type: int
+        key: NSAutomaticDashSubstitutionEnabled
+        value: '0'
 
-- name: 'OS X: Spell correction off'
-  tags:
-    - config
-  osx_defaults:
-      domain: NSGlobalDomain
-      type: int
-      key: NSAutomaticSpellingCorrectionEnabled
-      value: '0'
+  - name: 'OS X: Spell correction off'
+    osx_defaults:
+        domain: NSGlobalDomain
+        type: int
+        key: NSAutomaticSpellingCorrectionEnabled
+        value: '0'
 
-- name: 'OS X: Web spell correction off'
-  tags:
-    - config
-  osx_defaults:
-      domain: NSGlobalDomain
-      type: int
-      key: WebAutomaticSpellingCorrectionEnabled
-      value: '0'
-
-- name: 'OS X: Clear preferences cache'
-  tags:
-    - config
-  command: 'pkill -u ${USER} cfprefsd'
+  - name: 'OS X: Web spell correction off'
+    osx_defaults:
+        domain: NSGlobalDomain
+        type: int
+        key: WebAutomaticSpellingCorrectionEnabled
+        value: '0'
+  always:
+  - name: 'OS X: Clear preferences cache'
+    command: 'pkill -u ${USER} cfprefsd'

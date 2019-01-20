@@ -1,51 +1,93 @@
 # Install Homebrew
-- name: Check for Homebrew
+- name: 'Brew: Check if already installed'
   tags:
     - install
+    - brew
   stat:
     path: /usr/local/bin/brew
   register: st
 
-- name: Install Homebrew
+- name: 'Brew: Install'
   tags:
     - install
+    - brew
   command: ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   when: st.stat.executable != True
 
-- name: Disable Homebrew analytics
+- name: 'Brew: Disable analytics'
+  tags:
+    - config
+    - brew
   command: brew analytics off
 
 # Taps
-- name: Install Homebrew Taps
+- name: 'Brew: Install Taps'
   tags:
     - install
+    - brew
+    - packages
   homebrew_tap:
     name: "{{ item }}"
     state: present
   loop: "{{ homebrew_tap_items }}"
 
 # Update and upgrades
-- name: Homebrew update and upgrades
+- name: 'Brew: Update and upgrades'
   tags:
     - install
+    - brew
+    - upgrade
+    - update
   homebrew:
     update_homebrew: True
     upgrade_all: True
 
 # Brews
-- name: Install Homebrew Brews
+- name: 'Brew: Install packages'
   tags:
     - install
+    - brew
+    - packages
   homebrew:
     name: "{{ item }}"
     state: present
   loop: "{{ homebrew_brew_items }}"
 
 # Casks
-- name: Install Homebrew Casks
+- name: 'Brew: Install Casks'
   tags:
     - install
+    - brew
+    - cask
+    - packages
   homebrew_cask:
     name: "{{ item }}"
     state: present
   loop: "{{ homebrew_cask_items }}"
+
+# Config
+- name: 'Brew: Bash completion'
+  tags:
+    - config
+    - brew
+    - shell
+  copy:
+    content: |
+      if [ -f $(brew --prefix 2>/dev/null)/etc/bash_completion ]; then
+          . $(brew --prefix 2>/dev/null)/etc/bash_completion
+      fi
+    dest: '~/.bashrc.d/homebew_bash_completion'
+    mode: '0400'
+
+- name: 'Brew: API token'
+  tags:
+    - config
+    - homebrew
+    - shell
+  copy:
+    content: |
+      if [ -x "$(which brew 2>/dev/null)" ]; then
+          export HOMEBREW_GITHUB_API_TOKEN=$(getkey HOMEBREW_GITHUB_API_TOKEN)
+      fi
+    dest: '~/.bashrc.d/homebrew_token'
+    mode: '0400'

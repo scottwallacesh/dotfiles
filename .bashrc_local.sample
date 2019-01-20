@@ -1,4 +1,0 @@
-# Launch/restore screen
-if [ -x $(which screen 2>/dev/null) ]; then
-    if [ -z "$STY" ]; then exec screen -xRR; fi
-fi

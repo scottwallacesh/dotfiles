@@ -15,7 +15,7 @@
     name: erlang
     state: present
   become: true
-  
+
 - name: Install RabbitMQ & Redis
   tags:
     - install
@@ -23,10 +23,10 @@
     name: "{{ item }}"
     state: present
   become: true
-  with_items:
+  loop:
     - http://www.rabbitmq.com/releases/rabbitmq-server/current/rabbitmq-server-3.6.15-1.el7.noarch.rpm
     - redis
-  
+
 - name: Install the latest version of Sensu
   tags:
     - install
@@ -34,7 +34,7 @@
     name: "{{ item }}"
     state: latest
   become: true
-  with_items:
+  loop:
     - sensu
     - uchiwa
 
@@ -79,7 +79,7 @@
           "bind": "0.0.0.0",
           "port": 4567
         }
-      }    
+      }
     dest: "{{ sensu_basepath }}/conf.d/api.json"
   become: true
 
@@ -132,7 +132,7 @@
     name: "{{ item }}"
     enabled: true
     state: started
-  with_items:
+  loop:
     - sensu-client
     - sensu-server
     - sensu-api
@@ -152,5 +152,5 @@
   notify:
     - restart firewalld
   become: true
-  
+
 - import_tasks: sensu_checks.yaml

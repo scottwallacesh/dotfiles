@@ -3,7 +3,7 @@
     - install
   command: "sensu-install -p {{ item }}"
   become: true
-  with_items:
+  loop:
     - cpu-checks
     - disk-checks
     - memory-checks

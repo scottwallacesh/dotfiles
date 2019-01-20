@@ -22,7 +22,7 @@
   homebrew_tap:
     name: "{{ item }}"
     state: present
-  with_items: "{{ homebrew_tap_items }}"
+  loop: "{{ homebrew_tap_items }}"
 
 # Update and upgrades
 - name: Homebrew update and upgrades
@@ -39,7 +39,7 @@
   homebrew:
     name: "{{ item }}"
     state: present
-  with_items: "{{ homebrew_brew_items }}"
+  loop: "{{ homebrew_brew_items }}"
 
 # Casks
 - name: Install Homebrew Casks
@@ -48,4 +48,4 @@
   homebrew_cask:
     name: "{{ item }}"
     state: present
-  with_items: "{{ homebrew_cask_items }}"
+  loop: "{{ homebrew_cask_items }}"

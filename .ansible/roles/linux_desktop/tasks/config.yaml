@@ -4,7 +4,7 @@
   git:
     repo: "{{ item.repo }}"
     dest: "{{ item.dest }}"
-  with_items: "{{ config_repos }}"
+  loop: "{{ config_repos }}"
 
 - name: Conky configuration
   tags:

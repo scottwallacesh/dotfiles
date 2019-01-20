@@ -4,5 +4,5 @@
   yum:
     name: "{{ item }}"
     state: latest
-  with_items: "{{ server_packages }}"
+  loop: "{{ server_packages }}"
   become: true

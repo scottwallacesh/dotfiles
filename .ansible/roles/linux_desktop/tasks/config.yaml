@@ -5,3 +5,12 @@
     repo: "{{ item.repo }}"
     dest: "{{ item.dest }}"
   with_items: "{{ config_repos }}"
+
+- name: Conky configuration
+  tags:
+    - config
+    - conky
+  template:
+    src: templates/conkyrc.j2
+    dest: ~/.conkyrc
+    mode: "0600"

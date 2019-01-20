@@ -1,0 +1,3 @@
+dependencies:
+  - role: jaredhocutt.gnome_extensions
+    when: ansible_system == 'Linux'

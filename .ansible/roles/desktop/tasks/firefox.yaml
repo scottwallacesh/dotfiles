@@ -2,8 +2,13 @@
   tags:
     - config
     - firefox
-  set_fact:
-    firefox_path: '~/.mozilla/firefox'
+  block:
+    - set_fact:
+        firefox_path: '~/.mozilla/firefox'
+      when: ansible_system == 'Linux'
+    - set_fact:
+        firefox_path: '~/Library/Application Support/Firefox'
+      when: ansible_system == 'Darwin'
 
 - name: 'Firefox: Discover profile path'
   tags:

@@ -1,15 +1,15 @@
-- name: Common desktop tasks
-  import_tasks: firefox.yaml
-
 - name: Linux desktop tasks
   block:
-  - import_tasks: software.yaml
-  - import_tasks: config.yaml
+  - import_tasks: linux/software.yaml
+  - import_tasks: linux/config.yaml
   when: ansible_system == 'Linux'
 
 - name: OS X desktop tasks
   block:
-  - import_tasks: homebrew.yaml
-  - import_tasks: mas.yaml
-  - import_tasks: prefs.yaml
+  - import_tasks: darwin/homebrew.yaml
+  - import_tasks: darwin/mas.yaml
+  - import_tasks: darwin/prefs.yaml
   when: ansible_system == 'Darwin'
+
+- name: Common desktop tasks
+  import_tasks: firefox.yaml

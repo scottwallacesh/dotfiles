@@ -1,5 +1,6 @@
 set bell-style visible
 set prefer-visible-bell
 set convert-meta on
-"\e[1;5D": backward-word  # ctrl + left 
+"\e[1;5D": backward-word  # ctrl + left
 "\e[1;5C": forward-word   # ctrl + right
+"\C-t": forward-search-history

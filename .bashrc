@@ -67,16 +67,9 @@ pathadd ~/bin
 #--------------------------------------------------------------------------------
 # Set some variables
 #--------------------------------------------------------------------------------
+# Add the Homebrew API token, if appropriate
 if [ -x "$(which brew 2>/dev/null)" ]; then
     export HOMEBREW_GITHUB_API_TOKEN=$(getkey HOMEBREW_GITHUB_API_TOKEN)
-fi
-#--------------------------------------------------------------------------------
-
-#--------------------------------------------------------------------------------
-# Rebind CTRL-T to search forward in history
-#--------------------------------------------------------------------------------
-if [ -n "$PS1" ]; then
-    bind "\C-t":forward-search-history
 fi
 #--------------------------------------------------------------------------------
 
@@ -84,6 +77,7 @@ fi
 # Add bash completion scripts (deferred until the end and backgrounded)
 #--------------------------------------------------------------------------------
 function _deferred {
+    # Bash completion with Homebrew
     if [ -f $(brew --prefix 2>/dev/null)/etc/bash_completion ]; then
         . $(brew --prefix 2>/dev/null)/etc/bash_completion
     fi
@@ -130,7 +124,7 @@ if ! alias ll >/dev/null 2>&1; then function ll() { ls -l ${@}; } && export -f l
 [[ -x $(which glances 2>/dev/null) ]] && function top() { glances; } && export -f top
 [[ -x $(which gdu 2>/dev/null) ]] && function du() { gdu ${@}; } && export -f du
 [[ -x $(which gsort 2>/dev/null) ]] && function sort() { gsort ${@}; } && export -f sort
-[[ -x /bin/ps && -x $(which pstree 2>/dev/null) ]] && function ps() { if [[ ${1} =~ 'f' ]]; then pstree; else /bin/ps ${@}; fi }
+[[ -x /bin/ps && -x $(which pstree 2>/dev/null) && $(uname -s) = 'Darwin' ]] && function ps() { if [[ ${1} =~ 'f' ]]; then pstree; else /bin/ps ${@}; fi }
 [[ -x $(which tree 2>/dev/null) ]] && alias tree="tree -AQh --du"
 export GIT_SSH_COMMAND="$(which ssh) -o RemoteCommand=none"
 #--------------------------------------------------------------------------------

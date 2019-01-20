@@ -1,3 +1,13 @@
+- name: 'iTerm2: Add configuration'
+  tags:
+    - config
+    - iterm2
+  template:
+    src: "{{ item }}"
+    dest: '~/.iterm2'
+    mode: '0600'
+  loop: "{{ query('fileglob', 'iterm2/*') }}"
+
 - name: 'Firefox: Set base path'
   tags:
     - config

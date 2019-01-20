@@ -37,6 +37,7 @@
     content: |
       [[ -x $(which gdu 2>/dev/null) ]] && function du() { gdu ${@}; } && export -f du
       [[ -x $(which gsort 2>/dev/null) ]] && function sort() { gsort ${@}; } && export -f sort
+      [[ -x $(which gxargs 2>/dev/null) ]] && function xargs() { gxargs ${@}; } && export -f xargs
     dest: '~/.bashrc.d/alias.gnu'
     mode: '0400'
 

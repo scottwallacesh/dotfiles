@@ -27,6 +27,7 @@ linux_packages:
   - gnome-shell-extension-weather
   - gnome-tweaks
   - keybase
+  - net-tools
   - netcat
   - qrencode
   - resilio-sync

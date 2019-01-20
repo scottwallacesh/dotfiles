@@ -1,8 +1,8 @@
-- name: Desktop tasks
+- name: "Desktop tasks ({{ ansible_system }})"
   include_tasks: "{{ loop_task }}"
   loop: "{{ query('fileglob', \"{{ ansible_system|lower }}/*\") | sort }}"
   loop_control:
     loop_var: loop_task
 
-- name: Common desktop tasks
+- name: Desktop tasks (Common)
   import_tasks: firefox.yaml

@@ -93,5 +93,7 @@ export GIT_SSH_COMMAND="$(which ssh) -o RemoteCommand=none"
 #--------------------------------------------------------------------------------
 # Include deployed bash config
 #--------------------------------------------------------------------------------
-source ~/.bashrc.d/* 2>/dev/null
+for include in ~/.bashrc.d/*; do
+  source ${include}
+done
 #--------------------------------------------------------------------------------

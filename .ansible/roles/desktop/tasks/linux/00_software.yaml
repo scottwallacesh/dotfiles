@@ -1,6 +1,7 @@
 - name: Adding repositories
   tags:
     - install
+    - repos
   apt_repository:
     repo: "{{ item }}"
     state: present
@@ -10,6 +11,7 @@
 - name: Installing packages
   tags:
     - install
+    - packages
   package:
     name: "{{ item }}"
     state: present
@@ -19,6 +21,7 @@
 - name: Installing Snaps
   tags:
     - install
+    - snaps
 #   snap:
 #     name: "{{ item }}"
 #     state: present
@@ -29,6 +32,7 @@
 - name: Checking for Modern Pictogram font
   tags:
     - install
+    - fonts
   stat:
     path: '~/.local/share/fonts/modernpics.otf'
   register: fontfile
@@ -36,6 +40,7 @@
 - name: Installing fonts
   tags:
     - install
+    - fonts
   block:
     - name: Create temporary file for Modern Pictograms font
       tempfile:
@@ -76,8 +81,14 @@
   become: true
 
 - name: Galaxy role to install Gnome extensions
+  tags:
+    - install
+    - gnome
   command: ansible-galaxy install jaredhocutt.gnome_extensions
 
 - name: Include jaredhocutt.gnome_extensions
+  tags:
+    - install
+    - gnome
   include_role:
     name: jaredhocutt.gnome_extensions

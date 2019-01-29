@@ -29,7 +29,7 @@ def main():
     parser.add_option('-n', dest='length', default=LENGTH, type=int)
     opts, _ = parser.parse_args()
 
-    print generate(opts.length)
+    sys.stdout.write(generate(opts.length))
 
 
 if __name__ == '__main__':

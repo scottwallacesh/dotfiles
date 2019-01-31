@@ -1,7 +1,31 @@
 firefox_user_prefs:
+  - name: 'services.sync.username'
+    value: '"scott@wallace.sh"'
+  - name: 'services.sync.client.name'
+    value: "\"{{ ansible_hostname }}\""
+  - name: 'browser.urlbar.placeholderName'
+    value: '"DuckDuckGo"'
+  - name: 'browser.search.hiddenOneOffs'
+    value: '"Bing,Chambers (UK),eBay,Twitter"'
   - name: 'keyword.enabled'
     value: "true"
   - name: 'network.cookie.thirdparty.sessionOnly'
     value: "false"
   - name: 'privacy.sanitize.pending'
     value: '"[{\"id\":\"shutdown\",\"itemsToClear\":[\"cache\",\"offlineApps\",\"history\",\"formdata\"],\"options\":{}},{\"id\":\"newtab-container\",\"itemsToClear\":[],\"options\":{}}]"'
+  - name: 'browser.download.dir'
+    value: "\"{{ '~/tmp' | expanduser }}\""
+  - name: 'browser.download.useDownloadDir'
+    value: "true"
+  - name: 'browser.newtabpage.activity-stream.asrouter.userprefs.cfr'
+    value: "false"
+  - name: 'privacy.donottrackheader.enabled'
+    value: "true"
+  - name: 'signon.rememberSignons'
+    value: "false"
+  - name: 'browser.urlbar.suggest.history'
+    value: "true"
+  - name: 'browser.urlbar.suggest.openpage'
+    value: "false"
+  - name: 'browser.urlbar.suggest.bookmark'
+    value: "false"

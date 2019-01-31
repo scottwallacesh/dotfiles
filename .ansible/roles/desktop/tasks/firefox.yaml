@@ -53,3 +53,5 @@
         regexp: "{{ item.name | regex_replace('\\.', '\\.') }}"
         line: "user_pref(\"{{ item.name }}\", {{ item.value }});"
       loop: "{{ firefox_user_prefs }}"
+      loop_control:
+        label: "{{ item.name }}"

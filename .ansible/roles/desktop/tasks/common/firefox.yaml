@@ -1,23 +1,27 @@
-- name: 'Firefox: Set base path'
+- name: 'Firefox: Setting base path'
   tags:
     - config
     - firefox
   block:
-    - set_fact:
+    - name: 'Firefox: Setting path (Linux)'
+      set_fact:
         firefox_path: '~/.mozilla/firefox'
       when: ansible_system == 'Linux'
-    - set_fact:
+    - name: 'Firefox: Setting path (Darwin)'
+      set_fact:
         firefox_path: '~/Library/Application Support/Firefox'
       when: ansible_system == 'Darwin'
 
-- name: 'Firefox: Discover profile path'
+- name: 'Firefox: Discovering profile path'
   tags:
     - config
     - firefox
   block:
-    - set_fact:
+    - name: 'Firefox: Setting profile_path'
+      set_fact:
         profile_path: "{{ firefox_path }}/{{ lookup('ini', 'Path section=Profile0 file=' + firefox_path + '/profiles.ini') }}"
-    - set_fact:
+    - name: 'Firefox: Setting user config path'
+      set_fact:
         userconfig_path: "{{ profile_path }}/user.js"
 
 - name: 'Firefox: Updating config'
@@ -25,7 +29,7 @@
     - config
     - firefox
   block:
-    - name: 'Firefox: Download lockdown config (relaxed)'
+    - name: 'Firefox: Downloading lockdown config (relaxed)'
       get_url:
         url: 'https://raw.githubusercontent.com/pyllyukko/user.js/relaxed/user.js'
         dest: "{{ userconfig_path }}-lockdown"
@@ -33,7 +37,7 @@
         force: yes
         backup: no
 
-    - name: 'Firefox: Replace user.js'
+    - name: 'Firefox: Replacing user.js'
       copy:
         src: "{{ userconfig_path }}-lockdown"
         dest: "{{ userconfig_path }}"

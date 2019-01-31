@@ -20,12 +20,12 @@
     - set_fact:
         userconfig_path: "{{ profile_path }}/user.js"
 
-- name: 'Firefox: Lockdown config (relaxed)'
+- name: 'Firefox: Updating config'
   tags:
     - config
     - firefox
   block:
-    - name: 'Firefox: Download lockdown (relaxed) config'
+    - name: 'Firefox: Download lockdown config (relaxed)'
       get_url:
         url: 'https://raw.githubusercontent.com/pyllyukko/user.js/relaxed/user.js'
         dest: "{{ userconfig_path }}-lockdown"

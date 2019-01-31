@@ -4,3 +4,4 @@
     - role: desktop
   vars_files:
     - "roles/desktop/vars/{{ ansible_system|lower }}.yaml"
+    - "roles/desktop/vars/firefox.yaml"

@@ -14,8 +14,11 @@
   tags:
     - config
     - firefox
-  set_fact:
-    profile_path: "{{ firefox_path }}/{{ lookup('ini', 'Path section=Profile0 file=' + firefox_path + '/profiles.ini') }}"
+  block:
+    - set_fact:
+        profile_path: "{{ firefox_path }}/{{ lookup('ini', 'Path section=Profile0 file=' + firefox_path + '/profiles.ini') }}"
+    - set_fact:
+        userconfig_path: "{{ profile_path }}/user.js"
 
 - name: 'Firefox: Lockdown config (relaxed)'
   tags:
@@ -25,27 +28,28 @@
     - name: 'Firefox: Download lockdown (relaxed) config'
       get_url:
         url: 'https://raw.githubusercontent.com/pyllyukko/user.js/relaxed/user.js'
-        dest: "{{ profile_path }}/user.js-lockdown"
+        dest: "{{ userconfig_path }}-lockdown"
         mode: '0600'
         force: yes
-        backup: yes
+        backup: no
 
     - name: 'Firefox: Replace user.js'
       copy:
-        src: "{{ profile_path }}/user.js-lockdown"
-        dest: "{{ profile_path }}/user.js"
+        src: "{{ userconfig_path }}-lockdown"
+        dest: "{{ userconfig_path }}"
         mode: '0600'
         force: yes
-        backup: yes
+        backup: no
 
-- name: 'Firefox: Relaxing further'
+- name: 'Firefox: Tweaking config'
   tags:
     - config
     - firefox
   block:
-    - name: 'Firefox: Allow searching from URL bar'
+    - name: 'Firefox: Modifying user.js'
       lineinfile:
-        path: "{{ profile_path }}/user.js"
+        path: "{{ userconfig_path }}"
         state: present
-        regexp: 'keyword\.enabled'
-        line: 'user_pref("keyword.enabled", true);'
+        regexp: "{{ item.name | regex_replace('\\.', '\\.') }}"
+        line: "user_pref(\"{{ item.name }}\", {{ item.value }});"
+      loop: "{{ firefox_user_prefs }}"

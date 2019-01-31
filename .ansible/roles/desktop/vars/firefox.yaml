@@ -1,0 +1,7 @@
+firefox_user_prefs:
+  - name: 'keyword.enabled'
+    value: "true"
+  - name: 'network.cookie.thirdparty.sessionOnly'
+    value: "false"
+  - name: 'privacy.sanitize.pending'
+    value: '"[{\"id\":\"shutdown\",\"itemsToClear\":[\"cache\",\"offlineApps\",\"history\",\"formdata\"],\"options\":{}},{\"id\":\"newtab-container\",\"itemsToClear\":[],\"options\":{}}]"'

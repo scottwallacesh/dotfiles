@@ -34,6 +34,7 @@ homebrew_cask_items:
   - handbrake
   - iterm2
   - itsycal
+  - joplin
   - keybase
   - osxfuse
   - resilio-sync

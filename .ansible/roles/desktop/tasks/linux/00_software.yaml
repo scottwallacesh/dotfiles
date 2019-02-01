@@ -80,15 +80,43 @@
   loop: "{{ lookup('vars', lookup('vars', 'ansible_system_vendor') + '_' + lookup('vars', 'ansible_form_factor') + '_packages') }}"
   become: true
 
-- name: Galaxy role to install Gnome extensions
+- name: 'Gnome extensions'
   tags:
     - install
     - gnome
-  command: ansible-galaxy install jaredhocutt.gnome_extensions
+  block:
+    - name: Galaxy role to install Gnome extensions
+      command: ansible-galaxy install jaredhocutt.gnome_extensions
 
-- name: Include jaredhocutt.gnome_extensions
+    - name: Include jaredhocutt.gnome_extensions
+      include_role:
+        name: jaredhocutt.gnome_extensions
+
+- name: 'Joplin: Check installation'
   tags:
     - install
-    - gnome
-  include_role:
-    name: jaredhocutt.gnome_extensions
+    - joplin
+  stat:
+    path: "{{ '~/.joplin/Joplin.AppImage' | expanduser }}"
+  register: joplin_app
+
+- name: 'Joplin'
+  tags:
+    - install
+    - joplin
+  block:
+    - name: 'Joplin: Create directory'
+      file:
+        path: "{{ '~/.joplin' | expanduser }}"
+        state: directory
+
+    - name: 'Joplin: Fetch latest version number'
+      shell: 'curl --silent https://api.github.com/repos/laurent22/joplin/releases/latest | grep -Po "\"tag_name\": \"v\K.*?(?=\")"'
+      register: joplin_version
+
+    - name: "Joplin: Fetch latest version ({{ joplin_version.stdout }})"
+      get_url:
+        url: "https://github.com/laurent22/joplin/releases/download/v{{ joplin_version.stdout }}/Joplin-{{ joplin_version.stdout }}-x86_64.AppImage"
+        dest: "{{ '~/.joplin/Joplin.AppImage' | expanduser }}"
+        mode: '0500'
+  when: joplin_app.stat.exists == false

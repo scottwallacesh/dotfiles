@@ -25,6 +25,10 @@ firefox_user_prefs:
     value: "true"
   - name: 'privacy.sanitize.pending'
     value: '"[{\"id\":\"shutdown\",\"itemsToClear\":[\"cache\",\"offlineApps\",\"history\",\"formdata\"],\"options\":{}},{\"id\":\"newtab-container\",\"itemsToClear\":[],\"options\":{}}]"'
+  - name: 'privacy.window.maxInnerHeight'
+    value: '900'
+  - name: 'privacy.window.maxInnerWidth'
+    value: '1400'
   - name: 'services.sync.client.name'
     value: "\"{{ ansible_hostname }}\""
   - name: 'services.sync.username'

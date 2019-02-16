@@ -1,0 +1,8 @@
+- name: 'Screen: Basic config'
+  tags:
+    - config
+    - screen
+  copy:
+    src: 'screen/.screenrc'
+    dest: '~'
+    mode: '0600'

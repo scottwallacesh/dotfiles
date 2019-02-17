@@ -1,4 +1,6 @@
 firefox_user_prefs:
+  - name: 'browser.display.use_document_fonts'
+    value: '1'
   - name: 'browser.download.dir'
     value: "\"{{ '~/tmp' | expanduser }}\""
   - name: 'browser.download.useDownloadDir'

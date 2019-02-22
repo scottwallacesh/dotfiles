@@ -25,7 +25,6 @@ linux_packages:
   - copyq
   - dconf-editor
   - enpass
-  - franz
   - git
   - glances
   - gnome-shell-extension-caffeine
@@ -39,15 +38,16 @@ linux_packages:
   - qrencode
   - resilio-sync
   - screen
-  - sonos-controller-unofficial
+  # - sonos-controller-unofficial
   - ttf-mscorefonts-installer
   - units
   - vim
   - wireshark-qt
 
 linux_apps:
+  #  - franz
   - google-play-music-desktop-player
-  - skype
+  - 'skype --classic'
   - wireguard-ammp
 
 gnome_extension_ids:

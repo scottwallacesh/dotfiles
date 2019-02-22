@@ -39,6 +39,14 @@
   loop: "{{ linux_apps }}"
   become: true
 
+- name: Ensure shared fonts directory exists
+  tags:
+    - install
+    - fonts
+  file:
+    path: '~/.local/share/fonts'
+    state: directory
+
 - name: Checking for Modern Pictogram font
   tags:
     - install

@@ -10,6 +10,13 @@ linux_repos:
   - 'deb http://prerelease.keybase.io/deb stable main'                                     # Keybase
   - 'deb https://apt.enpass.io/ stable main'                                               # Enpass
 
+linux_repos_keys:
+  - 'https://packages.microsoft.com/keys/microsoft.asc'                                         # Visual Studio Code
+  - 'https://download.opensuse.org/repositories/home:manuelschneid3r/xUbuntu_18.10/Release.key' # Albert
+  - 'http://linux-packages.resilio.com/resilio-sync/key.asc'                                    # Resilio Sync
+  - 'https://keybase.io/docs/server_security/code_signing_key.asc'                              # Keybase
+  - 'https://apt.enpass.io/keys/enpass-linux.key'                                               # Enpass
+
 linux_packages:
   - albert
   - chrome-gnome-shell

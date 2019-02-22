@@ -1,5 +1,0 @@
-- name: "Desktop tasks ({{ ansible_system }})"
-  include: "{{ loop_task }}"
-  loop: "{{ query('fileglob', \"{{ ansible_system|lower }}/*\", \"common/*\") | sort }}"
-  loop_control:
-    loop_var: loop_task

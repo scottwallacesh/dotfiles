@@ -3,5 +3,19 @@
   roles:
     - role: desktop
   vars_files:
-    - "roles/desktop/vars/{{ ansible_system|lower }}.yaml"
-    - "roles/desktop/vars/common.yaml"
+    - roles/desktop/vars/common.yaml
+    - "roles/desktop/vars/{{ ansible_system | lower }}.yaml"
+  tasks:
+    - import_tasks: roles/desktop/tasks/common/firefox.yaml
+    - import_tasks: roles/desktop/tasks/common/screen.yaml
+
+    - block:
+      - import_tasks: roles/desktop/tasks/darwin/homebrew.yaml
+      - import_tasks: roles/desktop/tasks/darwin/mas.yaml
+      - import_tasks: roles/desktop/tasks/darwin/prefs.yaml
+      when: ansible_system == 'Darwin'
+
+    - block:
+      - import_tasks: roles/desktop/tasks/linux/software.yaml
+      - import_tasks: roles/desktop/tasks/linux/config.yaml
+      when: ansible_system == 'Linux'

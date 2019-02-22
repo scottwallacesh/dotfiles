@@ -95,7 +95,7 @@
   package:
     name: "{{ item }}"
     state: present
-  loop: "{{ lookup('vars', lookup('vars', 'ansible_system_vendor') + '_' + lookup('vars', 'ansible_form_factor') + '_packages') }}"
+  loop: "{{ lookup('vars', ansible_system_vendor + '_' + ansible_form_factor + '_packages', default=[]) }}"
   become: true
 
 - name: 'Gnome extensions'

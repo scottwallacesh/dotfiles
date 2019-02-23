@@ -1,0 +1,66 @@
+config_repos:
+  - name: 'albert'
+    repo: 'git@github.com:scottwallacesh/albert.git'
+    dest: '~/.local/share/albert'
+
+linux_repos:
+  - name: 'Visual Studio Code'
+    data: 'deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main'
+    key: 'https://packages.microsoft.com/keys/microsoft.asc'
+  - name: 'Albert'
+    data: 'deb http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_18.10/ /'
+    key: 'https://download.opensuse.org/repositories/home:manuelschneid3r/xUbuntu_18.10/Release.key'
+  - name: 'Resilio Sync'
+    data: 'deb http://linux-packages.resilio.com/resilio-sync/deb resilio-sync non-free'
+    key: 'http://linux-packages.resilio.com/resilio-sync/key.asc'
+  - name: 'Keybase'
+    data: 'deb http://prerelease.keybase.io/deb stable main'
+    key: 'https://keybase.io/docs/server_security/code_signing_key.asc'
+  - name: 'Enpass'
+    data: 'deb https://apt.enpass.io/ stable main'
+    key: 'https://apt.enpass.io/keys/enpass-linux.key'
+
+linux_packages:
+  - albert
+  - chrome-gnome-shell
+  - code
+  - conky
+  - copyq
+  - dconf-editor
+  - enpass
+  - git
+  - glances
+  - gnome-shell-extension-caffeine
+  - gnome-shell-extension-dashtodock
+  - gnome-shell-extension-mediaplayer
+  - gnome-shell-extension-weather
+  - gnome-tweaks
+  - keybase
+  - net-tools
+  - netcat
+  - qrencode
+  - resilio-sync
+  - screen
+  # - sonos-controller-unofficial
+  - ttf-mscorefonts-installer
+  - units
+  - vim
+  - wireshark-qt
+
+linux_apps:
+  #  - franz
+  - google-play-music-desktop-player
+  - 'skype --classic'
+  - wireguard-ammp
+
+gnome_extension_ids:
+  - 358    # activities configurator
+  - 1206   # clock-override
+  - 28     # gtile
+  - 1386   # notification counter
+  - 19     # user themes
+
+# Platform specific packages
+# Format: systemvendor_formfactor_packages
+"Apple Inc._Laptop_packages":
+  - mbpfan

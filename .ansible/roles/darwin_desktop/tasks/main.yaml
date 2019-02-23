@@ -1,0 +1,3 @@
+- import_tasks: homebrew.yaml
+- import_tasks: mas.yaml
+- import_tasks: prefs.yaml

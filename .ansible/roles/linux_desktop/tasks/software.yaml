@@ -1,22 +1,11 @@
-- name: Apt public GPG keys
-  tags:
-    - install
-    - repos
-  apt_key:
-    state: present
-    url: "{{ item }}"
-  loop: "{{ linux_repos_keys }}"
-  become: true
-
 - name: Adding repositories
   tags:
     - install
     - repos
-  apt_repository:
-    repo: "{{ item }}"
-    state: present
+  include: includes/repos.yaml
   loop: "{{ linux_repos }}"
-  become: true
+  loop_control:
+    loop_var: repo
 
 - name: Installing packages
   tags:

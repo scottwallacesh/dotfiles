@@ -1,0 +1,16 @@
+- name: includes/repos.yaml
+  tags:
+    - install
+    - repos
+  block:
+    - name: "Apt repo: Import GPG key: {{ repo.name }}"
+      apt_key:
+        state: present
+        url: "{{ repo.key }}"
+      become: true
+
+    - name: "Apt repo: Add repo: {{ repo.name }}"
+      apt_repository:
+        state: present
+        repo: "{{ repo.data }}"
+      become: true

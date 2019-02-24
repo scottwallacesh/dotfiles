@@ -1,2 +1,15 @@
 - import_tasks: software.yaml
 - import_tasks: config.yaml
+
+- name: Check platform-specific file exists
+  tags:
+    - platform
+  stat:
+    path: "{{ role_path }}/tasks/includes/platform_{{ ansible_system_vendor | lower + '_' + ansible_form_factor | lower }}.yaml"
+  register: platform_file
+
+- name: Include platform-specific file
+  tags:
+    - platform
+  include_tasks: "{{ platform_file.stat.path }}"
+  when: platform_file.stat.exists

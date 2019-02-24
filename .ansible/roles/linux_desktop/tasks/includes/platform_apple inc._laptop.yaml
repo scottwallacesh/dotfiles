@@ -1,0 +1,8 @@
+- name: 'Platform: Apple Inc. Laptop'
+  tags:
+    - platform
+  package:
+    name: "{{ item }}"
+    state: present
+  loop: ['mbpfan']
+  become: true

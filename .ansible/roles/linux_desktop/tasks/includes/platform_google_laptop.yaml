@@ -1,0 +1,10 @@
+- name: 'Platform: Google Laptop (Chromebook)'
+  tags:
+    - platform
+
+  block:
+    - name: 'Platform: Google Laptop: Audio drivers'
+      unarchive:
+        src: files/google-laptop-audio.tar.gz
+        dest: /
+      become: true

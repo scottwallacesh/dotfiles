@@ -1,6 +1,7 @@
-- name: Checkout some repositories for local config
+- name: 'Config: Checkout some repositories for local config'
   tags:
     - config
+    - repos
   git:
     repo: "{{ item.repo }}"
     dest: "{{ item.dest }}"
@@ -13,19 +14,40 @@
   template:
     src: 'templates/conkyrc.j2'
     dest: '~/.conkyrc'
-    mode: '0600'
+    mode: '0400'
 
-- name: 'Wireguard: Configuration template'
+- name: 'Wireguard'
   tags:
     - config
     - wireguard
   block:
-    - stat:
-        path: /etc/wireguard/wg0.conf
+    - set_fact:
+        wgconfig_path: /etc/wireguard/wg0.conf
+
+    - name: 'Wireguard: Check for existing configuration'
+      stat:
+        path: "{{ wgconfig_path }}"
       register: wgconfig
-    - copy:
-        dest: /etc/wireguard/wg0.conf
+
+    - name: 'Wireguard: Create configuration template'
+      copy:
+        dest: "{{ wgconfig_path }}"
         src: files/wireguard.conf
         mode: '0400'
       when: wgconfig.stat.exists == False
       become: true
+
+    - name: 'Wireguard: Fix configuration permissions'
+      file:
+        state: file
+        path: "{{ wgconfig_path }}"
+        mode: '0400'
+        owner: 'root'
+        group: 'root'
+      become: true
+
+    - name: 'Wireguard: Service enabled'
+      service:
+        name: 'wg-quick@wg0'
+        enabled: true
+        state: started

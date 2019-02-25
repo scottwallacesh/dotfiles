@@ -7,6 +7,7 @@
       apt_key:
         state: present
         url: "{{ repo.key }}"
+      when: repo.key
       become: true
 
     - name: "Apt repo: Add repo: {{ repo.name }}"

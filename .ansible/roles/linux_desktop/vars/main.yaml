@@ -19,6 +19,9 @@ linux_repos:
   - name: 'Enpass'
     data: 'deb https://apt.enpass.io/ stable main'
     key: 'https://apt.enpass.io/keys/enpass-linux.key'
+  - name: 'Wireguard'
+    data: 'ppa:wireguard/wireguard'
+    key: ''
 
 linux_packages:
   - albert
@@ -45,6 +48,8 @@ linux_packages:
   - ttf-mscorefonts-installer
   - units
   - vim
+  - wireguard
+  - wireguard-tools
   - wireshark-qt
 
 linux_apps:

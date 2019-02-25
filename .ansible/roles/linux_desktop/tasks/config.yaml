@@ -6,7 +6,7 @@
     dest: "{{ item.dest }}"
   loop: "{{ config_repos }}"
 
-- name: Conky configuration
+- name: 'Conky: Configuration'
   tags:
     - config
     - conky
@@ -14,3 +14,18 @@
     src: 'templates/conkyrc.j2'
     dest: '~/.conkyrc'
     mode: '0600'
+
+- name: 'Wireguard: Configuration template'
+  tags:
+    - config
+    - wireguard
+  block:
+    - stat:
+        path: /etc/wireguard/wg0.conf
+      register: wgconfig
+    - copy:
+        dest: /etc/wireguard/wg0.conf
+        src: files/wireguard.conf
+        mode: '0400'
+      when: wgconfig.stat.exists == False
+      become: true

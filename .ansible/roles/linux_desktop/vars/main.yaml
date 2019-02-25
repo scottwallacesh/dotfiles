@@ -49,7 +49,6 @@ linux_packages:
   - units
   - vim
   - wireguard
-  - wireguard-tools
   - wireshark-qt
 
 linux_apps:

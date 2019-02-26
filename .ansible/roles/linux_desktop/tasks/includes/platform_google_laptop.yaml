@@ -10,8 +10,8 @@
       become: true
 
     - name: 'Platform: Google Laptop: Disable wireless power management'
-      copy:
-        dest: /etc/pm/sleep.d/wifi_pwr_off
-        content: '/sbin/iwconfig wlp1s0 power off'
-        mode: '0500'
+      lineinfile:
+        path: /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
+        regexp: '^wifi.powersave ='
+        line: 'wifi.powersave = 2'
       become: true

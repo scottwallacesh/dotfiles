@@ -15,3 +15,10 @@
         regexp: '^wifi.powersave ='
         line: 'wifi.powersave = 2'
       become: true
+
+    - name: 'Platform: Google Laptop: Make WiFi stable'
+      lineinfile:
+        path: /etc/modprobe.d/iwlwifi.conf
+        regexp: '^options iwlwifi '
+        line: 'options iwlwifi 11n_disable=8 swcrypto=1'
+      become: true

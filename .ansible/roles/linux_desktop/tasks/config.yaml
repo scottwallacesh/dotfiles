@@ -59,3 +59,29 @@
   copy:
     dest: '~/.config'
     src: files/albert
+
+- name: 'Gnome: Custom key bindings: Add'
+  tags:
+    - config
+    - keybindings
+  block:
+    - name: 'Gnome: Custom key bindings: Set facts'
+      set_fact:
+        customkbpath: '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings'
+        kblist: []
+
+    - name: 'Gnome: Custom key bindings: Build list'
+      set_fact:
+        kblist: "{{ kblist + [ ( customkbpath + '/custom' + index | string + '/' ) | to_json ] }}"
+      loop: "{{ gnome_custom_keybindings }}"
+      loop_control:
+        index_var: index
+        label: "{{ item.name }}"
+
+    - name: 'Gnome: Custom key bindings: Configure list'
+      command: "dconf write {{ customkbpath }} [{{ kblist | join(',') | quote }}]"
+
+    - include: includes/keybindings.yaml
+      loop: "{{ gnome_custom_keybindings }}"
+      loop_control:
+        index_var: index

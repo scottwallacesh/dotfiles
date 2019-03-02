@@ -63,3 +63,14 @@ gnome_extension_ids:
   - 28     # gtile
   - 1386   # notification counter
   - 19     # user themes
+
+gnome_custom_keybindings:
+  - name: 'Show clipboards in Albert'
+    binding: '<Primary><Alt>c'
+    command: >
+      'albert show \'pb \''
+
+  - name: 'Show CopyQ clipboards'
+    binding: '<Primary><Alt>x'
+    command: >
+      'copyq show'

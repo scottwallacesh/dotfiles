@@ -51,3 +51,11 @@
         name: 'wg-quick@wg0'
         enabled: true
         state: started
+
+- name: 'Abert'
+  tags:
+    - config
+    - albert
+  copy:
+    dest: '~/.config'
+    src: files/albert

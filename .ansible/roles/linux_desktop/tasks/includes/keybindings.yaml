@@ -1,0 +1,13 @@
+- name: 'Gnome: Custom key bindings'
+  tags:
+    - config
+    - keybindings
+  block:
+    - name: "Gnome: Custom key bindings: {{ item.name }} (name)"
+      command: "dconf write {{ customkbpath }}/custom{{ index }}/name \"'{{ item.name }}'\""
+
+    - name: "Gnome: Custom key bindings: {{ item.name }} (binding)"
+      command: "dconf write {{ customkbpath }}/custom{{ index }}/binding \"'{{ item.binding }}'\""
+
+    - name: "Gnome: Custom key bindings: {{ item.name }} (command)"
+      command: "dconf write {{ customkbpath }}/custom{{ index }}/command \"{{ item.command }}\""

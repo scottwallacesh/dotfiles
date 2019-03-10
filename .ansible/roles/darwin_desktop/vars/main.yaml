@@ -1,5 +1,4 @@
 homebrew_tap_items:
-  - caskroom/versions
   - buo/homebrew-cask-upgrade
 
 homebrew_brew_items:
@@ -29,8 +28,6 @@ homebrew_cask_items:
   - enpass
   - firefox
   - google-drive-file-stream
-  - google-chrome
-  - google-hangouts
   - handbrake
   - iterm2
   - itsycal
@@ -39,10 +36,7 @@ homebrew_cask_items:
   - osxfuse
   - resilio-sync
   - shiftit
-  - signal
   - sonos
   - virtualbox
   - visual-studio-code
-  - whatsapp
   - wireshark
-  - xquartz

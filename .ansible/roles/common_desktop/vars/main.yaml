@@ -23,10 +23,14 @@ firefox_user_prefs:
     value: "false"
   - name: 'network.http.referer.spoofSource'
     value: '"false"'
+  - name: 'places.history.enabled'
+    value: "true"
+  - name: 'privacy.clearOnShutdown.history'
+    value: "false"
   - name: 'privacy.donottrackheader.enabled'
     value: "true"
   - name: 'privacy.sanitize.pending'
-    value: '"[{\"id\":\"shutdown\",\"itemsToClear\":[\"cache\",\"offlineApps\",\"history\",\"formdata\"],\"options\":{}},{\"id\":\"newtab-container\",\"itemsToClear\":[],\"options\":{}}]"'
+    value: '"[{\"id\":\"shutdown\",\"itemsToClear\":[\"cache\",\"offlineApps\",\"formdata\"],\"options\":{}},{\"id\":\"newtab-container\",\"itemsToClear\":[],\"options\":{}}]"'
   - name: 'privacy.window.maxInnerHeight'
     value: '900'
   - name: 'privacy.window.maxInnerWidth'

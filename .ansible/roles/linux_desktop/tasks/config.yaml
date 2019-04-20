@@ -21,7 +21,7 @@
     - config
     - ipv6
   block:
-    - name: 'IPv6: Privacy: Temporary addressing'
+    - name: 'IPv6: Privacy: Temporary addressing defaults'
       lineinfile:
         path: "/etc/ufw/sysctl.conf"
         state: present
@@ -31,11 +31,8 @@
       become: true
 
     - name: 'IPv6: Privacy: Detect interfaces'
-      shell: "nmcli connection show | tail -n +2 | awk '{print $2}'"
+      shell: 'nmcli -t connection show | cut -f2 -d:'
       register: nmcli_connections
-
-    - debug:
-        var: nmcli_connections
 
     - name: 'IPv6: Privacy: Network Manager enforcement'
       command: "nmcli connection modify uuid {{ item }} ipv6.ip6-privacy 2"

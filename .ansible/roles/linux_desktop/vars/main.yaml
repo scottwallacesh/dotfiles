@@ -41,7 +41,6 @@ linux_packages:
   - keybase
   - net-tools
   - netcat
-  - plank
   - qrencode
   - resilio-sync
   - screen
@@ -51,7 +50,6 @@ linux_packages:
   - vim
   - wireguard
   - wireshark-qt
-  - xubuntu-desktop
 
 linux_apps:
   #  - franz

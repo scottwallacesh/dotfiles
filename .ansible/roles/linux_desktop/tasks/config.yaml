@@ -60,18 +60,6 @@
     dest: '~/.config'
     src: files/albert
 
-- name: 'Synaptics touchpad natural scrolling'
-  tags:
-    - config
-    - desktop
-  copy:
-    dest: '/etc/X11/Xsession.d/80synaptics'
-    src: files/80synaptics
-    mode: '0644'
-    owner: 'root'
-    group: 'root'
-  become: true
-
 - name: 'Gnome: Custom key bindings: Add'
   tags:
     - config

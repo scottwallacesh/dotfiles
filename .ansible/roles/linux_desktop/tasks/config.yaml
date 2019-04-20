@@ -16,6 +16,31 @@
     dest: '~/.conkyrc'
     mode: '0400'
 
+- name: 'IPv6: Privacy'
+  tags:
+    - config
+    - ipv6
+  block:
+    - name: 'IPv6: Privacy: Temporary addressing'
+      lineinfile:
+        path: "/etc/ufw/sysctl.conf"
+        state: present
+        regexp: "net/ipv6/conf/{{ item }}/use_tempaddr"
+        line: "net/ipv6/conf/{{ item }}/use_tempaddr=2"
+      loop: ['default', 'all']
+      become: true
+
+    - name: 'IPv6: Privacy: Detect interfaces'
+      shell: "nmcli connection show | tail -n +2 | awk '{print $2}'"
+      register: nmcli_connections
+
+    - debug:
+        var: nmcli_connections
+
+    - name: 'IPv6: Privacy: Network Manager enforcement'
+      command: "nmcli connection modify uuid {{ item }} ipv6.ip6-privacy 2"
+      loop: "{{ nmcli_connections.stdout_lines }}"
+
 - name: 'Wireguard'
   tags:
     - config
@@ -49,8 +74,7 @@
     - name: 'Wireguard: Service enabled'
       service:
         name: 'wg-quick@wg0'
-        enabled: true
-        state: started
+        enabled: false
 
 - name: 'Abert'
   tags:

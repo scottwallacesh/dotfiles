@@ -56,7 +56,7 @@
         dest: "{{ wgconfig_path }}"
         src: files/wireguard.conf
         mode: '0400'
-      when: wgconfig.stat.exists == False
+      when: not wgconfig.stat.exists
       become: true
 
     - name: 'Wireguard: Fix configuration permissions'

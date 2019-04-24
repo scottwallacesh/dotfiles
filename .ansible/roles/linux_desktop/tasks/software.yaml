@@ -75,7 +75,7 @@
 
     - name: Refresh font cache
       command: 'fc-cache -f'
-  when: fontfile.stat.exists == false
+  when: not fontfile.stat.exists
 
 - name: 'Gnome extensions'
   tags:
@@ -116,4 +116,4 @@
         url: "https://github.com/laurent22/joplin/releases/download/v{{ joplin_version.stdout }}/Joplin-{{ joplin_version.stdout }}-x86_64.AppImage"
         dest: "{{ '~/.joplin/Joplin.AppImage' | expanduser }}"
         mode: '0500'
-  when: joplin_app.stat.exists == false
+  when: not joplin_app.stat.exists

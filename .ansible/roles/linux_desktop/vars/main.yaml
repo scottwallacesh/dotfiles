@@ -33,9 +33,7 @@ linux_packages:
   - enpass
   - git
   - glances
-  - gnome-shell-extension-caffeine
   - gnome-shell-extension-dashtodock
-  - gnome-shell-extension-mediaplayer
   - gnome-shell-extension-weather
   - gnome-tweaks
   - keybase
@@ -62,7 +60,6 @@ gnome_extension_ids:
   - 1206   # clock-override
   - 28     # gtile
   - 1386   # notification counter
-  - 19     # user themes
 
 gnome_custom_keybindings:
   - name: 'Show clipboards in Albert'

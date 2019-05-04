@@ -120,3 +120,14 @@
       loop: "{{ gnome_custom_keybindings }}"
       loop_control:
         index_var: index
+
+- name: 'Shell: Clipboard aliases'
+  tags:
+    - config
+    - shell
+  copy:
+    content: |
+      [[ -x /usr/bin/copyq ]] && function pbpaste() { /usr/bin/copyq clipboard; } && export -f pbpaste
+      [[ -x /usr/bin/copyq ]] && function pbcopy() { /usr/bin/copyq add -; } && export -f pbcopy
+    dest: '~/.bashrc.d/alias.clipboard'
+    mode: '0400'

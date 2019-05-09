@@ -92,20 +92,6 @@
     dest: '~/.conkyrc'
     mode: '0400'
 
-- name: 'Synaptics touchpad natural scrolling'
-  tags:
-    - config
-    - desktop
-  copy:
-    dest: '/etc/X11/Xsession.d/80synaptics'
-    content: |
-      synclient VertScrollDelta=-247
-      synclient HorizScrollDelta=-247
-    mode: '0644'
-    owner: 'root'
-    group: 'root'
-  become: true
-
 - name: 'Abert'
   tags:
     - config

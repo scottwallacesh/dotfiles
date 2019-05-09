@@ -1,8 +1,36 @@
-- name: 'Platform: Apple Inc. Laptop'
+- name: 'Platform: Apple Inc. Laptop: Software'
   tags:
     - platform
   package:
     name: "{{ item }}"
     state: present
-  loop: ['mbpfan']
+  loop:
+    - 'mbpfan'
+    - 'xserver-xorg-input-mtrack'
   become: true
+
+- name: 'Platform: Apple Inc. Laptop: Trackpad'
+  tags:
+    - platform
+  block:
+    - name: 'Platform: Apple Inc. Laptop: Remove Synaptics driver'
+      apt:
+        name: 'xserver-xorg-input-synaptics'
+        state: absent
+        purge: true
+      become: true
+
+    - name: 'Platform: Apple Inc. Laptop: Remove old trackpad config'
+      file:
+        path: '/usr/share/X11/xorg.conf.d/50-mtrack.conf'
+        state: absent
+      become: true
+
+    - name: 'Platform: Apple Inc. Laptop: Trackpad config'
+      copy:
+        src: files/mtrack.conf
+        dest: '/usr/share/X11/xorg.conf.d/10-mtrack.conf'
+        owner: 'root'
+        group: 'root'
+        mode: 0644
+      become: true

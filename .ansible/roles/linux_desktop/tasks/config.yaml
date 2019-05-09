@@ -1,3 +1,22 @@
+- name: 'DNS: Enable DNSSEC'
+  tags:
+    - config
+    - dns
+  block:
+    - name: 'DNS: Enable DNSSEC configuration'
+      lineinfile:
+        path: '/etc/systemd/resolved.conf'
+        state: present
+        regexp: 'DNSSEC='
+        line: 'DNSSEC=yes'
+      become: true
+
+    - name: 'DNS: Restart resolver'
+      systemd:
+        name: systemd-resolved
+        state: restarted
+      become: true
+
 - name: 'IPv6: Privacy'
   tags:
     - config
@@ -5,7 +24,7 @@
   block:
     - name: 'IPv6: Privacy: Temporary addressing defaults'
       lineinfile:
-        path: "/etc/ufw/sysctl.conf"
+        path: '/etc/ufw/sysctl.conf'
         state: present
         regexp: "net/ipv6/conf/{{ item }}/use_tempaddr"
         line: "net/ipv6/conf/{{ item }}/use_tempaddr=2"

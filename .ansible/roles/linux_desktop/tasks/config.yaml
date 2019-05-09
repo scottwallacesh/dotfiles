@@ -1,21 +1,3 @@
-- name: 'Config: Checkout some repositories for local config'
-  tags:
-    - config
-    - repos
-  git:
-    repo: "{{ item.repo }}"
-    dest: "{{ item.dest }}"
-  loop: "{{ config_repos }}"
-
-- name: 'Conky: Configuration'
-  tags:
-    - config
-    - conky
-  template:
-    src: 'templates/conkyrc.j2'
-    dest: '~/.conkyrc'
-    mode: '0400'
-
 - name: 'IPv6: Privacy'
   tags:
     - config
@@ -72,6 +54,24 @@
       service:
         name: 'wg-quick@wg0'
         enabled: false
+
+- name: 'Config: Checkout some repositories for local config'
+  tags:
+    - config
+    - repos
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ item.dest }}"
+  loop: "{{ config_repos }}"
+
+- name: 'Conky: Configuration'
+  tags:
+    - config
+    - conky
+  template:
+    src: 'templates/conkyrc.j2'
+    dest: '~/.conkyrc'
+    mode: '0400'
 
 - name: 'Synaptics touchpad natural scrolling'
   tags:

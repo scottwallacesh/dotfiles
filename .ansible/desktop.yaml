@@ -3,5 +3,10 @@
   roles:
     - role: linux_desktop
       when: ansible_system == 'Linux'
+      tags:
+        - linux
     - role: darwin_desktop
       when: ansible_system == 'Darwin'
+      tags:
+        - darwin
+        - osx

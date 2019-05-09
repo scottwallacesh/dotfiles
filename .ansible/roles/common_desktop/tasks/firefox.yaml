@@ -7,6 +7,7 @@
       set_fact:
         firefox_path: '~/.mozilla/firefox'
       when: ansible_system == 'Linux'
+
     - name: 'Firefox: Setting path (Darwin)'
       set_fact:
         firefox_path: '~/Library/Application Support/Firefox'

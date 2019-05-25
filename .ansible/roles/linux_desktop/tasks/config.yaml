@@ -8,7 +8,7 @@
         path: '/etc/systemd/resolved.conf'
         state: present
         regexp: 'DNSSEC='
-        line: 'DNSSEC=yes'
+        line: '#DNSSEC=allow-downgrade'
       become: true
 
     - name: 'DNS: Restart resolver'

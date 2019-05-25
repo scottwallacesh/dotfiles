@@ -1,3 +1,3 @@
 - name: Home server tasks
   import_tasks: basics.yaml
-- import_tasks: sensu.yaml
+# - import_tasks: sensu.yaml

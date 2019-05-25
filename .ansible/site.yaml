@@ -1,4 +1,7 @@
 - name: Home server
   hosts: home_servers
   roles:
-    - home_server
+    - common_server
+    - searx_server
+    - matrix_server
+    - media_server

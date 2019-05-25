@@ -1,6 +1,6 @@
 server_packages:
-  - epel-release
   - git
+  - haproxy
   - lsof
   - net-tools
   - psmisc

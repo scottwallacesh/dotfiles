@@ -1,0 +1,47 @@
+- name: 'Traccar: Check installed'
+  tags:
+    - install
+    - traccar
+  stat:
+    path: "/opt/traccar/traccar.run"
+  register: traccar_app
+
+- name: 'Traccar: Install'
+  tags:
+    - install
+    - traccar
+  include_tasks:
+    file: install.yaml
+    apply:
+      tags:
+        - always
+  when: not traccar_app.stat.exists
+
+- name: 'Traccar: Fix perms'
+  tags:
+    - install
+    - traccar
+  file:
+    path: "/opt/traccar"
+    owner: "{{ traccar_owner }}"
+    group: "{{ traccar_owner }}"
+    recurse: yes
+  become: yes
+
+- name: 'Traccar: Tidy installer'
+  tags:
+    - install
+    - traccar
+  file:
+    path: "{{ traccar_tmppath }}"
+    state: absent
+  become: yes
+
+- name: 'Traccar: Service running'
+  tags:
+    - traccar
+  systemd:
+    name: traccar
+    state: started
+    enabled: yes
+  become: yes

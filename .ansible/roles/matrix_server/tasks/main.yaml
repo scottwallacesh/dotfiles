@@ -1,0 +1,9 @@
+- name: Synapse package
+  tags:
+    - install
+    - matrix
+    - synapse
+  package:
+    name: matrix-synapse
+    state: latest
+  become: yes

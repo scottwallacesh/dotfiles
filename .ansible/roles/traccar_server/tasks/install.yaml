@@ -1,0 +1,37 @@
+- name: 'Traccar: Temporary file'
+  tempfile:
+    state: file
+    suffix: '.zip'
+  register: traccarzip
+
+- name: 'Traccar: Download'
+  get_url:
+    url: https://github.com/traccar/traccar/releases/download/v4.5/traccar-linux-64-4.5.zip
+    dest: "{{ traccarzip.path }}"
+    force: true
+  register: fetchurl
+
+- name: 'Traccar: Install dir'
+  file:
+    path: "{{ traccar_tmppath }}"
+    state: directory
+  become: yes
+
+- name: 'Traccar: Unzip'
+  unarchive:
+    src: "{{ traccarzip.path }}"
+    dest: "{{ traccar_tmppath }}"
+    remote_src: yes
+  become: yes
+
+- name: 'Traccar: Remove temporary file'
+  file:
+    path: "{{ traccarzip.path }}"
+    state: absent
+
+- name: 'Traccar: Run installer'
+  tags:
+    - install
+    - traccar
+  command: "{{ traccar_tmppath}}/traccar.run"
+  become: yes

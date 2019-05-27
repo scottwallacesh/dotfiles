@@ -1,8 +1,29 @@
-- name: Basic package installs
+- name: 'Basics: Package installs'
   tags:
     - install
+    - basics
   yum:
     name: "{{ item }}"
     state: latest
   loop: "{{ server_packages }}"
-  become: true
+  become: yes
+
+- name: 'Basics: Directories'
+  tags:
+    - basics
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - /srv
+    - /srv/app
+    - /srv/tmp
+  become: yes
+
+- name: 'Basics: Temp dir perms'
+  tags:
+    - basics
+  file:
+    path: '/srv/tmp'
+    mode: '1777'
+  become: yes

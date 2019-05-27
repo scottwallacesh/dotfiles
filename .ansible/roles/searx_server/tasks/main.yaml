@@ -1,0 +1,8 @@
+- name: 'Searx: package'
+  tags:
+    - install
+    - searx
+  package:
+    name: searx
+    state: latest
+  become: yes

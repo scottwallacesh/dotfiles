@@ -1,9 +1,12 @@
 server_packages:
   - git
   - haproxy
+  - letsencrypt
   - lsof
   - net-tools
   - psmisc
   - rsync
+  - screen
   - telnet
+  - unzip
   - vim

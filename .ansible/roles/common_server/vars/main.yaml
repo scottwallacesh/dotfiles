@@ -1,10 +1,14 @@
 server_packages:
+  - curl
   - git
   - haproxy
   - letsencrypt
   - lsof
   - net-tools
   - psmisc
+  - python-simplejson
+  - python-pip
+  - python3-pip
   - rsync
   - screen
   - telnet

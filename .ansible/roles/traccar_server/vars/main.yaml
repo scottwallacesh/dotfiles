@@ -1,2 +1,2 @@
 traccar_tmppath: '/srv/tmp/traccar'
-traccar_owner: 'scott'
+traccar_owner: 'traccar'

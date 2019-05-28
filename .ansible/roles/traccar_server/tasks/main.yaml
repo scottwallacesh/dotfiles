@@ -1,47 +1,63 @@
-- name: 'Traccar: Check installed'
+- name: 'Traccar'
   tags:
     - install
     - traccar
-  stat:
-    path: "/opt/traccar/traccar.run"
-  register: traccar_app
+  block:
+    - name: 'Traccar: Check installed'
+      stat:
+        path: "/opt/traccar/traccar.run"
+      register: traccar_app
 
-- name: 'Traccar: Install'
-  tags:
-    - install
-    - traccar
-  include_tasks:
-    file: install.yaml
-    apply:
-      tags:
-        - always
-  when: not traccar_app.stat.exists
+    - name: 'Traccar: Install'
+      include_tasks:
+        file: install.yaml
+        apply:
+          tags:
+            - always
+      when: not traccar_app.stat.exists
 
-- name: 'Traccar: Fix perms'
-  tags:
-    - install
-    - traccar
-  file:
-    path: "/opt/traccar"
-    owner: "{{ traccar_owner }}"
-    group: "{{ traccar_owner }}"
-    recurse: yes
-  become: yes
+    - name: 'Traccar: Tidy installer'
+      file:
+        path: "{{ traccar_tmppath }}"
+        state: absent
+      become: yes
 
-- name: 'Traccar: Tidy installer'
-  tags:
-    - install
-    - traccar
-  file:
-    path: "{{ traccar_tmppath }}"
-    state: absent
-  become: yes
+    - name: 'Traccar: Add group'
+      group:
+        name: "{{ traccar_owner }}"
+      become: yes
 
-- name: 'Traccar: Service running'
-  tags:
-    - traccar
-  systemd:
-    name: traccar
-    state: started
-    enabled: yes
-  become: yes
+    - name: 'Traccar: Add user'
+      user:
+        name: "{{ traccar_owner }}"
+        group: "{{ traccar_owner }}"
+      become: yes
+
+    - name: 'Traccar: Fix perms'
+      file:
+        path: '/opt/traccar'
+        owner: "{{ traccar_owner }}"
+        group: "{{ traccar_owner }}"
+        recurse: yes
+      become: yes
+
+    - name: 'Traccar: systemd override'
+      block:
+        - name: 'Traccar: systemd override directory'
+          file:
+            path: '/etc/systemd/system/traccar.service.d'
+            state: directory
+            force: yes
+        - name: 'Traccar: systemd override file'
+          copy:
+            dest: '/etc/systemd/system/traccar.service.d/override.conf'
+            content: "[Service]\nUser={{ traccar_owner }}\nGroup={{ traccar_owner }}\n"
+      become: yes
+
+    - name: 'Traccar: Service running'
+      systemd:
+        name: traccar
+        state: started
+        daemon_reload: yes
+        enabled: yes
+      become: yes

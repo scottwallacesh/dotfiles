@@ -1,8 +1,45 @@
-- name: 'Searx: package'
+- name: 'Searx'
   tags:
     - install
     - searx
-  package:
-    name: searx
-    state: latest
-  become: yes
+  block:
+    - name: 'Searx: package'
+      package:
+        name: "{{ item }}"
+        state: latest
+      become: yes
+      loop:
+        - searx
+        - uwsgi
+        - uwsgi-plugin-python3
+
+    - name: 'Searx: Config directory'
+      file:
+        state: directory
+        path: '/etc/searx'
+      become: yes
+
+    - name: 'Searx: Config'
+      copy:
+        dest: '/etc/searx/settings.yml'
+        src: 'files/settings.yaml'
+      become: yes
+
+    - name: 'Searx: UWSGI integration'
+      copy:
+        dest: '/etc/uwsgi/apps-available/searx.ini'
+        src: 'files/uwsgi.ini'
+      become: yes
+
+    - name: 'Searx: UWSGI enable'
+      file:
+        dest: '/etc/uwsgi/apps-enabled/searx.ini'
+        src: '/etc/uwsgi/apps-available/searx.ini'
+        state: link
+      become: yes
+
+    - name: 'Searx: UWSGI service'
+      systemd:
+        name: 'uwsgi'
+        state: started
+      become: yes

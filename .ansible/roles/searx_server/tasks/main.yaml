@@ -9,19 +9,18 @@
         state: latest
       become: yes
       loop:
-        - searx
         - uwsgi
         - uwsgi-plugin-python3
 
     - name: 'Searx: Config directory'
       file:
         state: directory
-        path: '/etc/searx'
+        path: '/srv/app/searx/searx'
       become: yes
 
     - name: 'Searx: Config'
       copy:
-        dest: '/etc/searx/settings.yml'
+        dest: '/srv/app/searx/searx/settings.yml'
         src: 'files/settings.yaml'
       become: yes
 

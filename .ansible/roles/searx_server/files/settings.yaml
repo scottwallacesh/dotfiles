@@ -3,23 +3,23 @@ general:
     instance_name : "searx" # displayed name
 
 search:
-    safe_search : 0 # Filter results. 0: None, 1: Moderate, 2: Strict
-    autocomplete : "startpage" # Existing autocomplete backends: "dbpedia", "duckduckgo", "google", "startpage", "wikipedia" - leave blank to turn it off by default
-    language : "en-US"
+    safe_search : 1 # Filter results. 0: None, 1: Moderate, 2: Strict
+    autocomplete : "google" # Existing autocomplete backends: "dbpedia", "duckduckgo", "google", "startpage", "wikipedia" - leave blank to turn it off by default
+    language : "en-GB"
     ban_time_on_fail : 5 # ban time in seconds after engine errors
     max_ban_time_on_fail : 120 # max ban time in seconds after engine errors
 
 server:
     port : 8889
     bind_address : "::" # address to listen on
-    secret_key : "56ef02b698cd6995ace2156778a5697d" # change this!
+    secret_key : "56ef02b698cd6995ace2156778a5697d"
     base_url : False # Set custom base_url. Possible values: False or "https://your.custom.host/location/"
-    image_proxy : True # Proxying image results through searx
+    image_proxy : False # Proxying image results through searx
     http_protocol_version : "1.0"  # 1.0 and 1.1 are supported
 
 ui:
-    static_path : "/usr/share/python3-searx/static" # Custom static path - leave it blank if you didn't change
-    templates_path : "/usr/share/python3-searx/templates" # Custom templates path - leave it blank if you didn't change
+    static_path : "/srv/app/searx/searx/static" # Custom static path - leave it blank if you didn't change
+    templates_path : "/srv/app/searx/searx/templates" # Custom templates path - leave it blank if you didn't change
     default_theme : oscar # ui theme
     default_locale : "" # Default interface locale - leave blank to detect from browser information or use codes from the 'locales' config section
     theme_args :
@@ -27,12 +27,15 @@ ui:
 
 # searx supports result proxification using an external service: https://github.com/asciimoo/morty
 # uncomment below section if you have running morty proxy
+# the key is base64 encoded (keep the !!binary notation)
+# Note: since commit af77ec3, morty accepts a base64 encoded key.
 #result_proxy:
 #    url : http://127.0.0.1:3000/
-#    key : your_morty_proxy_key
+#    key : !!binary "your_morty_proxy_key"
 
 outgoing: # communication with search engines
-    request_timeout : 5.0 # seconds
+    request_timeout : 5.0 # default timeout in seconds, can be override by engine
+    # max_request_timeout: 10.0 # the maximum timeout in seconds
     useragent_suffix : "" # suffix of searx_useragent, could contain informations like an email address to the administrator
     pool_connections : 100 # Number of different hosts
     pool_maxsize : 40 # Number of simultaneous requests by host
@@ -49,11 +52,11 @@ outgoing: # communication with search engines
 #        - 1.1.1.2
 
 engines:
-  # - name: apk mirror
-  #   engine: apkmirror
-  #   timeout: 4.0
-  #   shortcut: apkm
-  #   disabled: True
+  - name: apk mirror
+    engine: apkmirror
+    timeout: 4.0
+    shortcut: apkm
+    disabled: True
 
   - name : arch linux wiki
     engine : archlinux
@@ -112,6 +115,10 @@ engines:
     timeout : 4.0
     disabled : True
     shortcut : bb
+
+  - name : btdigg
+    engine : btdigg
+    shortcut : bt
 
   - name : ccc-tv
     engine : xpath
@@ -197,11 +204,11 @@ engines:
   - name : etymonline
     engine : xpath
     paging : True
-    search_url : http://etymonline.com/?search={query}&p={pageno}
-    url_xpath : //a[contains(@class, "word--")]/@href
-    title_xpath : //p[contains(@class, "word__name--")]/text()
-    content_xpath : //section[contains(@class, "word__defination")]/object
-    first_page_num : 0
+    search_url : https://etymonline.com/search?page={pageno}&q={query}
+    url_xpath : //a[contains(@class, "word__name--")]/@href
+    title_xpath : //a[contains(@class, "word__name--")]
+    content_xpath : //section[contains(@class, "word__defination")]
+    first_page_num : 1
     shortcut : et
     disabled : True
 
@@ -281,7 +288,7 @@ engines:
   - name : google
     engine : google
     shortcut : go
-    disabled : True
+    disabled : False
 
   - name : google images
     engine : google_images
@@ -310,31 +317,37 @@ engines:
     shortcut : gos
 
   - name : google play apps
-    engine        : xpath
-    search_url    : https://play.google.com/store/search?q={query}&c=apps
-    url_xpath     : //a[@class="title"]/@href
-    title_xpath   : //a[@class="title"]
-    content_xpath : //a[@class="subtitle"]
+    engine : xpath
+    search_url : https://play.google.com/store/search?q={query}&c=apps
+    results_xpath : '//div[@class="WHE7ib mpg5gc"]'
+    title_xpath : './/div[@class="RZEgze"]//div[@title and not(@title="")]/a'
+    url_xpath : './/div[@class="RZEgze"]//div[@title and not(@title="")]/a/@href'
+    content_xpath : './/div[@class="RZEgze"]//a[@class="mnKHRc"]'
+    thumbnail_xpath : './/div[@class="uzcko"]/div/span[1]//img/@data-src'
     categories : files
     shortcut : gpa
     disabled : True
 
   - name : google play movies
-    engine        : xpath
-    search_url    : https://play.google.com/store/search?q={query}&c=movies
-    url_xpath     : //a[@class="title"]/@href
-    title_xpath   : //a[@class="title"]/@title
-    content_xpath : //a[contains(@class, "subtitle")]
+    engine : xpath
+    search_url : https://play.google.com/store/search?q={query}&c=movies
+    results_xpath : '//div[@class="WHE7ib mpg5gc"]'
+    title_xpath : './/div[@class="RZEgze"]//div[@title and not(@title="")]/a'
+    url_xpath : './/div[@class="RZEgze"]//div[@title and not(@title="")]/a/@href'
+    content_xpath : './/div[@class="RZEgze"]//a[@class="mnKHRc"]'
+    thumbnail_xpath : './/div[@class="uzcko"]/div/span[1]//img/@data-src'
     categories : videos
     shortcut : gpm
     disabled : True
 
   - name : google play music
-    engine        : xpath
-    search_url    : https://play.google.com/store/search?q={query}&c=music
-    url_xpath     : //a[@class="title"]/@href
-    title_xpath   : //a[@class="title"]
-    content_xpath : //a[@class="subtitle"]
+    engine : xpath
+    search_url : https://play.google.com/store/search?q={query}&c=music
+    results_xpath : '//div[@class="WHE7ib mpg5gc"]'
+    title_xpath : './/div[@class="RZEgze"]//div[@title and not(@title="")]/a'
+    url_xpath : './/div[@class="RZEgze"]//div[@title and not(@title="")]/a/@href'
+    content_xpath : './/div[@class="RZEgze"]//a[@class="mnKHRc"]'
+    thumbnail_xpath : './/div[@class="uzcko"]/div/span[1]//img/@data-src'
     categories : music
     shortcut : gps
     disabled : True
@@ -381,6 +394,12 @@ engines:
     timeout : 6.0
     disabled : True
 
+  - name : invidious
+    engine : invidious
+    base_url : 'https://invidio.us/'
+    shortcut: iv
+    timeout : 5.0
+
   - name: kickass
     engine : kickass
     shortcut : kc
@@ -416,6 +435,20 @@ engines:
   - name : mixcloud
     engine : mixcloud
     shortcut : mc
+
+  - name : npm
+    engine : json_engine
+    paging : True
+    search_url : https://api.npms.io/v2/search?q={query}&size=25&from={pageno}
+    results_query : results
+    url_query : package/links/npm
+    title_query : package/name
+    content_query : package/description
+    page_size : 25
+    categories : it
+    disabled: True
+    timeout: 5.0
+    shortcut : npm
 
   - name : nyaa
     engine : nyaa
@@ -568,22 +601,11 @@ engines:
     engine : spotify
     shortcut : stf
 
-  - name : subtitleseeker
-    engine : subtitleseeker
-    shortcut : ss
-# The language is an option. You can put any language written in english
-# Examples : English, French, German, Hungarian, Chinese...
-#    language : English
-
   - name : startpage
     engine : startpage
     shortcut : sp
     timeout : 6.0
-
-  - name : swisscows
-    engine : swisscows
-    shortcut : sw
-    disabled : True
+    disabled : False
 
   - name : tokyotoshokan
     engine : tokyotoshokan
@@ -617,10 +639,10 @@ engines:
 #    content_xpath : //*[@class="meaning"]
 #    shortcut : ud
 
-  # - name : unsplash
-  #   engine : unsplash
-  #   disabled: True
-  #   shortcut : us
+  - name : unsplash
+    engine : unsplash
+    disabled: True
+    shortcut : us
 
   - name : yahoo
     engine : yahoo
@@ -663,12 +685,6 @@ engines:
     timeout: 6.0
     categories : science
 
-  - name : seedpeer
-    engine : seedpeer
-    shortcut: speu
-    categories: files, music, videos
-    disabled: True
-
   - name : dictzone
     engine : dictzone
     shortcut : dc
@@ -687,9 +703,9 @@ engines:
     shortcut: vo
     categories: social media
     search_url : https://searchvoat.co/?t={query}
-    url_xpath : //div[@class="entry"]/p/a[@class="title"]/@href
-    title_xpath : //div[@class="entry"]/p/a[@class="title"]
-    content_xpath : //div[@class="entry"]/p/span[@class="domain"]
+    url_xpath : //div[@class="entry"]/p/a[contains(@class, "title")]/@href
+    title_xpath : //div[@class="entry"]/p/a[contains(@class, "title")]
+    content_xpath : //div[@class="entry"]/p/span[@class="domain"]/a/text()
     timeout : 10.0
     disabled : True
 
@@ -698,7 +714,7 @@ engines:
     shortcut : 1337x
     disabled : True
 
-  - name : Duden
+  - name : duden
     engine : duden
     shortcut : du
     disabled : True
@@ -708,10 +724,11 @@ engines:
     engine: xpath
     paging : True
     search_url : https://search.seznam.cz/?q={query}&count=10&from={pageno}
-    results_xpath: //div[@class="Page-content"]//div[@class="Result "]
+    results_xpath: //div[@class="Page-content"]//div[contains(@class, "Result ")]
     url_xpath : ./h3/a/@href
     title_xpath : ./h3
     content_xpath : .//p[@class="Result-description"]
+    suggestion_xpath: //div[@class="Related-container"]//div[@class="RelatedItem"]/div/span/a
     first_page_num : 0
     page_size : 10
     disabled : True
@@ -765,6 +782,7 @@ locales:
     he : עברית (Hebrew)
     hr : Hrvatski (Croatian)
     hu : Magyar (Hungarian)
+    ia : Interlingua (Interlingua)
     it : Italiano (Italian)
     ja : 日本語 (Japanese)
     nl : Nederlands (Dutch)
@@ -781,7 +799,7 @@ locales:
     te : తెలుగు (telugu)
     tr : Türkçe (Turkish)
     uk : українська мова (Ukrainian)
-    vi : tiếng việt (㗂越)
+    vi : tiếng việt (Vietnamese)
     zh : 中文 (Chinese)
     zh_TW : 國語 (Taiwanese Mandarin)
 

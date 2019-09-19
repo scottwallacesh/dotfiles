@@ -1,15 +1,15 @@
 config_repos:
-  - name: 'albert'
-    repo: 'git@github.com:scottwallacesh/albert.git'
-    dest: '~/.local/share/albert'
+  - name: 'cerebro-searx'
+    repo: 'git@github.com:scottwallacesh/cerebro-searx.git'
+    dest: '~/.config/Cerebro/plugins/node_modules/cerebro-searx'
+  - name: 'cerebro-genpw'
+    repo: 'git@github.com:scottwallacesh/cerebro-genpw.git'
+    dest: '~/.config/Cerebro/plugins/node_modules/cerebro-genpw'
 
 linux_repos:
   - name: 'Visual Studio Code'
     data: 'deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main'
     key: 'https://packages.microsoft.com/keys/microsoft.asc'
-  - name: 'Albert'
-    data: 'deb http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_18.10/ /'
-    key: 'https://download.opensuse.org/repositories/home:manuelschneid3r/xUbuntu_18.10/Release.key'
   - name: 'Resilio Sync'
     data: 'deb http://linux-packages.resilio.com/resilio-sync/deb resilio-sync non-free'
     key: 'http://linux-packages.resilio.com/resilio-sync/key.asc'
@@ -21,7 +21,6 @@ linux_repos:
     key: ''
 
 linux_packages:
-  - albert
   - chrome-gnome-shell
   - code
   - conky
@@ -34,20 +33,24 @@ linux_packages:
   - gnome-shell-extension-weather
   - gnome-tweaks
   - ipcalc
+  - libcanberra-gtk-module
+  - libcanberra-gtk3-module
   - net-tools
   - netcat
   - qrencode
   - resilio-sync
   - screen
-  # - sonos-controller-unofficial
   - ttf-mscorefonts-installer
   - units
   - vim
   - wireguard
   - wireshark-qt
+  # - sonos-controller-unofficial
+
 
 linux_apps:
-  #  - franz
+  # - franz
+  # - cerebro
   - 'skype --classic'
   - spotify
   - wireguard-ammp
@@ -59,11 +62,6 @@ gnome_extension_ids:
   - 1386   # notification counter
 
 gnome_custom_keybindings:
-  - name: 'Show clipboards in Albert'
-    binding: '<Primary><Alt>c'
-    command: >
-      'albert show \'pb \''
-
   - name: 'Show CopyQ clipboards'
     binding: '<Primary><Alt>x'
     command: >

@@ -1,0 +1,8 @@
+---
+linux_repos:
+  - name: 'Matrix Synapse'
+    data: 'deb https://packages.matrix.org/debian disco main'
+    key: 'https://packages.matrix.org/debian/matrix-org-archive-keyring.gpg'
+
+linux_packages:
+  - matrix-synapse-py3

@@ -1,9 +1,20 @@
-- name: Synapse package
+- name: Adding repositories
   tags:
     - install
+    - repos
     - matrix
-    - synapse
+  include: includes/repos.yaml
+  loop: "{{ linux_repos }}"
+  loop_control:
+    loop_var: repo
+
+- name: Installing packages
+  tags:
+    - install
+    - packages
+    - matrix
   package:
-    name: matrix-synapse
-    state: latest
-  become: yes
+    name: "{{ item }}"
+    state: present
+  loop: "{{ linux_packages }}"
+  become: true

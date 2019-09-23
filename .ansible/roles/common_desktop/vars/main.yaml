@@ -9,8 +9,6 @@ firefox_user_prefs:
     value: "false"
   - name: 'browser.search.hiddenOneOffs'
     value: '"Bing,Chambers (UK),eBay,Twitter"'
-  - name: 'browser.urlbar.placeholderName'
-    value: '"DuckDuckGo"'
   - name: 'browser.urlbar.suggest.bookmark'
     value: "false"
   - name: 'browser.urlbar.suggest.history'

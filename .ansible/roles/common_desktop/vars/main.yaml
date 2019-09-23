@@ -39,3 +39,5 @@ firefox_user_prefs:
     value: '"scott@wallace.sh"'
   - name: 'signon.rememberSignons'
     value: "false"
+  - name: 'permissions.default.desktop-notification'
+    value: '2'

@@ -5,4 +5,5 @@
     - searx_server
     - matrix_server
     - media_server
+    - haproxy_server
     # - traccar_server

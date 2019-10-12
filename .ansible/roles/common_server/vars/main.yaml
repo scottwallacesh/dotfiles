@@ -1,7 +1,6 @@
 server_packages:
   - curl
   - git
-  - haproxy
   - letsencrypt
   - lsof
   - net-tools

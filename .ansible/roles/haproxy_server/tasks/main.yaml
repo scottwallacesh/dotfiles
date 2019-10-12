@@ -1,0 +1,23 @@
+- name: 'HAProxy'
+  tags:
+    - install
+    - haproxy
+  block:
+    - name: 'HAProxy: package'
+      package:
+        name: 'haproxy'
+        state: latest
+      become: yes
+
+    - name: 'HAProxy: Config'
+      copy:
+        dest: '/etc/haproxy/haproxy.cfg'
+        src: 'files/haproxy.cfg'
+      become: yes
+
+    - name: 'HAProxy: Service'
+      systemd:
+        name: 'haproxy'
+        state: started
+        enabled: yes
+      become: yes

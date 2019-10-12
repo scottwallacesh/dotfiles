@@ -1,0 +1,16 @@
+[Unit]
+Description=cloudplow
+After=network-online.target
+
+[Service]
+User=media
+Group=media
+Type=simple
+WorkingDirectory=/srv/app/cloudplow/
+ExecStart=/srv/app/cloudplow/.venv/bin/python3 /srv/app/cloudplow/cloudplow.py run --loglevel=INFO
+ExecStopPost=/bin/rm -rf /srv/app/cloudplow/locks
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target

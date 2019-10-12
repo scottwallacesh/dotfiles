@@ -18,6 +18,7 @@
     - /srv
     - /srv/app
     - /srv/tmp
+    - /srv/etc
   become: yes
 
 - name: 'Basics: Temp dir perms'

@@ -1,0 +1,157 @@
+- name: "Media Server"
+  tags:
+    - mediaserver
+  block:
+    - name: "Media Server: Group"
+      tags:
+        - install
+        - clonedrive
+        - cloudplow
+      group:
+        name: "media"
+      become: yes
+
+    - name: "Media Server: User"
+      tags:
+        - install
+        - clonedrive
+        - cloudplow
+      user:
+        name: "media"
+        group: "media"
+        comment: "Media Server user"
+        expires: -1
+      become: yes
+
+    - name: "Media Server: Mountpoints"
+      tags:
+        - install
+        - clonedrive
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "media"
+        group: "media"
+      loop:
+        - "/mnt/media"
+        - "/mnt/GoogleDriveCrypt"
+        - "/mnt/.media.cache"
+        - "/mnt/.overlay.work"
+      become: yes
+
+    - name: "Media Server: Cloudplow: git repo"
+      tags:
+        - install
+        - cloudplow
+      git:
+        repo: "https://github.com/l3uddz/cloudplow.git"
+        dest: "/srv/app/cloudplow"
+      become: yes
+
+    - name: "Media Server: Cloudplow: directory permissions"
+      tags:
+        - install
+        - cloudplow
+      file:
+        path: "/srv/app/cloudplow"
+        state: directory
+        mode: "u+w"
+        owner: "media"
+        group: "media"
+        recurse: yes
+      become: yes
+
+    - name: "Media Server: Clonedrive: git repo"
+      tags:
+        - install
+        - clonedrive
+      git:
+        repo: "https://github.com/scottwallacesh/clonedrive.git"
+        dest: "/srv/app/clonedrive"
+      become: yes
+
+    - name: "Media Server: Clonedrive: directory"
+      tags:
+        - install
+        - clonedrive
+      file:
+        path: "/srv/app/clonedrive"
+        state: directory
+        mode: "0755"
+        owner: "media"
+        group: "media"
+      become: yes
+
+    - name: "Media Server: Cloudplow: config"
+      tags:
+        - config
+        - cloudplow
+      copy:
+        src: "files/cloudplow_config.json"
+        dest: "/srv/app/cloudplow/config.json"
+        mode: "0600"
+        owner: "media"
+        group: "media"
+      become: yes
+
+    - name: "Media Server: Configuration: sudoers"
+      tags:
+        - config
+        - clonedrive
+      copy:
+        dest: "/etc/sudoers.d/media_clonedrive"
+        content: "media ALL = NOPASSWD: /usr/bin/mount,/usr/bin/umount\n"
+        mode: "0440"
+      become: yes
+
+    - name: "Media Server: Clonedrive: service config"
+      tags:
+        - install
+        - clonedrive
+      copy:
+        dest: "/etc/systemd/system/clonedrive.service"
+        src: "files/clonedrive.service"
+        mode: "0644"
+      become: yes
+
+    - name: "Media Server: Clonedrive: service"
+      tags:
+        - config
+        - clonedrive
+      systemd:
+        name: "clonedrive"
+        state: started
+        enabled: yes
+        daemon_reload: yes
+      become: yes
+
+    - name: "Media Server: Cloudplow: Python dependencies"
+      tags:
+        - install
+        - cloudplow
+      pip:
+        requirements: "/srv/app/cloudplow/requirements.txt"
+        virtualenv: "/srv/app/cloudplow/.venv"
+        virtualenv_python: python3
+      become: yes
+
+    - name: "Media Server: Cloudplow: service config"
+      tags:
+        - install
+        - cloudplow
+      copy:
+        dest: "/etc/systemd/system/cloudplow.service"
+        src: "files/cloudplow.service"
+        mode: "0644"
+      become: yes
+
+    - name: "Media Server: Cloudplow: service"
+      tags:
+        - config
+        - cloudplow
+      systemd:
+        name: "cloudplow"
+        state: started
+        enabled: yes
+        daemon_reload: yes
+      become: yes

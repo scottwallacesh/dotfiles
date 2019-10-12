@@ -16,6 +16,18 @@
       - config
     template:
       src: "templates/rclone.conf.j2"
-      dest: "~/.rclone.conf"
+      dest: "/srv/etc/rclone.conf"
       mode: "0400"
+      owner: "media"
       force: no
+    become: yes
+
+  - name: "Rclone: Configuration: FUSE"
+    tags:
+      - config
+    lineinfile:
+      path: /etc/fuse.conf
+      regexp: "^#?user_allow_other"
+      line: "user_allow_other"
+    become: yes
+

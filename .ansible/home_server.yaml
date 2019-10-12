@@ -7,4 +7,5 @@
     - media_server
     - haproxy_server
     - rclone_mount
+    - media_server
     # - traccar_server

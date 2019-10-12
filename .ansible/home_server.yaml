@@ -6,4 +6,5 @@
     - matrix_server
     - media_server
     - haproxy_server
+    - rclone_mount
     # - traccar_server

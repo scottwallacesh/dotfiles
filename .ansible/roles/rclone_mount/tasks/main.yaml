@@ -1,0 +1,21 @@
+---
+- name: "Rclone"
+  tags:
+    - rclone
+  block:
+  - name: "Rclone: Packages"
+    tags:
+      - install
+    package:
+      name: "rclone"
+      state: latest
+    become: yes
+
+  - name: "Rclone: Configuration"
+    tags:
+      - config
+    template:
+      src: "templates/rclone.conf.j2"
+      dest: "~/.rclone.conf"
+      mode: "0400"
+      force: no

@@ -1,4 +1,4 @@
-- name: 'Matrix: Repositories'
+- name: "Matrix: Repositories"
   tags:
     - install
     - repos
@@ -8,7 +8,7 @@
   loop_control:
     loop_var: repo
 
-- name: 'Matrix: Packages'
+- name: "Matrix: Packages"
   tags:
     - install
     - packages
@@ -19,14 +19,61 @@
   loop: "{{ linux_packages }}"
   become: true
 
-- name: 'Matrix: Configuration'
+- name: "Matrix: Configuration"
   tags:
     - config
     - matrix
-  template:
-    src: 'templates/homeserver.yaml.j2'
-    dest: '/etc/matrix-synapse/homeserver.yaml'
-    mode: '0400'
-    owner: 'matrix-synapse'
-    group: 'nogroup'
+  block:
+    - name: "Matrix: Configuration: homeserver.yaml"
+      template:
+        src: "templates/homeserver.yaml.j2"
+        dest: "/etc/matrix-synapse/homeserver.yaml"
+        mode: "0400"
+        owner: "matrix-synapse"
+        group: "nogroup"
+      become: yes
+
+    - name: "Matrix: Configuration: server_name.yaml"
+      copy:
+        dest: "/etc/matrix-synapse/conf.d/server_name.yaml"
+        content: "server_name: home.suborbit.com"
+        mode: "0400"
+        owner: "matrix-synapse"
+        group: "nogroup"
+      become: yes
+
+    - name: "Matrix: Configuration: log.yaml"
+      copy:
+        dest: "/etc/matrix-synapse/log.yaml"
+        src: "files/log.yaml"
+        mode: "0400"
+        owner: "matrix-synapse"
+        group: "nogroup"
+      become: yes
+
+    - name: "Matrix: Configuration: dhparam.pem"
+      copy:
+        dest: "/etc/matrix-synapse/dhparam.pem"
+        content: "{{ dhparam }}"
+        mode: "0400"
+        owner: "matrix-synapse"
+        group: "nogroup"
+      become: yes
+
+    - name: "Matrix: Configuration: homeserver.signing.key"
+      copy:
+        dest: "/etc/matrix-synapse/homeserver.signing.key"
+        content: "{{ signing_key }}"
+        mode: "0400"
+        owner: "matrix-synapse"
+        group: "nogroup"
+      become: yes
+
+- name: "Matrix: Service"
+  tags:
+    - matrix
+  systemd:
+    name: "matrix-synapse"
+    state: started
+    enabled: yes
   become: yes

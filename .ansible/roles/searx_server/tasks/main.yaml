@@ -41,4 +41,5 @@
       systemd:
         name: 'uwsgi'
         state: started
+        enabled: yes
       become: yes

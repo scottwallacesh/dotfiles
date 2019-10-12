@@ -31,6 +31,7 @@
     ref = for-each-ref --format='%(committerdate) %09 %(authorname) %09 %(refname)' --sort=committerdate
     rl = reflog --date=iso
     tags = tag --sort=taggerdate
+    gc-all = -c gc.reflogExpire=0 -c gc.reflogExpireUnreachable=0 -c gc.rerereresolved=0 -c gc.rerereunresolved=0 -c gc.pruneExpire=now gc
 [color]
     ui = true
 [branch]

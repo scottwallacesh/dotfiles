@@ -1,4 +1,4 @@
-- name: Adding repositories
+- name: 'Matrix: Repositories'
   tags:
     - install
     - repos
@@ -8,7 +8,7 @@
   loop_control:
     loop_var: repo
 
-- name: Installing packages
+- name: 'Matrix: Packages'
   tags:
     - install
     - packages
@@ -18,3 +18,15 @@
     state: present
   loop: "{{ linux_packages }}"
   become: true
+
+- name: 'Matrix: Configuration'
+  tags:
+    - config
+    - matrix
+  template:
+    src: 'templates/homeserver.yaml.j2'
+    dest: '/etc/matrix-synapse/homeserver.yaml'
+    mode: '0400'
+    owner: 'matrix-synapse'
+    group: 'nogroup'
+  become: yes

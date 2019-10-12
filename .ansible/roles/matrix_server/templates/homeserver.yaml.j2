@@ -1,0 +1,106 @@
+tls_certificate_path: "/etc/letsencrypt/live/home.suborbit.com/fullchain.pem"
+tls_private_key_path: "/etc/letsencrypt/live/home.suborbit.com/privkey.pem"
+tls_dh_params_path: "/etc/matrix-synapse/dhparam.pem"
+no_tls: False
+tls_fingerprints: [{"sha256": "/HCvvvL0fZZb3BsgA8KIegBijVjk4UCbA9od18BLxOE"}]
+server_name: home.suborbit.com
+pid_file: /run/matrix-synapse.pid
+soft_file_limit: 0
+use_presence: true
+listeners:
+  - port: 8448
+    bind_addresses:
+      - '0.0.0.0'
+    type: http
+    tls: true
+    x_forwarded: false
+    resources:
+      - names: [client]       # The client-server APIs, both v1 and v2
+        compress: true
+      - names: [federation]  # Federation APIs
+        compress: false
+  - port: 8008
+    tls: false
+    bind_addresses: ['0.0.0.0']
+    type: http
+    x_forwarded: true
+    resources:
+      - names: [client]
+        compress: true
+      - names: [federation]
+        compress: false
+database:
+  name: "sqlite3"
+  args:
+    database: "/etc/matrix-synapse/homeserver.db"
+event_cache_size: "10K"
+log_config: "/etc/matrix-synapse/log.yaml"
+rc_messages_per_second: 0.2
+rc_message_burst_count: 10.0
+federation_rc_window_size: 1000
+federation_rc_sleep_limit: 10
+federation_rc_sleep_delay: 500
+federation_rc_reject_limit: 5
+federation_rc_concurrent: 1
+media_store_path: "/etc/matrix-synapse/media_store"
+uploads_path: "/etc/matrix-synapse/uploads"
+max_upload_size: "100M"
+max_image_pixels: "64M"
+dynamic_thumbnails: false
+thumbnail_sizes:
+- width: 32
+  height: 32
+  method: crop
+- width: 96
+  height: 96
+  method: crop
+- width: 320
+  height: 240
+  method: scale
+- width: 640
+  height: 480
+  method: scale
+- width: 800
+  height: 600
+  method: scale
+url_preview_enabled: False
+url_preview_ip_range_blacklist:
+ - '127.0.0.0/8'
+ - '10.0.0.0/8'
+ - '::1/128'
+ - 'fe80::/64'
+ - 'fc00::/7'
+max_spider_size: "10M"
+recaptcha_public_key: "YOUR_PUBLIC_KEY"
+recaptcha_private_key: "YOUR_PRIVATE_KEY"
+enable_registration_captcha: False
+recaptcha_siteverify_api: "https://www.google.com/recaptcha/api/siteverify"
+turn_user_lifetime: "1h"
+turn_allow_guests: True
+enable_registration: False
+bcrypt_rounds: 12
+allow_guest_access: False
+autocreate_auto_join_rooms: true
+enable_metrics: False
+report_stats: false
+room_invite_state_types:
+    - "m.room.join_rules"
+    - "m.room.canonical_alias"
+    - "m.room.avatar"
+    - "m.room.name"
+app_service_config_files: []
+track_appservice_user_ips: False
+expire_access_token: False
+signing_key_path: "/etc/matrix-synapse/homeserver.signing.key"
+old_signing_keys: {}
+key_refresh_interval: "1d" # 1 Day.
+trusted_key_servers:
+  - server_name: "matrix.org"
+password_config:
+   enabled: true
+   pepper: "{{ password_pepper }}"
+enable_group_creation: false
+alias_creation_rules:
+    - user_id: "*"
+      alias: "*"
+      action: allow

@@ -69,11 +69,6 @@
         group: 'root'
       become: true
 
-    - name: 'Wireguard: Service enabled'
-      service:
-        name: 'wg-quick@wg0'
-        enabled: false
-
 - name: 'Config: Checkout some repositories for local config'
   tags:
     - config

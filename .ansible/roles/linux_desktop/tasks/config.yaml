@@ -92,14 +92,6 @@
     dest: '~/.conkyrc'
     mode: '0400'
 
-- name: 'Abert'
-  tags:
-    - config
-    - albert
-  copy:
-    dest: '~/.config'
-    src: files/albert
-
 - name: 'Gnome: Custom key bindings: Add'
   tags:
     - config

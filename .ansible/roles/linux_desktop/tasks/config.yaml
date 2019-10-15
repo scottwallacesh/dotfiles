@@ -17,27 +17,27 @@
         state: restarted
       become: true
 
-- name: 'IPv6: Privacy'
-  tags:
-    - config
-    - ipv6
-  block:
-    - name: 'IPv6: Privacy: Temporary addressing defaults'
-      lineinfile:
-        path: '/etc/ufw/sysctl.conf'
-        state: present
-        regexp: "net/ipv6/conf/{{ item }}/use_tempaddr"
-        line: "net/ipv6/conf/{{ item }}/use_tempaddr=2"
-      loop: ['default', 'all']
-      become: true
+# - name: 'IPv6: Privacy'
+#   tags:
+#     - config
+#     - ipv6
+#   block:
+#     - name: 'IPv6: Privacy: Temporary addressing defaults'
+#       lineinfile:
+#         path: '/etc/ufw/sysctl.conf'
+#         state: present
+#         regexp: "net/ipv6/conf/{{ item }}/use_tempaddr"
+#         line: "net/ipv6/conf/{{ item }}/use_tempaddr=2"
+#       loop: ['default', 'all']
+#       become: true
 
-    - name: 'IPv6: Privacy: Detect interfaces'
-      shell: 'nmcli -t connection show | cut -f2 -d:'
-      register: nmcli_connections
+#     - name: 'IPv6: Privacy: Detect interfaces'
+#       shell: 'nmcli -t connection show | cut -f2 -d:'
+#       register: nmcli_connections
 
-    - name: 'IPv6: Privacy: Network Manager enforcement'
-      command: "nmcli connection modify uuid {{ item }} ipv6.ip6-privacy 2"
-      loop: "{{ nmcli_connections.stdout_lines }}"
+#     - name: 'IPv6: Privacy: Network Manager enforcement'
+#       command: "nmcli connection modify uuid {{ item }} ipv6.ip6-privacy 2"
+#       loop: "{{ nmcli_connections.stdout_lines }}"
 
 - name: 'Wireguard'
   tags:

@@ -3,30 +3,31 @@
   tags:
     - rclone
   block:
-  - name: "Rclone: Packages"
-    tags:
-      - install
-    package:
-      name: "rclone"
-      state: latest
-    become: yes
+    - name: "Rclone: Packages"
+      tags:
+        - install
+      package:
+        name: "rclone"
+        state: latest
+      become: yes
 
-  - name: "Rclone: Configuration"
-    tags:
-      - config
-    template:
-      src: "templates/rclone.conf.j2"
-      dest: "/srv/etc/rclone.conf"
-      mode: "0400"
-      owner: "media"
-      force: no
-    become: yes
+    - name: "Rclone: Configuration"
+      tags:
+        - config
+      template:
+        src: "templates/rclone.conf.j2"
+        dest: "/srv/etc/rclone.conf"
+        mode: "0600"
+        owner: "media"
+        group: "media"
+        force: no
+      become: yes
 
-  - name: "Rclone: Configuration: FUSE"
-    tags:
-      - config
-    lineinfile:
-      path: /etc/fuse.conf
-      regexp: "^#?user_allow_other"
-      line: "user_allow_other"
-    become: yes
+    - name: "Rclone: Configuration: FUSE"
+      tags:
+        - config
+      lineinfile:
+        path: /etc/fuse.conf
+        regexp: "^#?user_allow_other"
+        line: "user_allow_other"
+      become: yes

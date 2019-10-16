@@ -1,0 +1,103 @@
+---
+version: "2"
+services:
+  jackett:
+    image: linuxserver/jackett
+    container_name: jackett
+    environment:
+      - PUID=1003
+      - PGID=1003
+      - TZ=Europe/London
+      - UMASK_SET=022
+      # - RUN_OPTS=run options here #optional
+    volumes:
+      - /srv/app/docker/mediaserver/config/jackett:/config
+      - /srv/tmp/downloads/incomplete:/downloads
+    ports:
+      - 9117:9117
+    restart: unless-stopped
+
+  plex:
+    image: linuxserver/plex
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=1003
+      - PGID=1003
+      - VERSION=docker
+      - UMASK_SET=022 #optional
+    volumes:
+      - /srv/app/docker/mediaserver/config/plex:/config
+      - /mnt/media:/media
+      - /srv/tmp/transcode:/transcode
+    ports:
+      - 32400:32400
+    restart: unless-stopped
+
+  qbittorrent:
+    image: linuxserver/qbittorrent
+    container_name: qbittorrent
+    environment:
+      - PUID=1003
+      - PGID=1003
+      - TZ=Europe/London
+      - UMASK_SET=022
+      - WEBUI_PORT=8181
+    volumes:
+      - /srv/app/docker/mediaserver/config/qbittorrent:/config
+      - /srv/tmp/downloads:/downloads
+    ports:
+      - 6881:6881
+      - 6881:6881/udp
+      - 8181:8181
+    restart: unless-stopped
+
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1003
+      - PGID=1003
+      - TZ=Europe/London
+      - UMASK_SET=022 #optional
+    volumes:
+      - /srv/app/docker/mediaserver/config/radarr:/config
+      - /mnt/media/_Movies:/movies
+      - /srv/tmp/downloads/complete/movies:/downloads
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+
+  sabnzbd:
+    image: linuxserver/sabnzbd
+    container_name: sabnzbd
+    environment:
+      - PUID=1003
+      - PGID=1003
+      - TZ=Europe/London
+      - UMASK_SET=022 #optional
+    volumes:
+      - /srv/app/docker/mediaserver/config/sabnzbd:/config
+      - /srv/tmp/downloads/complete:/downloads
+      - /srv/tmp/downloads/incomplete:/incomplete-downloads #optional
+    ports:
+      - 8080:8080
+      - 9090:9090
+    restart: unless-stopped
+
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1003
+      - PGID=1003
+      - TZ=Europe/London
+      - UMASK_SET=022 #optional
+    volumes:
+      - /srv/app/docker/mediaserver/config/sonarr:/config
+      - /mnt/media/_TV:/tv
+      - /srv/tmp/downloads/complete/tv:/downloads
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+

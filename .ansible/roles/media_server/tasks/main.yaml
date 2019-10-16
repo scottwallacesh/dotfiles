@@ -155,3 +155,36 @@
         enabled: yes
         daemon_reload: yes
       become: yes
+
+    - name: "Media Server: Docker: packages"
+      tags:
+        - install
+        - docker
+      package:
+        name: "{{ item }}"
+        state: latest
+      loop:
+        - "docker.io"
+        - "docker-compose"
+      become: yes
+
+    - name: "Media Server: Docker: directories"
+      tags:
+        - config
+        - docker
+      file:
+        path: "/srv/app/docker/mediaserver/config"
+        state: directory
+        owner: "media"
+        group: "media"
+        recurse: yes
+      become: yes
+
+    - name: "Media Server: Docker: config"
+      tags:
+        - config
+        - docker
+      copy:
+        dest: "/srv/app/docker/mediaserver/compose.yaml"
+        src: "files/docker-compose.yaml"
+      become: yes

@@ -30,4 +30,3 @@
       regexp: "^#?user_allow_other"
       line: "user_allow_other"
     become: yes
-

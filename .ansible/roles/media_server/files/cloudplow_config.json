@@ -2,7 +2,7 @@
   "core": {
     "dry_run": false,
     "rclone_binary_path": "/usr/bin/rclone",
-    "rclone_config_path": "/srv/etc/rclone.conf"
+    "rclone_config_path": "/srv/etc/rclone/rclone.conf"
   },
   "hidden": {
     "/mnt/.media.cache/.unionfs": {

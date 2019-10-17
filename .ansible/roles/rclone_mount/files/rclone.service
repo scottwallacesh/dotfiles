@@ -1,0 +1,29 @@
+[Unit]
+Description=Google Drive (rclone)
+AssertPathIsDirectory=/mnt/GoogleDriveCrypt
+Requires=systemd-networkd.service
+Wants=network-online.target
+After=network-online.target
+Before=mnt-media.mount
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/rclone mount \
+        --config=/srv/etc/rclone/rclone.conf \
+        --allow-other \
+        --no-modtime \
+        --read-only \
+        --dir-cache-time=240m \
+        --tpslimit=10 \
+        --tpslimit-burst=1 \
+        --buffer-size=1G \
+        GoogleDriveCrypt:/ /mnt/GoogleDriveCrypt
+ExecStartPost=/bin/bash -c 'while [ ! -d /mnt/GoogleDriveCrypt/_Other ]; do /usr/bin/sleep 5; done'
+ExecStop=/bin/fusermount -u /mnt/GoogleDriveCrypt
+Restart=always
+RestartSec=10
+User=media
+Group=media
+
+[Install]
+WantedBy=multi-user.target

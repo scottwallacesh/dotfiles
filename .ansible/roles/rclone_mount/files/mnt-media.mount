@@ -1,0 +1,10 @@
+[Unit]
+Before=local-fs.target
+After=rclone.service
+Requires=rclone.service
+
+[Mount]
+Where=/mnt/media
+What=overlay
+Type=overlay
+Options=rw,relatime,lowerdir=/mnt/GoogleDriveCrypt,upperdir=/mnt/.media.cache,workdir=/mnt/.overlay.work

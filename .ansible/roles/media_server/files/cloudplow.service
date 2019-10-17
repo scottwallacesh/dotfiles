@@ -1,6 +1,7 @@
 [Unit]
 Description=cloudplow
-After=network-online.target
+After=mnt-media.mount
+Requires=mnt-media.mount
 
 [Service]
 User=media

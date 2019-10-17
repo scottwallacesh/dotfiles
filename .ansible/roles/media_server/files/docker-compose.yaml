@@ -9,7 +9,6 @@ services:
       - PGID=1003
       - TZ=Europe/London
       - UMASK_SET=022
-      # - RUN_OPTS=run options here #optional
     volumes:
       - /srv/app/docker/mediaserver/config/jackett:/config
       - /srv/tmp/downloads/incomplete:/downloads
@@ -25,7 +24,7 @@ services:
       - PUID=1003
       - PGID=1003
       - VERSION=docker
-      - UMASK_SET=022 #optional
+      - UMASK_SET=022
     volumes:
       - /srv/app/docker/mediaserver/config/plex:/config
       - /mnt/media:/media
@@ -59,7 +58,7 @@ services:
       - PUID=1003
       - PGID=1003
       - TZ=Europe/London
-      - UMASK_SET=022 #optional
+      - UMASK_SET=022
     volumes:
       - /srv/app/docker/mediaserver/config/radarr:/config
       - /mnt/media/_Movies:/movies
@@ -75,11 +74,11 @@ services:
       - PUID=1003
       - PGID=1003
       - TZ=Europe/London
-      - UMASK_SET=022 #optional
+      - UMASK_SET=022
     volumes:
       - /srv/app/docker/mediaserver/config/sabnzbd:/config
       - /srv/tmp/downloads/complete:/downloads
-      - /srv/tmp/downloads/incomplete:/incomplete-downloads #optional
+      - /srv/tmp/downloads/incomplete:/incomplete-downloads
     ports:
       - 8080:8080
       - 9090:9090
@@ -92,7 +91,7 @@ services:
       - PUID=1003
       - PGID=1003
       - TZ=Europe/London
-      - UMASK_SET=022 #optional
+      - UMASK_SET=022
     volumes:
       - /srv/app/docker/mediaserver/config/sonarr:/config
       - /mnt/media/_TV:/tv
@@ -100,4 +99,3 @@ services:
     ports:
       - 8989:8989
     restart: unless-stopped
-

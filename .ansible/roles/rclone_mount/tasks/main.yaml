@@ -16,6 +16,7 @@
         - "/mnt/GoogleDriveCrypt"
         - "/mnt/.media.cache"
         - "/mnt/.overlay.work"
+        - "/srv/etc/rclone"
       become: yes
 
     - name: "Rclone: Packages"
@@ -31,7 +32,7 @@
         - config
       template:
         src: "templates/rclone.conf.j2"
-        dest: "/srv/etc/rclone.conf"
+        dest: "/srv/etc/rclone/rclone.conf"
         mode: "0600"
         owner: "media"
         group: "media"

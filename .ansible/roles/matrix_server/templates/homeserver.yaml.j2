@@ -1,23 +1,9 @@
-tls_certificate_path: "/etc/letsencrypt/live/home.suborbit.com/fullchain.pem"
-tls_private_key_path: "/etc/letsencrypt/live/home.suborbit.com/privkey.pem"
-tls_dh_params_path: "/etc/matrix-synapse/dhparam.pem"
-no_tls: False
+no_tls: True
 tls_fingerprints: [{ "sha256": "/HCvvvL0fZZb3BsgA8KIegBijVjk4UCbA9od18BLxOE" }]
 pid_file: /run/matrix-synapse.pid
 soft_file_limit: 0
 use_presence: true
 listeners:
-  - port: 8448
-    bind_addresses:
-      - "0.0.0.0"
-    type: http
-    tls: true
-    x_forwarded: false
-    resources:
-      - names: [client] # The client-server APIs, both v1 and v2
-        compress: true
-      - names: [federation] # Federation APIs
-        compress: false
   - port: 8008
     tls: false
     bind_addresses: ["0.0.0.0"]

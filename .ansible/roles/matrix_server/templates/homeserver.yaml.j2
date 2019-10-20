@@ -17,9 +17,8 @@ listeners:
 database:
   name: "sqlite3"
   args:
-    database: "/var/lib/matrix-synapse/homeserver.db"
+    database: "/data/homeserver.db"
 event_cache_size: "10K"
-log_config: "/etc/matrix-synapse/log.yaml"
 rc_messages_per_second: 0.2
 rc_message_burst_count: 10.0
 federation_rc_window_size: 1000
@@ -27,8 +26,8 @@ federation_rc_sleep_limit: 10
 federation_rc_sleep_delay: 500
 federation_rc_reject_limit: 5
 federation_rc_concurrent: 1
-media_store_path: "/var/lib/matrix-synapse/media"
-uploads_path: "/var/lib/matrix-synapse/uploads"
+media_store_path: "/data/media"
+uploads_path: "/data/uploads"
 max_upload_size: "100M"
 max_image_pixels: "64M"
 dynamic_thumbnails: false
@@ -76,7 +75,7 @@ room_invite_state_types:
 app_service_config_files: []
 track_appservice_user_ips: False
 expire_access_token: False
-signing_key_path: "/etc/matrix-synapse/homeserver.signing.key"
+signing_key_path: "/config/homeserver.signing.key"
 old_signing_keys: {}
 key_refresh_interval: "1d" # 1 Day.
 trusted_key_servers:

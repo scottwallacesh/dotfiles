@@ -2,10 +2,11 @@
   tags:
     - mediaserver
   block:
+    - include: roles/common_server/tasks/docker.yaml
+
     - name: "Media Server: Group"
       tags:
         - install
-        - docker
       group:
         name: "media"
       become: yes
@@ -13,7 +14,6 @@
     - name: "Media Server: User"
       tags:
         - install
-        - docker
       user:
         name: "media"
         group: "media"
@@ -21,35 +21,24 @@
         expires: -1
       become: yes
 
-    - name: "Media Server: Docker: packages"
-      tags:
-        - install
-        - docker
-      package:
-        name: "{{ item }}"
-        state: latest
-      loop:
-        - "docker.io"
-        - "docker-compose"
-      become: yes
-
-    - name: "Media Server: Docker: directories"
+    - name: "Media Server: directories"
       tags:
         - config
-        - docker
       file:
-        path: "/srv/app/docker/mediaserver/config"
+        path: "{{ item }}"
         state: directory
         owner: "media"
         group: "media"
-        recurse: yes
+      loop:
+        - "/srv/app/docker/mediaserver"
+        - "/srv/app/docker/mediaserver/config"
       become: yes
 
-    - name: "Media Server: Docker: config"
+    - name: "Media Server: Docker: compose.yaml"
       tags:
         - config
-        - docker
       copy:
         dest: "/srv/app/docker/mediaserver/compose.yaml"
         src: "files/docker-compose.yaml"
+        mode: "0400"
       become: yes

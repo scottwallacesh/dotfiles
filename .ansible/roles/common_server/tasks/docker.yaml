@@ -1,0 +1,22 @@
+- name: "Docker"
+  tags:
+    - docker
+  block:
+    - name: "Docker: packages"
+      tags:
+        - install
+      package:
+        name: "{{ item }}"
+        state: latest
+      loop:
+        - "docker.io"
+        - "docker-compose"
+      become: yes
+
+    - name: "Docker: directory"
+      tags:
+        - install
+      file:
+        state: directory
+        path: "/srv/app/docker"
+      become: yes

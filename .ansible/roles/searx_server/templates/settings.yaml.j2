@@ -5,21 +5,21 @@ general:
 search:
     safe_search : 1 # Filter results. 0: None, 1: Moderate, 2: Strict
     autocomplete : "google" # Existing autocomplete backends: "dbpedia", "duckduckgo", "google", "startpage", "wikipedia" - leave blank to turn it off by default
-    language : "en-GB"
+    language : "en-US"
     ban_time_on_fail : 5 # ban time in seconds after engine errors
     max_ban_time_on_fail : 120 # max ban time in seconds after engine errors
 
 server:
-    port : 8889
-    bind_address : "::" # address to listen on
-    secret_key : "notused"
+    port : 8888
+    bind_address : "0.0.0.0" # address to listen on
+    secret_key : "{{ secret }}"
     base_url : False # Set custom base_url. Possible values: False or "https://your.custom.host/location/"
     image_proxy : False # Proxying image results through searx
     http_protocol_version : "1.0"  # 1.0 and 1.1 are supported
 
 ui:
-    static_path : "/srv/app/searx/searx/static" # Custom static path - leave it blank if you didn't change
-    templates_path : "/srv/app/searx/searx/templates" # Custom templates path - leave it blank if you didn't change
+    static_path : "/usr/local/searx/searx/static" # Custom static path - leave it blank if you didn't change
+    templates_path : "/usr/local/searx/searx/templates" # Custom templates path - leave it blank if you didn't change
     default_theme : oscar # ui theme
     default_locale : "" # Default interface locale - leave blank to detect from browser information or use codes from the 'locales' config section
     theme_args :
@@ -52,12 +52,6 @@ outgoing: # communication with search engines
 #        - 1.1.1.2
 
 engines:
-  - name: apk mirror
-    engine: apkmirror
-    timeout: 4.0
-    shortcut: apkm
-    disabled: True
-
   - name : arch linux wiki
     engine : archlinux
     shortcut : al
@@ -394,12 +388,6 @@ engines:
     timeout : 6.0
     disabled : True
 
-  - name : invidious
-    engine : invidious
-    base_url : 'https://invidio.us/'
-    shortcut: iv
-    timeout : 5.0
-
   - name: kickass
     engine : kickass
     shortcut : kc
@@ -605,7 +593,7 @@ engines:
     engine : startpage
     shortcut : sp
     timeout : 6.0
-    disabled : False
+    disabled : True
 
   - name : tokyotoshokan
     engine : tokyotoshokan
@@ -638,11 +626,6 @@ engines:
 #    title_xpath   : //*[@class="def-header"]
 #    content_xpath : //*[@class="meaning"]
 #    shortcut : ud
-
-  - name : unsplash
-    engine : unsplash
-    disabled: True
-    shortcut : us
 
   - name : yahoo
     engine : yahoo

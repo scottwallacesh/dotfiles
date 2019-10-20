@@ -99,3 +99,18 @@ services:
     ports:
       - 8989:8989
     restart: unless-stopped
+
+  cloudplow:
+    image: sabrsorensen/alpine-cloudplow
+    container_name: cloudplow
+    environment:
+      - PUID=1003
+      - PGID=1003
+      - TZ=Europe/London
+      - UMASK_SET=022
+    volumes:
+      - /srv/app/docker/mediaserver/config/cloudplow:/config:rw
+      - /srv/etc/rclone:/config/rclone:rw
+      - /mnt/.media.cache:/data/imported_media:rw
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped

@@ -5,7 +5,7 @@
     - name: "Media Server: Group"
       tags:
         - install
-        - cloudplow
+        - docker
       group:
         name: "media"
       become: yes
@@ -13,77 +13,12 @@
     - name: "Media Server: User"
       tags:
         - install
-        - cloudplow
+        - docker
       user:
         name: "media"
         group: "media"
         comment: "Media Server user"
         expires: -1
-      become: yes
-
-    - name: "Media Server: Cloudplow: git repo"
-      tags:
-        - install
-        - cloudplow
-      git:
-        repo: "https://github.com/l3uddz/cloudplow.git"
-        dest: "/srv/app/cloudplow"
-      become: yes
-
-    - name: "Media Server: Cloudplow: directory permissions"
-      tags:
-        - install
-        - cloudplow
-      file:
-        path: "/srv/app/cloudplow"
-        state: directory
-        mode: "u+w"
-        owner: "media"
-        group: "media"
-        recurse: yes
-      become: yes
-
-    - name: "Media Server: Cloudplow: config"
-      tags:
-        - config
-        - cloudplow
-      copy:
-        src: "files/cloudplow_config.json"
-        dest: "/srv/app/cloudplow/config.json"
-        mode: "0600"
-        owner: "media"
-        group: "media"
-      become: yes
-
-    - name: "Media Server: Cloudplow: Python dependencies"
-      tags:
-        - install
-        - cloudplow
-      pip:
-        requirements: "/srv/app/cloudplow/requirements.txt"
-        virtualenv: "/srv/app/cloudplow/.venv"
-        virtualenv_python: python3
-      become: yes
-
-    - name: "Media Server: Cloudplow: service config"
-      tags:
-        - install
-        - cloudplow
-      copy:
-        dest: "/etc/systemd/system/cloudplow.service"
-        src: "files/cloudplow.service"
-        mode: "0644"
-      become: yes
-
-    - name: "Media Server: Cloudplow: service"
-      tags:
-        - config
-        - cloudplow
-      systemd:
-        name: "cloudplow"
-        state: started
-        enabled: yes
-        daemon_reload: yes
       become: yes
 
     - name: "Media Server: Docker: packages"

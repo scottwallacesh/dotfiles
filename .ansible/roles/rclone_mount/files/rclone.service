@@ -13,10 +13,8 @@ ExecStart=/usr/bin/rclone mount \
         --allow-other \
         --no-modtime \
         --read-only \
-        --dir-cache-time=240m \
         --tpslimit=10 \
         --tpslimit-burst=1 \
-        --buffer-size=1G \
         GoogleDriveCrypt:/ /mnt/GoogleDriveCrypt
 ExecStartPost=/bin/bash -c 'while [ ! -d /mnt/GoogleDriveCrypt/_Other ]; do /usr/bin/sleep 5; done'
 ExecStop=/bin/fusermount -u /mnt/GoogleDriveCrypt

@@ -60,6 +60,7 @@ gnome_extension_ids:
   - 1206   # clock-override
   - 28     # gtile
   - 1386   # notification counter
+  - 1034   # systemd unit toggles
 
 gnome_custom_keybindings:
   - name: 'Show CopyQ clipboards'

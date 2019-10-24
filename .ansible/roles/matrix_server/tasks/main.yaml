@@ -1,60 +1,14 @@
-- name: "Matrix: Repositories"
-  tags:
-    - install
-    - repos
-    - matrix
-  include: includes/repos.yaml
-  loop: "{{ linux_repos }}"
-  loop_control:
-    loop_var: repo
-
-- name: "Matrix: Packages"
-  tags:
-    - install
-    - packages
-    - matrix
-  package:
-    name: "{{ item }}"
-    state: present
-  loop: "{{ linux_packages }}"
-  become: true
-
 - name: "Matrix: Configuration"
   tags:
     - config
     - matrix
   block:
+    - include: roles/common_server/tasks/docker.yaml
+
     - name: "Matrix: Configuration: homeserver.yaml"
       template:
         src: "templates/homeserver.yaml.j2"
-        dest: "/etc/matrix-synapse/homeserver.yaml"
-        mode: "0400"
-        owner: "matrix-synapse"
-        group: "nogroup"
-      become: yes
-
-    - name: "Matrix: Configuration: server_name.yaml"
-      copy:
-        dest: "/etc/matrix-synapse/conf.d/server_name.yaml"
-        content: "server_name: home.suborbit.com"
-        mode: "0400"
-        owner: "matrix-synapse"
-        group: "nogroup"
-      become: yes
-
-    - name: "Matrix: Configuration: log.yaml"
-      copy:
-        dest: "/etc/matrix-synapse/log.yaml"
-        src: "files/log.yaml"
-        mode: "0400"
-        owner: "matrix-synapse"
-        group: "nogroup"
-      become: yes
-
-    - name: "Matrix: Configuration: dhparam.pem"
-      copy:
-        dest: "/etc/matrix-synapse/dhparam.pem"
-        content: "{{ dhparam }}"
+        dest: "/srv/app/docker/matrix/config/homeserver.yaml"
         mode: "0400"
         owner: "matrix-synapse"
         group: "nogroup"
@@ -62,18 +16,16 @@
 
     - name: "Matrix: Configuration: homeserver.signing.key"
       copy:
-        dest: "/etc/matrix-synapse/homeserver.signing.key"
+        dest: "/srv/app/docker/matrix/config/homeserver.signing.key"
         content: "{{ signing_key }}"
         mode: "0400"
         owner: "matrix-synapse"
         group: "nogroup"
       become: yes
 
-- name: "Matrix: Service"
-  tags:
-    - matrix
-  systemd:
-    name: "matrix-synapse"
-    state: started
-    enabled: yes
-  become: yes
+    - name: "Matrix: Docker: compose.yaml"
+      copy:
+        dest: "/srv/app/docker/matrix/compose.yaml"
+        src: "files/docker-compose.yaml"
+        mode: "0400"
+      become: yes

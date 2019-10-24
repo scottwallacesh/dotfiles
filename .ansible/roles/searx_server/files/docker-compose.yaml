@@ -1,0 +1,21 @@
+---
+version: "2"
+services:
+  searx:
+    image: hoellen/searx
+    container_name: searx
+    environment:
+      - UID=1002
+      - GID=1002
+      - TZ=Europe/London
+      - UMASK_SET=022
+    volumes:
+      - /srv/app/docker/searx/config/settings.yml:/usr/local/searx/searx/settings.yml:ro
+      - /srv/app/docker/searx/config/plugins/open_results_on_new_tab.py:/usr/local/searx/searx/plugins/open_results_on_new_tab.py:ro
+      - /srv/app/docker/searx/config/plugins/oa_doi_rewrite.py:/usr/local/searx/searx/plugins/oa_doi_rewrite.py:ro
+      - /srv/app/docker/searx/config/plugins/infinite_scroll.py:/usr/local/searx/searx/plugins/infinite_scroll.py:ro
+      - /srv/app/docker/searx/config/engines/google.py:/usr/local/searx/searx/engines/google.py:ro
+
+    ports:
+      - 8888:8888
+    restart: unless-stopped

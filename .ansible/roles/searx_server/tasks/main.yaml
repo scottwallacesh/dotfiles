@@ -1,45 +1,47 @@
-- name: 'Searx'
+- name: "Searx"
   tags:
-    - install
     - searx
   block:
-    - name: 'Searx: package'
-      package:
-        name: "{{ item }}"
-        state: latest
-      become: yes
-      loop:
-        - uwsgi
-        - uwsgi-plugin-python3
+    - include: roles/common_server/tasks/docker.yaml
 
-    - name: 'Searx: Config directory'
+    - name: "Searx: Config directory"
+      tags:
+        - install
       file:
         state: directory
-        path: '/srv/app/searx/searx'
+        path: "{{ item }}"
+      loop:
+        - "/srv/app/docker/searx"
+        - "/srv/app/docker/searx/config"
+        - "/srv/app/docker/searx/config/plugins"
+        - "/srv/app/docker/searx/config/engines"
       become: yes
 
-    - name: 'Searx: Config'
+    - name: "Searx: Config: main"
+      tags:
+        - config
+      template:
+        dest: "/srv/app/docker/searx/config/settings.yml"
+        src: "templates/settings.yaml.j2"
+        mode: "0400"
+      become: yes
+
+    - name: "Searx: Config: overrides"
+      tags:
+        - config
       copy:
-        dest: '/srv/app/searx/searx/settings.yml'
-        src: 'files/settings.yaml'
+        dest: "/srv/app/docker/searx/config/{{ item }}/"
+        src: "files/{{ item }}/"
+      loop:
+        - "plugins"
+        - "engines"
       become: yes
 
-    - name: 'Searx: UWSGI integration'
+    - name: "Searx: Docker: compose.yaml"
+      tags:
+        - config
       copy:
-        dest: '/etc/uwsgi/apps-available/searx.ini'
-        src: 'files/uwsgi.ini'
-      become: yes
-
-    - name: 'Searx: UWSGI enable'
-      file:
-        dest: '/etc/uwsgi/apps-enabled/searx.ini'
-        src: '/etc/uwsgi/apps-available/searx.ini'
-        state: link
-      become: yes
-
-    - name: 'Searx: UWSGI service'
-      systemd:
-        name: 'uwsgi'
-        state: started
-        enabled: yes
+        dest: "/srv/app/docker/searx/compose.yaml"
+        src: "files/docker-compose.yaml"
+        mode: "0400"
       become: yes

@@ -2,10 +2,11 @@
   tags:
     - mediaserver
   block:
+    - include: roles/common_server/tasks/docker.yaml
+
     - name: "Media Server: Group"
       tags:
         - install
-        - cloudplow
       group:
         name: "media"
       become: yes
@@ -13,7 +14,6 @@
     - name: "Media Server: User"
       tags:
         - install
-        - cloudplow
       user:
         name: "media"
         group: "media"
@@ -21,100 +21,24 @@
         expires: -1
       become: yes
 
-    - name: "Media Server: Cloudplow: git repo"
+    - name: "Media Server: directories"
       tags:
-        - install
-        - cloudplow
-      git:
-        repo: "https://github.com/l3uddz/cloudplow.git"
-        dest: "/srv/app/cloudplow"
-      become: yes
-
-    - name: "Media Server: Cloudplow: directory permissions"
-      tags:
-        - install
-        - cloudplow
+        - config
       file:
-        path: "/srv/app/cloudplow"
+        path: "{{ item }}"
         state: directory
-        mode: "u+w"
         owner: "media"
         group: "media"
-        recurse: yes
-      become: yes
-
-    - name: "Media Server: Cloudplow: config"
-      tags:
-        - config
-        - cloudplow
-      copy:
-        src: "files/cloudplow_config.json"
-        dest: "/srv/app/cloudplow/config.json"
-        mode: "0600"
-        owner: "media"
-        group: "media"
-      become: yes
-
-    - name: "Media Server: Cloudplow: Python dependencies"
-      tags:
-        - install
-        - cloudplow
-      pip:
-        requirements: "/srv/app/cloudplow/requirements.txt"
-        virtualenv: "/srv/app/cloudplow/.venv"
-        virtualenv_python: python3
-      become: yes
-
-    - name: "Media Server: Cloudplow: service config"
-      tags:
-        - install
-        - cloudplow
-      copy:
-        dest: "/etc/systemd/system/cloudplow.service"
-        src: "files/cloudplow.service"
-        mode: "0644"
-      become: yes
-
-    - name: "Media Server: Cloudplow: service"
-      tags:
-        - config
-        - cloudplow
-      systemd:
-        name: "cloudplow"
-        state: started
-        enabled: yes
-        daemon_reload: yes
-      become: yes
-
-    - name: "Media Server: Docker: packages"
-      tags:
-        - install
-        - docker
-      package:
-        name: "{{ item }}"
-        state: latest
       loop:
-        - "docker.io"
-        - "docker-compose"
+        - "/srv/app/docker/mediaserver"
+        - "/srv/app/docker/mediaserver/config"
       become: yes
 
-    - name: "Media Server: Docker: directories"
+    - name: "Media Server: Docker: compose.yaml"
       tags:
         - config
-        - docker
-      file:
-        path: "/srv/app/docker/mediaserver/config"
-        state: directory
-        owner: "media"
-        group: "media"
-        recurse: yes
-      become: yes
-
-    - name: "Media Server: Docker: config"
-      tags:
-        - config
-        - docker
       copy:
         dest: "/srv/app/docker/mediaserver/compose.yaml"
         src: "files/docker-compose.yaml"
+        mode: "0400"
       become: yes

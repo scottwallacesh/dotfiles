@@ -62,7 +62,7 @@ services:
     volumes:
       - /srv/app/docker/mediaserver/config/radarr:/config
       - /mnt/media/_Movies:/movies
-      - /srv/tmp/downloads/complete/movies:/downloads
+      - /srv/tmp/downloads:/downloads
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -77,7 +77,7 @@ services:
       - UMASK_SET=022
     volumes:
       - /srv/app/docker/mediaserver/config/sabnzbd:/config
-      - /srv/tmp/downloads/complete:/downloads
+      - /srv/tmp/downloads:/downloads
       - /srv/tmp/downloads/incomplete:/incomplete-downloads
     ports:
       - 8080:8080
@@ -95,7 +95,22 @@ services:
     volumes:
       - /srv/app/docker/mediaserver/config/sonarr:/config
       - /mnt/media/_TV:/tv
-      - /srv/tmp/downloads/complete/tv:/downloads
+      - /srv/tmp/downloads:/downloads
     ports:
       - 8989:8989
+    restart: unless-stopped
+
+  cloudplow:
+    image: sabrsorensen/alpine-cloudplow
+    container_name: cloudplow
+    environment:
+      - PUID=1003
+      - PGID=1003
+      - TZ=Europe/London
+      - UMASK_SET=022
+    volumes:
+      - /srv/app/docker/mediaserver/config/cloudplow:/config:rw
+      - /srv/etc/rclone:/config/rclone:rw
+      - /mnt/.media.cache:/data/imported_media:rw
+      - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped

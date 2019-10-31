@@ -33,3 +33,15 @@
         owner: 'root'
         group: 'root'
       become: true
+
+    - name: 'Enable touchscreen in Firefox'
+      tags:
+        - firefox
+        - config
+      copy:
+        dest: '/etc/environment.d/99firefox.conf'
+        content: 'MOZ_USE_XINPUT2=1'
+        mode: '0444'
+        owner: 'root'
+        group: 'root'
+      become: yes

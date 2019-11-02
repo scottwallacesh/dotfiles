@@ -1,10 +1,10 @@
 [Unit]
-Before=local-fs.target
 After=rclone.service
+Before=local-fs.target
 Requires=rclone.service
 
 [Mount]
+Options=cow,direct_io,auto_cache,allow_other
+Type=fuse.unionfs
+What=/mnt/.media.cache=RW:/mnt/GoogleDriveCrypt=RO
 Where=/mnt/media
-What=overlay
-Type=overlay
-Options=rw,relatime,lowerdir=/mnt/GoogleDriveCrypt,upperdir=/mnt/.media.cache,workdir=/mnt/.overlay.work

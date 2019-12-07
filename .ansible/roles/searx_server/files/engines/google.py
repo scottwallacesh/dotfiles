@@ -107,13 +107,12 @@ images_path = '/images'
 supported_languages_url = 'https://www.google.com/preferences?#languages'
 
 # specific xpath variables
-results_xpath = '//div[@class="g"]'
-url_xpath = './/h3/a/@href'
-title_xpath = './/h3'
-content_xpath = './/span[@class="st"]'
-content_misc_xpath = './/div[@class="f slp"]'
-suggestion_xpath = '//p[@class="_Bmc"]'
-spelling_suggestion_xpath = '//a[@class="spell"]'
+results_xpath = '//div[contains(@class, "ZINbbc")]'
+url_xpath = './/div[@class="kCrYT"][1]/a/@href'
+title_xpath = './/div[@class="kCrYT"][1]/a/div[1]'
+content_xpath = './/div[@class="kCrYT"][2]//div[contains(@class, "BNeawe")]//div[contains(@class, "BNeawe")]'
+suggestion_xpath = '//div[contains(@class, "ZINbbc")][last()]//div[@class="rVLSBd"]/a//div[contains(@class, "BNeawe")]'
+spelling_suggestion_xpath = '//div[@id="scc"]//a'
 
 # map : detail location
 map_address_xpath = './/div[@class="s"]//table//td[2]/span/text()'
@@ -169,7 +168,7 @@ def request(query, params):
     if params['language'] == 'all' or params['language'] == 'en-US':
         language = 'en-GB'
     else:
-        language = match_language(params['language'], supported_languages, {})
+        language = match_language(params['language'], supported_languages, language_aliases)
 
     language_array = language.split('-')
     if params['language'].find('-') > 0:
@@ -198,9 +197,6 @@ def request(query, params):
 
     params['headers']['Accept-Language'] = language + ',' + language + '-' + country
     params['headers']['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
-
-    # Force Internet Explorer 12 user agent to avoid loading the new UI that Searx can't parse
-    params['headers']['User-Agent'] = "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Version/3.0 Safari/525.13"
 
     params['google_hostname'] = google_hostname
 
@@ -273,9 +269,7 @@ def response(resp):
                 content = extract_text_from_dom(result, content_xpath)
                 if content is None:
                     continue
-                content_misc = extract_text_from_dom(result, content_misc_xpath)
-                if content_misc is not None:
-                    content = content_misc + "<br />" + content
+
                 # append result
                 results.append({'url': url,
                                 'title': title,
@@ -284,52 +278,6 @@ def response(resp):
         except:
             logger.debug('result parse error in:\n%s', etree.tostring(result, pretty_print=True))
             continue
-
-    logger.debug(results)
-    if not results:
-        logger.debug('SCOTT trying new interface')
-        a_tags = dom.xpath('//a')
-        for a_tag in a_tags:
-            href = a_tag.get('href', '')
-            url = dict(parse_qsl(href)).get('/url?q', None)
-            if not (url and url.startswith('http')):
-                continue
-            ancestors = [x for x in a_tag.iterancestors()]
-            try:
-                title_divs = a_tag.xpath('./div')
-                if title_divs:
-                    title = title_divs[0].text.strip().replace('\n', ' ').replace('  ', ' ')
-                else:
-                    title = None
-                item_div = ancestors[2]
-                content_divs = item_div.xpath('./div/div[3]/div/div/div/div/div[1]/div')
-                if content_divs:
-                    content = content_divs[0].text.strip()
-                else:
-                    content_divs = item_div.xpath('./div/div[3]/div/div/div/div/div')
-                    if content_divs:
-                        content = content_divs[0].text.strip().replace('\n', ' ').replace('  ', ' ')
-                    else:
-                        content = None
-                if not content:
-                    content_divs = ancestors[1].xpath('./div/div/div/div/div/div')
-                    if content_divs:
-                        content = extract_text(content_divs[0])
-                    pass
-                if title or content:
-                    if any(x['url'] == url for x in results):
-                        results_item = results.pop(
-                            results.index(
-                                [x for x in results if x['url'] == url][0]))
-                        for key, var in (('title', title), ('content', content)):
-                            if not results_item[key]:
-                                results_item[key] = var
-                        results.append(results_item)
-                    else:
-                        results.append({
-                            'url': url, 'title': title, 'content': content})
-            except Exception as err:
-                logger.error(err, exc_info=1)
 
     # parse suggestion
     for suggestion in dom.xpath(suggestion_xpath):

@@ -13,9 +13,6 @@ linux_repos:
   - name: 'Resilio Sync'
     data: 'deb http://linux-packages.resilio.com/resilio-sync/deb resilio-sync non-free'
     key: 'http://linux-packages.resilio.com/resilio-sync/key.asc'
-  - name: 'Enpass'
-    data: 'deb https://apt.enpass.io/ stable main'
-    key: 'https://apt.enpass.io/keys/enpass-linux.key'
   - name: 'Wireguard'
     data: 'ppa:wireguard/wireguard'
     key: ''
@@ -26,7 +23,6 @@ linux_packages:
   - conky
   - copyq
   - dconf-editor
-  - enpass
   - git
   - glances
   - gnome-shell-extension-dashtodock

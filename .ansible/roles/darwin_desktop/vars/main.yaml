@@ -25,14 +25,11 @@ homebrew_brew_items:
 homebrew_cask_items:
   - alfred
   - cleanmymac
-  - enpass
   - firefox
   - google-drive-file-stream
   - handbrake
   - iterm2
   - itsycal
-  - joplin
-  - keybase
   - osxfuse
   - resilio-sync
   - shiftit

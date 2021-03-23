@@ -21,7 +21,7 @@
     lgd = log -p --decorate
     history = log --pretty=oneline --abbrev-commit --all --graph --decorate
     tidy = !git remote prune origin && git fetch -p && git branch -vv | awk '/: gone]/ {print $1}' | xargs -r git branch -D
-    update = !git pull && git tidy
+    update = !git pull --recurse-submodules && git tidy
     st = status
     ci = commit
     co = checkout

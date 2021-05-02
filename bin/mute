@@ -3,4 +3,6 @@
 case $(uname -s) in
     Darwin) osascript -e "set volume output volume 0"
             ;;
+     Linux) pactl set-sink-mute @DEFAULT_SINK@ on
+            ;;
 esac

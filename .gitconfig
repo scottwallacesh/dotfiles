@@ -1,6 +1,7 @@
 [user]
     name = Scott Wallace
     email = scott@wallace.sh
+	signingkey = AA742FDC5AFE2A72
 [push]
     default = simple
 [pack]
@@ -20,7 +21,7 @@
     lg = !"git lg1"
     lgd = log -p --decorate
     history = log --pretty=oneline --abbrev-commit --all --graph --decorate
-    tidy = !git remote prune origin && git fetch -p && git branch -vv | awk '/: gone]/ {print $1}' | xargs -r git branch -D
+    tidy = !git remote prune origin && git fetch -pPt && git branch -vv | awk '/: gone]/ {print $1}' | xargs -r git branch -D
     update = !git pull && git tidy
     st = status
     ci = commit
@@ -38,3 +39,5 @@
     autosetuprebase = always
 [credential]
 	helper = cache --timeout=3600
+[commit]
+    gpgsign = true

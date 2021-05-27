@@ -41,7 +41,7 @@ filetype plugin indent on    " required
 " Hybrid color scheme
 let g:hybrid_use_Xresources = 1
 set background=dark
-colorscheme hybrid
+" colorscheme hybrid
 
 " Tabs and indents
 set tabstop=4

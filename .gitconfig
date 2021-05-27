@@ -1,7 +1,7 @@
 [user]
     name = Scott Wallace
     email = scott@wallace.sh
-	signingkey = AA742FDC5AFE2A72
+    signingkey = AA742FDC5AFE2A72
 [push]
     default = simple
 [pack]

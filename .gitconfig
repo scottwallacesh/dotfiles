@@ -2,6 +2,10 @@
     name = Scott Wallace
     email = scott@wallace.sh
 	signingkey = AA742FDC5AFE2A72
+[includeIf "gitdir:~/src/work/suborbit/**"]
+    path = ~/src/work/suborbit/.gitconfig
+[includeIf "gitdir:~/src/work/suborbit/optimal/**"]
+    path = ~/src/work/suborbit/optimal/.gitconfig
 [push]
     default = simple
 [pack]
